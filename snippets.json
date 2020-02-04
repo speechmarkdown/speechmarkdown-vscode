@@ -1,0 +1,92 @@
+{
+  "excited": {
+    "prefix": "smd excited",
+    "body": ["#[excited:${1|low,medium,high|}]"],
+    "description": "add an excited section. Valid values are low, medium, and high"
+  },
+  "alexa voice": {
+    "prefix": "smd voice",
+    "body": []
+  },
+  "default voice": {
+    "prefix": "smd default voice",
+    "body": ["#[voice:'default']"],
+    "description": "default voice"
+  },
+  "address": {
+    "prefix": "smd address",
+    "body": "(${TM_SELECTED_TEXT})[address]",
+    "description": "Apply the address modifier to the selected text."
+  },
+  "audio": {
+    "prefix": "smd audio",
+    "body": "!['${TM_SELECTED_TEXT}']",
+    "description": "Apply the audio modifier to the selected url to the audio file."
+  },
+  "whisper": {
+    "prefix": "smd whisper",
+    "body": "(${TM_SELECTED_TEXT})[whisper]",
+    "description": "Apply the whisper modifier to the selected text."
+  },
+  "cardinal": {
+    "prefix": "smd cardinal",
+    "body": "(${TM_SELECTED_TEXT})[cardinal]",
+    "description": "Apply the c|ardinal modifier to the selected text."
+  },
+  "break ms": {
+    "prefix": "smd break ms",
+    "body": "[${1:int}ms]",
+    "description": "Enter a break tag using milliseconds"
+  },
+  "break strength": {
+    "prefix": "smd break strength",
+    "body": "[break:'${1|none,x-weak,weak,medium,strong,x-strong|}']",
+    "description": "Enter a break tag using strength"
+  },
+
+  "voice en-US": {
+    "prefix": "smd voice en-US",
+    "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew|}';lang='en-US']",
+    "description": "Apply voice modifier and limit to en-US Alexa voices"
+  },
+  "voice en-UK": {
+    "prefix": "smd voice en-GB",
+    "body": "#[voice:'${1|Amy,Brian,Emma|}';lang='en-GB']",
+    "description": "Apply voice modifier and limit to en-GB Alexa voices"
+  },
+  "voice en-AU": {
+    "prefix": "smd voice en-AU",
+    "body": "#[voice:'${1|Salli,Russell|}';lang='en-AU']",
+    "description": "Apply voice modifier and limit to en-AU Alexa voices"
+  },
+  "voice en-IN": {
+    "prefix": "smd voice en-IN",
+    "body": "#[voice:'${1|Aditi,Raveena|}';lang='en-IN']",
+    "description": "Apply voice modifier and limit to en-IN Alexa voices"
+  },
+  "voice de-DE": {
+    "prefix": "smd voice de-DE",
+    "body": "#[voice:'${1|Hans,Marlene,Vicki|}';lang='de-DE']",
+    "description": "Apply voice modifier and limit to de-DE Alexa voices"
+  },
+  "voice es-ES": {
+    "prefix": "smd voice es-ES",
+    "body": "#[voice:'${1|Conchita,Enrique|}';lang='es-ES']",
+    "description": "Apply voice modifier and limit to es-ES Alexa voices"
+  },
+  "voice it-IT": {
+    "prefix": "smd voice it-IT",
+    "body": "#[voice:'${1|Carla,Giorgio|}';lang='it-IT']",
+    "description": "Apply voice modifier and limit to it-IT Alexa voices"
+  },
+  "voice ja-JP": {
+    "prefix": "smd voice ja-JP",
+    "body": "#[voice:'${1|Mizuki,Takumi|}';lang='ja-JP']",
+    "description": "Apply voice modifier and limit to ja-JP Alexa voices"
+  },
+  "voice fr-FR": {
+    "prefix": "smd voice fr-FR",
+    "body": "#[voice:'${1|CelineLea,Mathieu|}';lang='fr-FR']",
+    "description": "Apply voice modifier and limit to fr-FR Alexa voices"
+  }
+}

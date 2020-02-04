@@ -1,0 +1,52 @@
+{
+  "scopeName": "source.speechmarkdown",
+  "patterns": [{ "include": "#expression" }],
+  "repository": {
+    "expression": {
+      "patterns": [
+        { "include": "#paren-expression" },
+        { "include": "#bracket-expression" }
+      ]
+    },
+    "paren-expression": {
+      "begin": "\\(",
+      "end": "\\)",
+      "beginCaptures": {
+        "0": { "name": "punctuation.paren.open" }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.paren.close"
+        }
+      },
+      "name": "expression.parens.group",
+      "patterns": [{ "include": "#expression" }]
+    },
+    "bracket-expression": {
+      "begin": "\\[",
+      "end": "\\]",
+      "contentname": "speechmarkdown.modifier.content",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.bracket.open"
+        }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.bracket.close" }
+      },
+
+      "name": "expression.bracket.group",
+      "patterns": [
+        { "include": "#expression" },
+        {
+          "name": "entity.name.function.speechmarkdown.modifier",
+          "match": "(address|audio|break|cardinal|characters|date|disappointed|emphasis|excited|expletive|bleep|fraction|interjection|ipa|lang|number|ordinal|phone|telephone|pitch|rate|sub|time|unit|voice|volume|vol|whisper)"
+        },
+        {
+          "name": "meta.embedded.",
+          "match": ":|\\;|\\'|\\\""
+        }
+      ]
+    }
+  }
+}

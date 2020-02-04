@@ -1,0 +1,143 @@
+{
+  "name": "speechmarkdown-vscode",
+  "displayName": "SpeechMarkdown",
+  "description": "Language features for Speech Markdown",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.32.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:javascript"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "colors": [
+      {
+        "id": "entity.name.function.speechmarkdown.modifier",
+        "description": "Color of Speech Markdown modifiers.",
+        "defaults": {
+          "dark": "#a6e22eff",
+          "light": "#4a6b08",
+          "highContrast": "#010203"
+        }
+      }
+    ],
+    "activationEvents": [
+      "onLanguage:markdown"
+    ],
+    "main": "./out/extension.js",
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets.json"
+      },
+      {
+        "language": "json",
+        "path": "./snippets.json"
+      },
+      {
+        "language": "speechmarkdowm",
+        "path": "./snippets.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./snippets.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "speechmarkdown",
+        "aliases": [
+          "Speech Markdown",
+          "speechmarkdown"
+        ],
+        "extensions": [
+          ".smd",
+          ".speechmarkdown"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "speechmarkdown",
+        "scopeName": "source.speechmarkdown",
+        "path": "./syntaxes/speechmarkdown-expressions.json"
+      },
+      {
+        "path": "./syntaxes/js-json-yaml-injection.json",
+        "scopeName": "speechmarkdown-js-json-yaml.injection",
+        "injectTo": [
+          "source.js",
+          "source.json",
+          "source.yaml",
+          "text.yaml.jinja",
+          "source.ts"
+        ],
+        "embeddedLanguages": {
+          "string.quoted.double.js": "speechmarkdown-lang"
+        },
+        "tokenTypes": {
+          "string.quoted.double.js": "other"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "tslint -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^10.17.14",
+    "@types/vscode": "^1.41.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.5"
+  },
+  "languages": [
+    {
+      "id": "speechmarkdown",
+      "aliases": [
+        "Speech Markdown",
+        "speechmarkdown"
+      ],
+      "extensions": [
+        ".smd",
+        ".speechmarkdown"
+      ],
+      "configuration": "./language-configuration.json"
+    }
+  ],
+  "grammars": [
+    {
+      "language": "speechmarkdown",
+      "scopeName": "source.speechmarkdown",
+      "path": "./syntaxes/speechmarkdown-expressions.json"
+    },
+    {
+      "path": "./syntaxes/js-json-yaml-injection.json",
+      "scopeName": "speechmarkdown-js-json-yaml.injection",
+      "injectTo": [
+        "source.js",
+        "source.json",
+        "source.yaml",
+        "text.yaml.jinja",
+        "source.ts"
+      ],
+      "embeddedLanguages": {
+        "string.quoted.double.js": "speechmarkdown-lang"
+      },
+      "tokenTypes": {
+        "string.quoted.double.js": "other"
+      }
+    }
+  ]
+}
