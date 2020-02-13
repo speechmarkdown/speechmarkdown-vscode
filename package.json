@@ -93,14 +93,18 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "lint": "tslint -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint -c .eslintrc.js --ext .ts ./"
   },
   "devDependencies": {
     "@types/node": "^10.17.14",
     "@types/vscode": "^1.41.0",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.5"
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   },
   "languages": [
     {
@@ -139,5 +143,6 @@
         "string.quoted.double.js": "other"
       }
     }
-  ]
+  ],
+  "dependencies": {}
 }
