@@ -38,8 +38,8 @@ export function activate(context: vscode.ExtensionContext) {
 
           var hoverTextArr: vscode.MarkdownString[] = new Array();
 
-          let foundInfo = hoverInfo.hoverInfoArr.find(
-            x => x.merkdownElement === foundText
+          let foundInfo = hoverInfo.hoverInfoArr.find(x =>
+            x.merkdownElements.find(x => x === foundText)
           );
 
           if (foundInfo) {
