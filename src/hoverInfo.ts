@@ -350,9 +350,9 @@ var hoverInfoArr: SPHoverInfo[] = [
     "Sets the voice for the speech. The value is not validated. The formatter will use the value for a given voice if the platform supports it. \n \n " +
       "```text \n" +
       '#[voice:"Brian";lang:"en-GB"] \n' +
-      "Brian from the UK. \n \n" +
+      "Brian from the UK. \n " +
       '#[voice:"device"] \n' +
-      "Back to the device voice \n \n " +
+      "Back to the device voice \n " +
       'Why do you keep switching voices (from one)[voice:"Brian"] (to the other)[voice:"Kendra"]? \n' +
       "``` \n \n" +
       "The **device** value removes any overrides, therefore using the device settings.",

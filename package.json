@@ -12,7 +12,10 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:javascript"
+    "onLanguage:json",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:yaml"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -143,6 +146,5 @@
         "string.quoted.double.js": "other"
       }
     }
-  ],
-  "dependencies": {}
+  ]
 }
