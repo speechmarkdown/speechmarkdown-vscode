@@ -3,7 +3,7 @@
   "displayName": "Speech Markdown",
   "publisher": "WhetstoneTechnologiesInc",
   "description": "Language features for Speech Markdown",
-  "icon": "https://github.com/speechmarkdown/speechmarkdown-vscode/raw/master/smd-icon.png",
+  "icon": "images/smd-icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/speechmarkdown/speechmarkdown-vscode.git"
