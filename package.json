@@ -3,13 +3,34 @@
   "displayName": "Speech Markdown",
   "publisher": "WhetstoneTechnologiesInc",
   "description": "Language features for Speech Markdown",
-  "repository": "https://github.com/speechmarkdown/speechmarkdown-vscode",
+  "icon": "https://github.com/speechmarkdown/speechmarkdown-vscode/raw/master/smd-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/speechmarkdown/speechmarkdown-vscode.git"
+  },
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
+  "license": "See license in LICENSE",
   "version": "0.0.1",
+  "preview": true,
+  "author": {
+    "name": "johniwasz"
+  },
   "engines": {
     "vscode": "^1.32.0"
   },
   "categories": [
-    "Other"
+    "Snippets",
+    "Formatters"
+  ],
+  "bugs": {
+    "url": "https://github.com/speechmarkdown/speechmarkdown-vscode/issues"
+  },
+  "keywords": [
+    "ssml",
+    "speech markdown"
   ],
   "activationEvents": [
     "onLanguage:json",

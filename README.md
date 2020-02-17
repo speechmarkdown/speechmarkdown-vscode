@@ -24,11 +24,19 @@ Hover over the mark up text for additional information.
 
 All Speech Markdown snippets start with "smd." There are two approaches to applying snippets.
 
+#### Text Selection
+
 1. Highlight the text.
 2. Select F1
-3. Locate the **Insert Snippets** command
+3. Locate the _Insert Snippets_ command
 4. Locate the Speech Markdown snippet
 
-<img src="https://github.com/speechmarkdown/speechmarkdown-vscode/raw/master/snippetsample01.png" width="50%" alt="Snippet text selection"/>
+<img src="https://github.com/speechmarkdown/speechmarkdown-vscode/raw/master/snippetsample01.gif" width="50%" alt="Snippet text selection"/>
 
-Languages supported include: JSON, JavaScript, and TypeScript.
+#### Insert Snippet
+
+1. Position the cursor in the string literal where you want to insert a snippet.
+2. Type "smd" and use _ctrl+space bar_
+3. Select the snippet
+
+<img src="https://github.com/speechmarkdown/speechmarkdown-vscode/raw/master/snippetsample02.gif" width="50%" alt="Snippet text selection"/>
