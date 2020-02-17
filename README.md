@@ -14,6 +14,14 @@ Syntax highlighting is supported in JSON, JavaScript, and TypeScript. Any Speech
 
 <img src="https://github.com/speechmarkdown/speechmarkdown-vscode/raw/master/syntaxhighlights.png" width="50%" alt="Syntax highlighting example"/>
 
+Languages that support Speech Markdown syntax highlighting are:
+
+- JavaScript
+- JSON
+- TypeScript
+
+YAML is planned for a future release.
+
 ### Hover Over
 
 Hover over the mark up text for additional information.
