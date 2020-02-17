@@ -1,8 +1,22 @@
 {
   "excited": {
     "prefix": "smd excited",
-    "body": ["#[excited:${1|low,medium,high|}]"],
-    "description": "add an excited section. Valid values are low, medium, and high"
+    "body": ["#[excited:'${1|low,medium,high|}']"],
+    "description": "Add an excited section. Valid values are low, medium, and high"
+  },
+  "emphasis": {
+    "prefix": "smd emphasis",
+    "body": [
+      "(${TM_SELECTED_TEXT})[emphasis:'${1|strong,moderate,redurced,none|}']"
+    ],
+    "description": "Add an emphasis modifier. Valid values are strong, moderate, reduced, none"
+  },
+  "date": {
+    "prefix": "smd date",
+    "body": [
+      "(${TM_SELECTED_TEXT})[date:'${1|mdy,dmy,ymd,ydm,md,dm,ym,my,y,m,d|}']"
+    ],
+    "description": "Add a date modifier. Valid values are strong, moderate, reduced, none"
   },
   "alexa voice": {
     "prefix": "smd voice",

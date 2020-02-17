@@ -1,6 +1,4 @@
-import { MarkdownString } from "vscode";
-import { throws } from "assert";
-import { stringify } from "querystring";
+import * as vscode from "vscode";
 
 export class SPHoverInfo {
   merkdownElements: string[];
@@ -23,7 +21,7 @@ export class SPHoverInfo {
     this.hasGoogleSupport = googleSupport;
   }
 
-  GetMarkdown(): MarkdownString {
+  GetMarkdown(): vscode.MarkdownString {
     let markdownText: string = "**" + this.names.join(" /") + "**  \n \n";
 
     markdownText = markdownText + this.description + " \n \n";
@@ -40,13 +38,57 @@ export class SPHoverInfo {
     if (this.hasGoogleSupport) markdownText = markdownText + "_supported_  \n";
     else markdownText = markdownText + "_not supported_  \n";
 
-    let retMarkdown: MarkdownString = new MarkdownString(markdownText);
+    let retMarkdown: vscode.MarkdownString = new vscode.MarkdownString(
+      markdownText
+    );
 
     return retMarkdown;
   }
 }
 
-export var hoverInfoArr: SPHoverInfo[] = [
+export class JSHoverProvider implements vscode.HoverProvider {
+  provideHover(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    token: vscode.CancellationToken
+  ): vscode.ProviderResult<vscode.Hover> {
+    const start = position;
+
+    let index: number = position.character;
+
+    const line = document.lineAt(position.line);
+
+    let openBracket: number = line.text.lastIndexOf("[", index);
+
+    let endBracket: number = line.text.indexOf("]", openBracket);
+
+    if (
+      openBracket > -1 &&
+      endBracket > -1 &&
+      index > openBracket &&
+      index < endBracket
+    ) {
+      let foundText: string = line.text.substring(openBracket + 1, endBracket);
+
+      // there may be a closing colon
+      let colonIndex = foundText.indexOf(":");
+      if (colonIndex > -1) foundText = foundText.substring(0, colonIndex);
+
+      let foundInfo = hoverInfoArr.find(x =>
+        x.merkdownElements.find(x => x === foundText)
+      );
+
+      if (foundInfo) {
+        let hoverRet: vscode.Hover = new vscode.Hover(foundInfo.GetMarkdown());
+        return hoverRet;
+      }
+    }
+
+    return null;
+  }
+}
+
+var hoverInfoArr: SPHoverInfo[] = [
   new SPHoverInfo(
     ["address"],
     "Speaks the value as a street address. \n ```text \n I'm at (150th CT NE, Redmond, WA)[address]. \n ```",

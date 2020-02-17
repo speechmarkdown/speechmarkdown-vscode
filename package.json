@@ -1,7 +1,9 @@
 {
   "name": "speechmarkdown-vscode",
-  "displayName": "SpeechMarkdown",
+  "displayName": "Speech Markdown",
+  "publisher": "WhetstoneTechnologiesInc",
   "description": "Language features for Speech Markdown",
+  "repository": "https://github.com/speechmarkdown/speechmarkdown-vscode",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.32.0"
@@ -98,13 +100,11 @@
   },
   "devDependencies": {
     "@types/node": "^10.17.14",
-    "@types/vscode": "^1.41.0",
+    "@types/vscode": "^1.32.0",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
     "eslint": "^6.8.0",
-    "typescript": "^3.7.5",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "typescript": "^3.7.5"
   },
   "languages": [
     {
