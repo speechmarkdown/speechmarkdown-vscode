@@ -9,11 +9,11 @@
     "url": "https://github.com/speechmarkdown/speechmarkdown-vscode.git"
   },
   "galleryBanner": {
-    "color": "#C80000",
+    "color": "#000000",
     "theme": "dark"
   },
   "license": "See license in LICENSE",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "preview": true,
   "author": {
     "name": "johniwasz"
@@ -108,10 +108,30 @@
           "source.ts"
         ],
         "embeddedLanguages": {
-          "string.quoted.double.js": "speechmarkdown-lang"
+          "string.quoted.double.js": "speechmarkdown-lang",
+          "string.quoted.single.js": "speechmarkdown-lang",
+          "string.quoted.double.json": "speechmarkdown-lang",
+          "string.quoted.single.json": "speechmarkdown-lang",
+          "string.unquoted.plain.out.yaml": "speechmarkdown-lang",
+          "string.unquoted.plain.in.yaml": "speechmarkdown-lang",
+          "string.unquoted.block.yaml": "speechmarkdown-lang",
+          "string.quoted.double.yaml": "speechmarkdown-lang",
+          "string.quoted.single.yaml": "speechmarkdown-lang",
+          "string.quoted.double.ts": "speechmarkdown-lang",
+          "string.quoted.single.ts": "speechmarkdown-lang"
         },
         "tokenTypes": {
-          "string.quoted.double.js": "other"
+          "string.quoted.double.js": "other",
+          "string.quoted.single.js": "other",
+          "string.quoted.double.json": "other",
+          "string.quoted.single.json": "other",
+          "string.unquoted.plain.out.yaml": "other",
+          "string.unquoted.plain.in.yaml": "other",
+          "string.unquoted.block.yaml": "other",
+          "string.quoted.double.yaml": "other",
+          "string.quoted.single.yaml": "other",
+          "string.quoted.double.ts": "other",
+          "string.quoted.single.ts": "other"
         }
       }
     ]

@@ -13,31 +13,41 @@
     "L:string.quoted.double.ts",
     "L:string.quoted.single.ts"
   ],
-  "patterns": [{ "include": "#expression" }],
+
+  "patterns": [{ "include": "#smd-expressions" }],
   "repository": {
-    "expression": {
+    "smd-expressions": {
       "patterns": [
         { "include": "#paren-expression" },
-        { "include": "#bracket-expression" }
+        { "include": "#hash-expression" }
       ]
     },
     "paren-expression": {
       "begin": "\\(",
       "end": "\\)",
+      "name": "punctuation.speechmarkdown",
       "beginCaptures": {
-        "0": { "name": "punctuation.paren.open" }
+        "0": { "name": "meta.embedded.meta.brace.round.speechmarkdown.open" }
       },
       "endCaptures": {
         "0": {
-          "name": "punctuation.paren.close"
+          "name": "meta.embedded.meta.brace.round.speechmarkdown.close"
         }
       },
-      "name": "meta.embedded.meta.brace.round.speechmarkdown",
-      "patterns": [{ "include": "#expression" }]
+      "patterns": [
+        {
+          "name": "meta.embedded.meta.brace.round.speechmarkdown.open",
+          "match": "\\("
+        },
+        {
+          "name": "meta.embedded.meta.brace.round.speechmarkdown.close",
+          "match": "\\)"
+        }
+      ]
     },
     "hash-expression": {
-      "begin": "#\\[",
-      "end": "\\]",
+      "begin": "[\\#\\[|\\[]",
+      "end": "\\]\\Z",
       "name": "meta.embedded.meta.brace.square.speechmarkdown.hash-bracket",
       "contentname": "speechmarkdown.modifier.content",
       "beginCaptures": {
@@ -51,36 +61,13 @@
       "patterns": [
         { "include": "#expression" },
         {
-          "name": "entity.name.function.speechmarkdown.modifier",
+          "name": "entity.name.function.speechmarkdown.entity",
           "match": "(disappointed|dj|emphasis|excited|interjection|newscaster|pitch|voice)"
         },
-
-        {
-          "name": "meta.embedded.constant.other.character-class",
-          "match": "#\\[|:|\\'"
-        }
-      ]
-    },
-    "bracket-expression": {
-      "begin": "\\[",
-      "end": "\\]",
-      "name": "meta.embedded.meta.brace.square.speechmarkdown.bracket",
-      "contentname": "speechmarkdown.modifier.content",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.bracket.open"
-        }
-      },
-      "endCaptures": {
-        "0": { "name": "punctuation.bracket.close" }
-      },
-      "patterns": [
-        { "include": "#expression" },
         {
           "name": "entity.name.function.speechmarkdown.modifier",
           "match": "(address|audio|break|cardinal|characters|date|disappointed|emphasis|excited|expletive|bleep|fraction|interjection|ipa|lang|number|ordinal|phone|telephone|pitch|rate|sub|time|unit|voice|volume|vol|whisper)"
         },
-
         {
           "name": "keyword.operator.assignment.speechmarkdown",
           "match": ":"
