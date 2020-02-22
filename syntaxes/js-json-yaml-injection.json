@@ -25,7 +25,7 @@
     "paren-expression": {
       "begin": "\\(",
       "end": "\\)",
-      "name": "punctuation.speechmarkdown",
+      "name": "punctuation.speechmarkdown.parens",
       "beginCaptures": {
         "0": { "name": "meta.embedded.meta.brace.round.speechmarkdown.open" }
       },
@@ -46,8 +46,8 @@
       ]
     },
     "hash-expression": {
-      "begin": "[\\#\\[|\\[]",
-      "end": "\\]\\Z",
+      "begin": "\\[",
+      "end": "\\]",
       "name": "meta.embedded.meta.brace.square.speechmarkdown.hash-bracket",
       "contentname": "speechmarkdown.modifier.content",
       "beginCaptures": {

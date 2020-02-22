@@ -1,11 +1,12 @@
 import * as vscode from "vscode";
 
 export class SPHoverInfo {
-  merkdownElements: string[];
+  markdownElements: string[];
 
   hasAlexaSupport: boolean;
 
   hasGoogleSupport: boolean;
+  hasBixbySupport: boolean;
 
   descriptionText: string;
 
@@ -13,12 +14,14 @@ export class SPHoverInfo {
     public names: string[],
     public description: string,
     public alexaSupport: boolean,
-    googleSupport: boolean
+    public googleSupport: boolean,
+    public bixbySupport: boolean
   ) {
-    this.merkdownElements = names;
+    this.markdownElements = names;
     this.descriptionText = description;
     this.hasAlexaSupport = alexaSupport;
     this.hasGoogleSupport = googleSupport;
+    this.hasBixbySupport = bixbySupport;
   }
 
   GetMarkdown(): vscode.MarkdownString {
@@ -38,6 +41,11 @@ export class SPHoverInfo {
     if (this.hasGoogleSupport) markdownText = markdownText + "_supported_  \n";
     else markdownText = markdownText + "_not supported_  \n";
 
+    markdownText = markdownText + "Bixby: ";
+
+    if (this.hasBixbySupport) markdownText = markdownText + "_supported_  \n";
+    else markdownText = markdownText + "_not supported_  \n";
+
     let retMarkdown: vscode.MarkdownString = new vscode.MarkdownString(
       markdownText
     );
@@ -46,14 +54,13 @@ export class SPHoverInfo {
   }
 }
 
-export class JSHoverProvider implements vscode.HoverProvider {
+export class JSHoverProvider
+  implements vscode.HoverProvider, vscode.CompletionItemProvider {
   provideHover(
     document: vscode.TextDocument,
     position: vscode.Position,
     token: vscode.CancellationToken
   ): vscode.ProviderResult<vscode.Hover> {
-    const start = position;
-
     let index: number = position.character;
 
     const line = document.lineAt(position.line);
@@ -75,7 +82,7 @@ export class JSHoverProvider implements vscode.HoverProvider {
       if (colonIndex > -1) foundText = foundText.substring(0, colonIndex);
 
       let foundInfo = hoverInfoArr.find(x =>
-        x.merkdownElements.find(x => x === foundText)
+        x.markdownElements.find(x => x === foundText)
       );
 
       if (foundInfo) {
@@ -86,6 +93,64 @@ export class JSHoverProvider implements vscode.HoverProvider {
 
     return null;
   }
+  provideCompletionItems(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    token: vscode.CancellationToken,
+    context: vscode.CompletionContext
+  ): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
+    let index: number = position.character;
+
+    var retResults = new vscode.CompletionList();
+
+    const line = document.lineAt(position.line);
+
+    let openBracket: number = line.text.lastIndexOf(")[", index);
+
+    if (openBracket > -1) {
+      let foundText: string = line.text.substring(openBracket + 1, index);
+
+      console.log("found text: " + foundText);
+
+      const snippetCompletion = new vscode.CompletionItem(
+        "Good part of the day"
+      );
+      snippetCompletion.insertText = new vscode.SnippetString(
+        "Good ${1|morning,afternoon,evening|}. It is ${1}, right?"
+      );
+      snippetCompletion.documentation = new vscode.MarkdownString(
+        "Inserts a snippet that lets you select the _appropriate_ part of the day for your greeting."
+      );
+
+      // a completion item that can be accepted by a commit character,
+      // the `commitCharacters`-property is set which means that the completion will
+      // be inserted and then the character will be typed.
+      const commitCharacterCompletion = new vscode.CompletionItem("console");
+      commitCharacterCompletion.commitCharacters = ["."];
+      commitCharacterCompletion.documentation = new vscode.MarkdownString(
+        "Press `.` to get `console.`"
+      );
+
+      // a completion item that retriggers IntelliSense when being accepted,
+      // the `command`-property is set which the editor will execute after
+      // completion has been inserted. Also, the `insertText` is set so that
+      // a space is inserted after `new`
+      const commandCompletion = new vscode.CompletionItem("new");
+      commandCompletion.kind = vscode.CompletionItemKind.Keyword;
+      commandCompletion.insertText = "new ";
+      commandCompletion.command = {
+        command: "editor.action.triggerSuggest",
+        title: "Re-trigger completions..."
+      };
+
+      retResults.isIncomplete = true;
+      retResults.items.push(snippetCompletion);
+      retResults.items.push(commitCharacterCompletion);
+      retResults.items.push(commandCompletion);
+    }
+
+    return retResults;
+  }
 }
 
 var hoverInfoArr: SPHoverInfo[] = [
@@ -93,11 +158,13 @@ var hoverInfoArr: SPHoverInfo[] = [
     ["address"],
     "Speaks the value as a street address. \n ```text \n I'm at (150th CT NE, Redmond, WA)[address]. \n ```",
     true,
-    false
+    false,
+    true
   ),
   new SPHoverInfo(
     ["audio"],
     'Plays short, pre-recorded audio.  \n ```text \n !["https://intro.mp3"] \n Welcome back. \n ```',
+    true,
     true,
     true
   ),
@@ -105,17 +172,20 @@ var hoverInfoArr: SPHoverInfo[] = [
     ["break"],
     'A pause in speech. \n ```text \n Step 1, take a deep breath. [200ms] \n Step 2, exhale. \n Step 3, take a deep breath again. [break:"weak"] \n Step 4, exhale. \n ```',
     true,
-    true
+    true,
+    false
   ),
   new SPHoverInfo(
     ["cardinal", "number"],
     "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc. \n \n ```text \n One, two, (3)[cardinal]. \n Your balance is: (12345)[cardinal]. \n (801)[cardinal] is the same as (801)[number] \n ```",
     true,
-    true
+    true,
+    false
   ),
   new SPHoverInfo(
     ["characters"],
     "Speaks a number or text as individual characters. \n ```text \n Countdown: (321)[characters] \n The word is spelled: (park)[chars] \n ```",
+    true,
     true,
     true
   ),
@@ -133,6 +203,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "The following format values are accepted: mdy, dmy, ydm, md, dm, ym, my, y, m, d \n \n" +
       "ydm (not supported by Alexa)",
     true,
+    true,
     true
   ),
 
@@ -146,6 +217,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "``` \n \n" +
       "Set intensity to: low, medium (default), high",
     true,
+    false,
     false
   ),
   new SPHoverInfo(
@@ -159,6 +231,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "Now back to normal speech. \n" +
       "```",
     true,
+    false,
     false
   ),
   new SPHoverInfo(
@@ -172,12 +245,14 @@ var hoverInfoArr: SPHoverInfo[] = [
       "Now back to normal speech. \n" +
       "```",
     true,
+    false,
     false
   ),
 
   new SPHoverInfo(
     ["emphasis"],
     'Add or remove emphasis from a word or phrase. \n ```text \n A (strong)[emphasis:"strong"] level \n ```',
+    true,
     true,
     true
   ),
@@ -190,6 +265,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "You said (word)[bleep] and (word)[expletive] at school. \n" +
       "```",
     true,
+    true,
     true
   ),
 
@@ -200,6 +276,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "Add (2/3)[fraction] cup of milk. \n" +
       "Add (1+1/2)[fraction] cups of flour. \n " +
       "```",
+    true,
     true,
     true
   ),
@@ -214,6 +291,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       'We can switch (from excited)[excited] to (really excited)[excited:"high"]. \n' +
       "```",
     true,
+    false,
     false
   ),
 
@@ -224,6 +302,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "(Wow)[interjection], I didn't see that coming. \n" +
       "```",
     true,
+    false,
     false
   ),
   new SPHoverInfo(
@@ -234,7 +313,8 @@ var hoverInfoArr: SPHoverInfo[] = [
       "I say, (pecan)[/ˈpi.kæn/]. \n" +
       "```",
     true,
-    false
+    false,
+    true
   ),
   new SPHoverInfo(
     ["lang"],
@@ -244,6 +324,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       'In Paris, they pronounce it (Paris)[lang:"fr-FR"]. \n' +
       "```",
     true,
+    false,
     false
   ),
 
@@ -255,6 +336,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "Switching to a news announcer. \n" +
       "```",
     true,
+    false,
     false
   ),
 
@@ -265,6 +347,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "The others came in 2nd and (3)[ordinal]. \n" +
       "Your rank is (123)[ordinal]. \n" +
       "```",
+    true,
     true,
     true
   ),
@@ -283,6 +366,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "``` \n \n" +
       'Some implementations of SSML (Google Actions) need a country code set as a **format** attribute. If no format is included, the default is "1".',
     true,
+    true,
     true
   ),
 
@@ -294,6 +378,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       'I can combine (multiple values)[pitch:"low";rate:"slow";volume:"loud";voice:"Brian"] at once. \n' +
       "``` \n \n" +
       "Possible values: x-low, low, medium (default), high, x-high",
+    true,
     true,
     true
   ),
@@ -307,6 +392,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "``` \n \n" +
       "Possible values: x-low, low, medium (default), high, x-high",
     true,
+    true,
     true
   ),
 
@@ -317,6 +403,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       'My favorite chemical element is (Al)[sub:"aluminum"], \n' +
       'but Al prefers (Mg)["magnesium"]. \n' +
       "```",
+    true,
     true,
     true
   ),
@@ -330,6 +417,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "``` \n \n" +
       "Some implementations of SSML (Google Assistant) need a value the **format** attribute: hms12, hms24",
     true,
+    true,
     true
   ),
 
@@ -341,6 +429,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "```text \n" +
       "I would walk (500 mi)[unit] \n" +
       "```",
+    true,
     true,
     true
   ),
@@ -357,6 +446,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "``` \n \n" +
       "The **device** value removes any overrides, therefore using the device settings.",
     true,
+    false,
     false
   ),
 
@@ -371,6 +461,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "``` \n \n" +
       "Possible values: silent, x-soft, soft, medium (default), loud, x-loud",
     true,
+    true,
     true
   ),
 
@@ -384,6 +475,7 @@ var hoverInfoArr: SPHoverInfo[] = [
       "Since Google Assistant doesn’t have a whisper effect, through a configuration setting, you can either ignore the tag. Or use the **prosidy** tag.",
 
     true,
-    false
+    false,
+    true
   )
 ];
