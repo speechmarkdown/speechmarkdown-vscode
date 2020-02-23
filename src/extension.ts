@@ -21,9 +21,13 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.languages.registerCompletionItemProvider("json", jsCentralProvider)
+    vscode.languages.registerHoverProvider("yaml", jsCentralProvider)
   );
   /*
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider("json", jsCentralProvider)
+  );
+
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider(
       "typescript",

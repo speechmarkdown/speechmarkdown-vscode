@@ -22,7 +22,8 @@
         { "include": "#break-short-expession" },
         { "include": "#complex-modifier-expression" },
         { "include": "#simple-sub-expression" },
-        { "include": "#ipa-short-expression" }
+        { "include": "#ipa-short-expression" },
+        { "include": "#section-excited-expression" }
       ]
     },
     "audio-expression": {
@@ -51,11 +52,24 @@
 
     "section-expression": {
       "name": "meta.section.speechmarkdown",
-      "match": "(#\\[)(disappointed|dj|excited|newscaster|defaults)(\\])",
+      "match": "(#\\[)(disappointed|dj|newscaster|defaults)(\\])",
       "captures": {
         "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
         "2": { "name": "entity.name.function.speechmarkdown.modifier" },
         "3": { "name": "meta.embedded.brace.speechmarkdown.close" }
+      }
+    },
+    "section-excited-expression": {
+      "name": "meta.section.speechmarkdown",
+      "match": "(#\\[)(excited)(:)?(\"|')?(low|medium|high)?(\"|')?(\\])",
+      "captures": {
+        "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
+        "2": { "name": "entity.name.function.speechmarkdown.modifier" },
+        "3": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+        "4": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+        "5": { "name": "variable.speechmarkdown" },
+        "6": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+        "7": { "name": "meta.embedded.brace.speechmarkdown.close" }
       }
     },
     "simple-sub-expression": {

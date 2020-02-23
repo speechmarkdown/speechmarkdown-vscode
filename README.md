@@ -6,19 +6,23 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 ## Features
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/smd-demo-1.gif" width="50%" alt="Speech Markdown Visual Studio Code Sample"/>
+- Syntax Highlighting
+- Hover over informational text
+- Comprehensive Snippets
+
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/smd-demo-1.gif" width="75%" alt="Speech Markdown Visual Studio Code Sample"/>
 
 ### Syntax Highlighting
 
 Syntax highlighting is supported in JSON, JavaScript, and TypeScript. Any Speech Markdown tags will be highligted within string literals.
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/syntaxhighlights.png" width="75%" alt="Syntax highlighting example"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/syntaxhighlights.png" width="60%" alt="Syntax highlighting example"/>
 
 Languages that support Speech Markdown syntax highlighting are:
 
 - JavaScript
-- JSON
 - TypeScript
+- JSON
 - YAML (new)
 
 ### Hover Over
@@ -29,7 +33,7 @@ Hover over the mark up text for additional information.
 
 ### Snippets
 
-All Speech Markdown snippets start with "smd." 
+All Speech Markdown snippets start with "smd."
 
 There are two approaches to applying snippets.
 
@@ -48,15 +52,16 @@ There are two approaches to applying snippets.
 2. Type "smd" and use _ctrl+space bar_
 3. Select the snippet
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="50%" alt="Snippet text selection"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="65%" alt="Snippet text selection"/>
 
-#### Enable Intellisense in TypeScript and JavaScript
+#### Enable Intellisense in TypeScript, JavaScript
 
 By default Visual Studio Code does not provide IntelliSense handling in strings. For more information, please see:
 
 [TS/JS Path Quick Suggestion IntelliSense Does Not Work Unless QuickSuggestions.strings is enabled #23962](https://github.com/microsoft/vscode/issues/23962)
 
-__NOTE:__ IntelliSense in strings is _not_ available in JSON or YAML. 
+**NOTE:** IntelliSense in strings is _not_ available in JSON or YAML. If you wish to use Intellisense
+in JSON files you can temporarily change the file extension to _js_.
 
 If you wish to enabled IntelliSense in strings, then apply the following settings to your project folder.
 
@@ -71,5 +76,8 @@ If you wish to enabled IntelliSense in strings, then apply the following setting
   }
 ```
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/enableperproject.png" width="50%" alt="Intellisense Directions"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/enableperproject.png" width="80%" alt="Intellisense Directions"/>
 
+Once configured, then IntelliSense works in JavaScript and TypeScript:
+
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="80%" alt="IntelliSense Sample Snippets"/>
