@@ -32,6 +32,16 @@
     "body": "(${TM_SELECTED_TEXT})[address]",
     "description": "Apply the address modifier to the selected text."
   },
+  "pitch": {
+    "prefix": "smd pitch",
+    "body": "(${TM_SELECTED_TEXT})[pitch:'${1|x-low,low,medium,high,x-high|}']",
+    "description": "Apply the pitch of the voice speech."
+  },
+  "rate": {
+    "prefix": "smd rate",
+    "body": "(${TM_SELECTED_TEXT})[pitch:'${1|x-slow,slow,medium,fast,x-fast|}']",
+    "description": "Adjust the speed of the voice speech."
+  },
   "audio": {
     "prefix": "smd audio",
     "body": "!['${TM_SELECTED_TEXT}']",

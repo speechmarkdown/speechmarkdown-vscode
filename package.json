@@ -13,7 +13,7 @@
     "theme": "dark"
   },
   "license": "See license in LICENSE",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "preview": true,
   "author": {
     "name": "johniwasz"
@@ -40,20 +40,6 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "colors": [
-      {
-        "id": "entity.name.function.speechmarkdown.modifier",
-        "description": "Color of Speech Markdown modifiers.",
-        "defaults": {
-          "dark": "#a6e22eff",
-          "light": "#4a6b08",
-          "highContrast": "#010203"
-        }
-      }
-    ],
-    "activationEvents": [
-      "onLanguage:markdown"
-    ],
     "main": "./out/extension.js",
     "snippets": [
       {
@@ -69,7 +55,7 @@
         "path": "./snippets.json"
       },
       {
-        "language": "speechmarkdowm",
+        "language": "speechmarkdown",
         "path": "./snippets.json"
       },
       {
@@ -94,45 +80,19 @@
     "grammars": [
       {
         "language": "speechmarkdown",
-        "scopeName": "source.speechmarkdown",
+        "scopeName": "text.speechmarkdown",
         "path": "./syntaxes/speechmarkdown-expressions.json"
       },
       {
-        "path": "./syntaxes/js-json-yaml-injection.json",
-        "scopeName": "speechmarkdown-js-json-yaml.injection",
+        "path": "./syntaxes/text.speechmarkdown.injection.json",
+        "scopeName": "text.speechmarkdown.injection",
         "injectTo": [
           "source.js",
           "source.json",
           "source.yaml",
           "text.yaml.jinja",
           "source.ts"
-        ],
-        "embeddedLanguages": {
-          "string.quoted.double.js": "speechmarkdown-lang",
-          "string.quoted.single.js": "speechmarkdown-lang",
-          "string.quoted.double.json": "speechmarkdown-lang",
-          "string.quoted.single.json": "speechmarkdown-lang",
-          "string.unquoted.plain.out.yaml": "speechmarkdown-lang",
-          "string.unquoted.plain.in.yaml": "speechmarkdown-lang",
-          "string.unquoted.block.yaml": "speechmarkdown-lang",
-          "string.quoted.double.yaml": "speechmarkdown-lang",
-          "string.quoted.single.yaml": "speechmarkdown-lang",
-          "string.quoted.double.ts": "speechmarkdown-lang",
-          "string.quoted.single.ts": "speechmarkdown-lang"
-        },
-        "tokenTypes": {
-          "string.quoted.double.js": "other",
-          "string.quoted.single.js": "other",
-          "string.quoted.double.json": "other",
-          "string.quoted.single.json": "other",
-          "string.unquoted.plain.out.yaml": "other",
-          "string.unquoted.plain.in.yaml": "other",
-          "string.unquoted.block.yaml": "other",
-          "string.quoted.double.yaml": "other",
-          "string.quoted.single.yaml": "other",
-          "string.quoted.double.ts": "other",
-          "string.quoted.single.ts": "other"
-        }
+        ]
       }
     ]
   },
@@ -167,25 +127,8 @@
   "grammars": [
     {
       "language": "speechmarkdown",
-      "scopeName": "source.speechmarkdown",
+      "scopeName": "text.speechmarkdown",
       "path": "./syntaxes/speechmarkdown-expressions.json"
-    },
-    {
-      "path": "./syntaxes/js-json-yaml-injection.json",
-      "scopeName": "speechmarkdown-js-json-yaml.injection",
-      "injectTo": [
-        "source.js",
-        "source.json",
-        "source.yaml",
-        "text.yaml.jinja",
-        "source.ts"
-      ],
-      "embeddedLanguages": {
-        "string.quoted.double.js": "speechmarkdown-lang"
-      },
-      "tokenTypes": {
-        "string.quoted.double.js": "other"
-      }
     }
   ]
 }

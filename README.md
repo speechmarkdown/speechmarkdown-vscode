@@ -20,7 +20,7 @@ Languages that support Speech Markdown syntax highlighting are:
 - JSON
 - TypeScript
 
-YAML is planned for a future release.
+YAML is planned for a future (release)[].
 
 ### Hover Over
 
