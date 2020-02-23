@@ -16,21 +16,108 @@
     "body": [
       "(${TM_SELECTED_TEXT})[date:'${1|mdy,dmy,ymd,ydm,md,dm,ym,my,y,m,d|}']"
     ],
-    "description": "Add a date modifier. Valid values are strong, moderate, reduced, none"
+    "description": "Add a date modifier."
   },
-  "alexa voice": {
-    "prefix": "smd voice",
-    "body": []
+  "volume": {
+    "prefix": "smd volume",
+    "body": [
+      "(${TM_SELECTED_TEXT})[volume:'${1|silent,x-soft,soft,medium,loud,x-loud|}']"
+    ],
+    "description": "Add a volume modifier."
+  },
+  "disappointed": {
+    "prefix": "smd disappointed",
+    "body": ["(${TM_SELECTED_TEXT})[disappointed:'${1|low,medium,high|}']"],
+    "description": "Add a disappointed modifier."
+  },
+
+  "time": {
+    "prefix": "smd time",
+    "body": ["(${TM_SELECTED_TEXT})[date:'${1|hms12,hms24|}']"],
+    "description": "Add a time modifier."
+  },
+
+  "lang": {
+    "prefix": "smd lang",
+    "body": [
+      "(${TM_SELECTED_TEXT})[lang:'${1|en-US,en-AU,en-GB,en-IN,de-DE,es-ES,it-IT,ja-JP,fr-FR||}']"
+    ],
+    "description": "Add a lang modifier."
+  },
+  "ordinal": {
+    "prefix": "smd lang",
+    "body": ["(${TM_SELECTED_TEXT})[ordinal]"],
+    "description": "Add an ordinal  modifier."
+  },
+  "dj": {
+    "prefix": "smd voice dj",
+    "body": ["#[dj]"],
+    "description": "Change the voice to a dj voice"
   },
   "default voice": {
-    "prefix": "smd default voice",
-    "body": ["#[voice:'default']"],
-    "description": "default voice"
+    "prefix": "smd voice default",
+    "body": ["#[defaults]"],
+    "description": "switch to the default voice for the platform"
+  },
+  "newscaster": {
+    "prefix": "smd voice newscaster",
+    "body": ["#[newscaster]"],
+    "description": "switch to a newscaster voice"
   },
   "address": {
     "prefix": "smd address",
     "body": "(${TM_SELECTED_TEXT})[address]",
     "description": "Apply the address modifier to the selected text."
+  },
+  "cardinal": {
+    "prefix": "smd cardinal",
+    "body": "(${TM_SELECTED_TEXT})[cardinal]",
+    "description": "Apply the cardinal modifier to the selected text."
+  },
+  "expletive": {
+    "prefix": "smd expletive",
+    "body": "(${TM_SELECTED_TEXT})[expletive]",
+    "description": "Apply the expletive modifier to the selected text."
+  },
+  "bleep": {
+    "prefix": "smd bleep",
+    "body": "(${TM_SELECTED_TEXT})[bleep]",
+    "description": "Apply the bleep modifier to the selected text."
+  },
+  "unit": {
+    "prefix": "smd unit",
+    "body": "(${TM_SELECTED_TEXT})[unit]",
+    "description": "Apply the unit modifier to the selected text."
+  },
+  "sub": {
+    "prefix": "smd sub",
+    "body": "(${TM_SELECTED_TEXT})[sub:'${1:spokenword}']",
+    "description": "Apply the sub modifier to the selected text."
+  },
+  "phone": {
+    "prefix": "smd phone",
+    "body": "(${TM_SELECTED_TEXT})[phone]",
+    "description": "Apply the phone modifier to the selected text."
+  },
+  "interjection": {
+    "prefix": "smd interjection",
+    "body": "(${TM_SELECTED_TEXT})[interjection]",
+    "description": "Apply the interjection modifier to the selected text."
+  },
+  "fraction": {
+    "prefix": "smd fraction",
+    "body": "(${TM_SELECTED_TEXT})[fraction]",
+    "description": "Apply the fraction modifier to the selected text."
+  },
+  "characters": {
+    "prefix": "smd characters",
+    "body": "(${TM_SELECTED_TEXT})[characters]",
+    "description": "Apply the characters modifier to the selected text."
+  },
+  "ipa": {
+    "prefix": "smd ipa",
+    "body": "(${TM_SELECTED_TEXT})[ipa:'#{1:phoneme}']",
+    "description": "Apply the ipa modifier."
   },
   "pitch": {
     "prefix": "smd pitch",
@@ -44,73 +131,73 @@
   },
   "audio": {
     "prefix": "smd audio",
-    "body": "!['${TM_SELECTED_TEXT}']",
-    "description": "Apply the audio modifier to the selected url to the audio file."
+    "body": "!['${1:audiolink}']",
+    "description": "Apply the audio tag"
   },
   "whisper": {
     "prefix": "smd whisper",
     "body": "(${TM_SELECTED_TEXT})[whisper]",
     "description": "Apply the whisper modifier to the selected text."
   },
-  "cardinal": {
-    "prefix": "smd cardinal",
-    "body": "(${TM_SELECTED_TEXT})[cardinal]",
-    "description": "Apply the c|ardinal modifier to the selected text."
+  "number": {
+    "prefix": "smd number",
+    "body": "(${TM_SELECTED_TEXT})[number]",
+    "description": "Apply the number modifier to the selected text."
   },
   "break ms": {
-    "prefix": "smd break ms",
-    "body": "[${1:int}ms]",
+    "prefix": "smd break short",
+    "body": "[${1:integer}ms]",
     "description": "Enter a break tag using milliseconds"
   },
   "break strength": {
-    "prefix": "smd break strength",
+    "prefix": "smd break",
     "body": "[break:'${1|none,x-weak,weak,medium,strong,x-strong|}']",
     "description": "Enter a break tag using strength"
   },
 
   "voice en-US": {
     "prefix": "smd voice en-US",
-    "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew|}';lang='en-US']",
+    "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew|}';lang:'en-US']",
     "description": "Apply voice modifier and limit to en-US Alexa voices"
   },
   "voice en-UK": {
     "prefix": "smd voice en-GB",
-    "body": "#[voice:'${1|Amy,Brian,Emma|}';lang='en-GB']",
+    "body": "#[voice:'${1|Amy,Brian,Emma|}';lang:'en-GB']",
     "description": "Apply voice modifier and limit to en-GB Alexa voices"
   },
   "voice en-AU": {
     "prefix": "smd voice en-AU",
-    "body": "#[voice:'${1|Salli,Russell|}';lang='en-AU']",
+    "body": "#[voice:'${1|Salli,Russell|}';lang:'en-AU']",
     "description": "Apply voice modifier and limit to en-AU Alexa voices"
   },
   "voice en-IN": {
     "prefix": "smd voice en-IN",
-    "body": "#[voice:'${1|Aditi,Raveena|}';lang='en-IN']",
+    "body": "#[voice:'${1|Aditi,Raveena|}';lang:'en-IN']",
     "description": "Apply voice modifier and limit to en-IN Alexa voices"
   },
   "voice de-DE": {
     "prefix": "smd voice de-DE",
-    "body": "#[voice:'${1|Hans,Marlene,Vicki|}';lang='de-DE']",
+    "body": "#[voice:'${1|Hans,Marlene,Vicki|}';lang:'de-DE']",
     "description": "Apply voice modifier and limit to de-DE Alexa voices"
   },
   "voice es-ES": {
     "prefix": "smd voice es-ES",
-    "body": "#[voice:'${1|Conchita,Enrique|}';lang='es-ES']",
+    "body": "#[voice:'${1|Conchita,Enrique|}';lang:'es-ES']",
     "description": "Apply voice modifier and limit to es-ES Alexa voices"
   },
   "voice it-IT": {
     "prefix": "smd voice it-IT",
-    "body": "#[voice:'${1|Carla,Giorgio|}';lang='it-IT']",
+    "body": "#[voice:'${1|Carla,Giorgio|}';lang:'it-IT']",
     "description": "Apply voice modifier and limit to it-IT Alexa voices"
   },
   "voice ja-JP": {
     "prefix": "smd voice ja-JP",
-    "body": "#[voice:'${1|Mizuki,Takumi|}';lang='ja-JP']",
+    "body": "#[voice:'${1|Mizuki,Takumi|}';lang:'ja-JP']",
     "description": "Apply voice modifier and limit to ja-JP Alexa voices"
   },
   "voice fr-FR": {
     "prefix": "smd voice fr-FR",
-    "body": "#[voice:'${1|CelineLea,Mathieu|}';lang='fr-FR']",
+    "body": "#[voice:'${1|CelineLea,Mathieu|}';lang:'fr-FR']",
     "description": "Apply voice modifier and limit to fr-FR Alexa voices"
   }
 }

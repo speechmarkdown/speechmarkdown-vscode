@@ -12,15 +12,14 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 Syntax highlighting is supported in JSON, JavaScript, and TypeScript. Any Speech Markdown tags will be highligted within string literals.
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/syntaxhighlights.png" width="50%" alt="Syntax highlighting example"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/syntaxhighlights.png" width="75%" alt="Syntax highlighting example"/>
 
 Languages that support Speech Markdown syntax highlighting are:
 
 - JavaScript
 - JSON
 - TypeScript
-
-YAML is planned for a future (release)[].
+- YAML (new)
 
 ### Hover Over
 
@@ -30,7 +29,9 @@ Hover over the mark up text for additional information.
 
 ### Snippets
 
-All Speech Markdown snippets start with "smd." There are two approaches to applying snippets.
+All Speech Markdown snippets start with "smd." 
+
+There are two approaches to applying snippets.
 
 #### Text Selection
 
@@ -48,3 +49,27 @@ All Speech Markdown snippets start with "smd." There are two approaches to apply
 3. Select the snippet
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="50%" alt="Snippet text selection"/>
+
+#### Enable Intellisense in TypeScript and JavaScript
+
+By default Visual Studio Code does not provide IntelliSense handling in strings. For more information, please see:
+
+[TS/JS Path Quick Suggestion IntelliSense Does Not Work Unless QuickSuggestions.strings is enabled #23962](https://github.com/microsoft/vscode/issues/23962)
+
+__NOTE:__ IntelliSense in strings is _not_ available in JSON or YAML. 
+
+If you wish to enabled IntelliSense in strings, then apply the following settings to your project folder.
+
+1. Create a .vscode folder
+2. Ad the following settings a new settings.json file:
+
+```json
+ "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  }
+```
+
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/enableperproject.png" width="50%" alt="Intellisense Directions"/>
+
