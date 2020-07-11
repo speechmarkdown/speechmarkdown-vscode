@@ -59,7 +59,7 @@ There are two approaches to applying snippets.
 3. Locate the _Insert Snippets_ command
 4. Locate the Speech Markdown snippet
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/docs/snippetsample01.gif" width="80%" alt="Snippet text selection"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample01.gif" width="80%" alt="Snippet text selection"/>
 
 #### Insert Snippet
 
