@@ -18,7 +18,7 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 As of version 0.0.6, IntelliSense is supported in strings. By default, Visual Studio Code does not support IntelliSense in strings. In order to enable it, please see section [Enable Intellisense in TypeScript, JavaScript](enable-intellisense). 
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/intellisense01.png" width="60%" alt="Syntax highlighting example"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/intellisense01.gif" width="60%" alt="Syntax highlighting example"/>
 
 Typing any of the following and using ctrl+space will trigger suggestions:
 
@@ -67,7 +67,7 @@ There are two approaches to applying snippets.
 2. Type "smd" and use _ctrl+space bar_
 3. Select the snippet
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/docs/snippetsample02.gif" width="65%" alt="Snippet text selection"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="65%" alt="Snippet text selection"/>
 
 #### <a name="enable-intellisense"></a> Enable Intellisense in TypeScript, JavaScript
 
@@ -91,8 +91,8 @@ If you wish to enabled IntelliSense in strings, then apply the following setting
   }
 ```
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/docs/enableperproject.png" width="80%" alt="Intellisense Directions"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/enableperproject.png" width="80%" alt="Intellisense Directions"/>
 
 Once configured, then IntelliSense works in JavaScript and TypeScript:
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/docs/snippetsample02.gif" width="80%" alt="IntelliSense Sample Snippets"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="80%" alt="IntelliSense Sample Snippets"/>
