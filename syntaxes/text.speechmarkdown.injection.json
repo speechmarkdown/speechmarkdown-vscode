@@ -18,17 +18,22 @@
         { "include": "#audio-expression" },
         { "include": "#section-expression" },
         { "include": "#section-voice-expression" },
-        { "include": "section-disappointed-expression" },
+        { "include": "#section-disappointed-expression" },
         { "include": "#break-short-expession" },
         { "include": "#complex-modifier-expression" },
         { "include": "#simple-sub-expression" },
         { "include": "#ipa-short-expression" },
-        { "include": "#section-excited-expression" }
+        { "include": "#section-excited-expression" },     
+        { "include": "#short-modifier-expression"},
+        { "include": "#section-emphasis-shorthand-strong-expression"},
+        { "include": "#section-emphasis-shorthand-reduced-expression"},
+        { "include": "#section-emphasis-shorthand-none-expression"},
+        { "include": "#section-emphasis-shorthand-moderate-expression"}
       ]
     },
     "audio-expression": {
       "name": "meta.audio.speechmarkdown",
-      "match": "(!\\[)(\"|')(.*)(\"|')(\\])",
+      "match": "(!\\[)(\"|')([^\\]]+)(\"|')(\\])",
       "captures": {
         "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
         "2": { "name": "meta.embedded.meta.quote.speechmarkdown" },
@@ -52,7 +57,7 @@
 
     "section-expression": {
       "name": "meta.section.speechmarkdown",
-      "match": "(#\\[)(disappointed|dj|newscaster|defaults)(\\])",
+      "match": "(#\\[)(disappointed|dj|newscaster|defaults)(\\]|;)",
       "captures": {
         "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
         "2": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -60,8 +65,8 @@
       }
     },
     "section-excited-expression": {
-      "name": "meta.section.speechmarkdown",
-      "match": "(#\\[)(excited)(:)?(\"|')?(low|medium|high)?(\"|')?(\\])",
+      "name": "meta.section.excited.speechmarkdown",
+      "match": "(#\\[)(excited)(:)?(\"|')?(low|medium|high)?(\"|')?(\\]|;)",
       "captures": {
         "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
         "2": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -99,7 +104,42 @@
         "7": { "name": "meta.embedded.brace.speechmarkdown.close" }
       }
     },
-
+    "section-emphasis-shorthand-none-expression": {
+      "name": "meta.section.emphasisshorthand.none.speechmarkdown",
+      "match": "([~])([^[~]]+)([~])",
+      "captures": {
+        "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
+        "2": { "name": "string" },
+        "3": { "name": "meta.embedded.brace.speechmarkdown.close" }
+      }
+    },
+    "section-emphasis-shorthand-strong-expression": {
+      "name": "meta.section.emphasisshorthand.strong.speechmarkdown",
+      "match": "([+]{2})([^[+]{2}]+)([+]{2})",
+      "captures": {
+        "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
+        "2": { "name": "string" },
+        "3": { "name": "meta.embedded.brace.speechmarkdown.close" }
+      }
+    },
+    "section-emphasis-shorthand-reduced-expression": {
+      "name": "meta.section.emphasisshorthand.reduced.speechmarkdown",
+      "match": "([-])([^-]+)([-])",
+      "captures": {
+        "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
+        "2": { "name": "string" },
+        "3": { "name": "meta.embedded.brace.speechmarkdown.close" }
+      }
+    },
+    "section-emphasis-shorthand-moderate-expression": {
+      "name": "meta.section.emphasisshorthand.moderate.speechmarkdown",
+      "match": "([+])([^+]+)([+])",
+      "captures": {
+        "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
+        "2": { "name": "string" },
+        "3": { "name": "meta.embedded.brace.speechmarkdown.close" }
+      }
+    },
     "section-voice-expression": {
       "name": "meta.section.voice.speechmarkdown",
       "match": "(#\\[)(voice)(:)(\"|')(device|Ivy|Joanna|Joey|Justin|Kendra|Kimberly|Matthew|Salli|Nicole|Russell|Amy|Brian|Emma|Aditi|Raveena|Hans|Marlene|Vicki|Conchita|Enrique|Carla|Giorgio|Mizuki|Takumi|Celine|Lea|Mathieu)(\"|')(;)?(lang)?(:)?(\"|')?(en-US|en-AU|en-GB|en-IN|de-DE|es-ES|it-IT|ja-JP|fr-FR)?(\"|')?(\\])",
@@ -174,19 +214,13 @@
       "patterns": [
         {
           "name": "meta.modifier.voice.speechmarkdown",
-          "match": "(voice)(:)(\"|')(device|Ivy|Joanna|Joey|Justin|Kendra|Kimberly|Matthew|Salli|Nicole|Russell|Amy|Brian|Emma|Aditi|Raveena|Hans|Marlene|Vicki|Conchita|Enrique|Carla|Giorgio|Mizuki|Takumi|Celine|Lea|Mathieu)(\"|')(;)?(lang)?(:)?(\"|')?(en-US|en-AU|en-GB|en-IN|de-DE|es-ES|it-IT|ja-JP|fr-FR)?(\"|')?",
+          "match": "(voice)(:)(\"|')(device|Ivy|Joanna|Joey|Justin|Kendra|Kimberly|Matthew|Salli|Nicole|Russell|Amy|Brian|Emma|Aditi|Raveena|Hans|Marlene|Vicki|Conchita|Enrique|Carla|Giorgio|Mizuki|Takumi|Celine|Lea|Mathieu)(\"|')",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
             "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
             "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
             "4": { "name": "variable.speechmarkdown" },
-            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" },
-            "6": { "name": "meta.embedded.meta.separator.speechmarkdown" },
-            "7": { "name": "entity.name.function.speechmarkdown.modifier" },
-            "8": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
-            "9": { "name": "meta.embedded.meta.quote.speechmarkdown" },
-            "10": { "name": "variable.speechmarkdown" },
-            "11": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }     
           }
         },
         {
@@ -194,7 +228,7 @@
           "match": ";"
         },
         {
-          "match": "(volume|vol)(:)?(\"|')?(silent|x-soft|soft|medium|loud|x-loud)?(\"|')?",
+          "match": "(volume|vol)(:)(\"|')(silent|x-soft|soft|medium|loud|x-loud)(\"|')",
           "name": "meta.modifier.volume.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -205,7 +239,7 @@
           }
         },
         {
-          "match": "(pitch)(:)?(\"|')?(x-low|low|medium|high|x-high)?(\"|')?",
+          "match": "(pitch)(:)(\"|')?(x-low|low|medium|high|x-high)(\"|')",
           "name": "meta.modifier.pitch.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -216,7 +250,7 @@
           }
         },
         {
-          "match": "(rate)(:)?(\"|')?(x-slow|slow|medium|fast|x-fast)?(\"|')?",
+          "match": "(rate)(:)(\"|')(x-slow|slow|medium|fast|x-fast)(\"|')",
           "name": "meta.modifier.rate.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -227,7 +261,7 @@
           }
         },
         {
-          "match": "(time)(:)?(\"|')?(hms12|hms24)?(\"|')?",
+          "match": "(time)(:)(\"|')(hms12|hms24)(\"|')",
           "name": "meta.modifier.time.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -238,7 +272,7 @@
           }
         },
         {
-          "match": "(phone|telephone)(:)?(\"|')?(1)?(\"|')?",
+          "match": "(phone|telephone)(:)(\"|')?(1)?(\"|')",
           "name": "meta.modifier.telephone.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -249,8 +283,8 @@
           }
         },
         {
-          "match": "(disappointed)(:)?(\"|')?(low|medium|high)?(\"|')?",
-          "name": "meta.modifier.telephone.speechmarkdown",
+          "match": "(disappointed)(:)(\"|')(low|medium|high)(\"|')",
+          "name": "meta.modifier.disappointed.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
             "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
@@ -260,7 +294,7 @@
           }
         },
         {
-          "match": "(emphasis)(:)?(\"|')?(strong|moderate|none|reduced)?(\"|')?",
+          "match": "(emphasis)(:)(\"|')(strong|moderate|none|reduced)(\"|')",
           "name": "meta.modifier.emphasis.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -271,8 +305,8 @@
           }
         },
         {
-          "match": "(excited)(:)?(\"|')?(low|medium|high)?(\"|')?",
-          "name": "meta.modifier.emphasis.speechmarkdown",
+          "match": "(excited)(:)(\"|')(low|medium|high)(\"|')",
+          "name": "meta.modifier.excited.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
             "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
@@ -282,7 +316,7 @@
           }
         },
         {
-          "match": "(date)(:)?(\"|')(mdy|dmy|ymd|ydm|md|dm|ym|my|y|m|d)(\"|')",
+          "match": "(date)(:)(\"|')(mdy|dmy|ymd|ydm|md|dm|ym|my|y|m|d)(\"|')",
           "name": "meta.modifier.date.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -306,7 +340,7 @@
           }
         },
         {
-          "match": "(lang)(:)(\"|')([^)]+)(\"|')",
+          "match": "(lang)(:)(\"|')(en-US|en-AU|en-GB|en-IN|de-DE|es-ES|it-IT|ja-JP|fr-FR)(\"|')",
           "name": "meta.modifier.lang.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -314,6 +348,14 @@
             "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
             "4": { "name": "variable.speechmarkdown" },
             "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(address|cardinal|characters|bleep|expletive|fraction|interjection|number|ordinal|unit|whisper)",
+          "name": "meta.modifier.simple.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" }
+
           }
         },
         {
@@ -325,6 +367,111 @@
             "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
             "4": { "name": "string" },
             "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        }
+      ]
+    },
+    "short-modifier-expression": {
+      "begin": "(#\\[)",
+      "end": "((?!\\/)\\])",
+      "name": "meta.modifier.simple.speechmarkdown",
+      "beginCaptures": {
+        "1":  {
+          "name": "meta.embedded.brace.speechmarkdown.open"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "meta.embedded.brace.speechmarkdown.close"
+        }
+      },
+      "patterns": [
+        {
+          "name": "meta.modifier.voice.speechmarkdown",
+          "match": "(voice)(:)(\"|')(device|Ivy|Joanna|Joey|Justin|Kendra|Kimberly|Matthew|Salli|Nicole|Russell|Amy|Brian|Emma|Aditi|Raveena|Hans|Marlene|Vicki|Conchita|Enrique|Carla|Giorgio|Mizuki|Takumi|Celine|Lea|Mathieu)(\"|')",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }     
+          }
+        },
+        {
+          "name": "meta.embedded.meta.separator.speechmarkdown",
+          "match": ";"
+        },
+        {
+          "match": "(volume|vol)(:)(\"|')(silent|x-soft|soft|medium|loud|x-loud)(\"|')",
+          "name": "meta.modifier.volume.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(pitch)(:)(\"|')?(x-low|low|medium|high|x-high)(\"|')",
+          "name": "meta.modifier.pitch.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(rate)(:)(\"|')(x-slow|slow|medium|fast|x-fast)(\"|')",
+          "name": "meta.modifier.rate.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(lang)(:)(\"|')(en-US|en-AU|en-GB|en-IN|de-DE|es-ES|it-IT|ja-JP|fr-FR)(\"|')",
+          "name": "meta.modifier.lang.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(disappointed)(:)(\"|')(low|medium|high)(\"|')",
+          "name": "meta.modifier.telephone.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(excited)(:)(\"|')(low|medium|high)(\"|')",
+          "name": "meta.modifier.excited.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assigment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(defaults|disappointed|dj|excited|newscaster)",
+          "name": "meta.modifier.simple.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" }
           }
         }
       ]

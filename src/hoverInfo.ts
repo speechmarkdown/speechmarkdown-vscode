@@ -1,7 +1,59 @@
 import * as vscode from "vscode";
 
+export enum SPModifierType
+{
+
+  Simple = 1,
+  Adjunct = 2,
+  Short = 3,
+  SingleBracket = 4
+}
+
+export class SPSnippet 
+{
+  public snippetName: string;
+  public snippet: string;
+  public isSimpleModifier: boolean;
+  public isAdjunctModifier: boolean;
+  public isShortModifier: boolean;
+  public isSingleBracketModifier: boolean;
+
+
+  constructor(
+    name: string,
+    newSnippet: string,
+    supportsSimpleModifier: boolean,
+    supportsAdjunctModifier: boolean,
+    supportsShortModifier: boolean,
+    supportsSingleBracket: boolean
+  ) {
+    this.snippetName = name;
+    this.snippet = newSnippet;
+    this.isSimpleModifier = supportsSimpleModifier;
+    this.isAdjunctModifier = supportsAdjunctModifier;
+    this.isShortModifier = supportsShortModifier;
+    this.isSingleBracketModifier = supportsSingleBracket;
+  }
+}
+
+export class SPElement {
+   element: string;
+   snippets: SPSnippet [];
+
+
+
+  constructor(
+    name: string,
+    newSnippets: SPSnippet[]
+  ) {
+    this.element = name;
+    this.snippets = newSnippets;
+  }
+
+}
+
 export class SPHoverInfo {
-  markdownElements: string[];
+  markdownElements: SPElement[];
 
   hasAlexaSupport: boolean;
 
@@ -9,9 +61,8 @@ export class SPHoverInfo {
   hasBixbySupport: boolean;
 
   descriptionText: string;
-
   constructor(
-    public names: string[],
+    public names: SPElement[],
     public description: string,
     public alexaSupport: boolean,
     public googleSupport: boolean,
@@ -54,136 +105,40 @@ export class SPHoverInfo {
   }
 }
 
-export class JSHoverProvider
-  implements vscode.HoverProvider, vscode.CompletionItemProvider {
-  provideHover(
-    document: vscode.TextDocument,
-    position: vscode.Position,
-    token: vscode.CancellationToken
-  ): vscode.ProviderResult<vscode.Hover> {
-    let index: number = position.character;
 
-    const line = document.lineAt(position.line);
-
-    let openBracket: number = line.text.lastIndexOf("[", index);
-
-    let endBracket: number = line.text.indexOf("]", openBracket);
-
-    if (
-      openBracket > -1 &&
-      endBracket > -1 &&
-      index > openBracket &&
-      index < endBracket
-    ) {
-      let foundText: string = line.text.substring(openBracket + 1, endBracket);
-
-      // there may be a closing colon
-      let colonIndex = foundText.indexOf(":");
-      if (colonIndex > -1) foundText = foundText.substring(0, colonIndex);
-
-      let foundInfo = hoverInfoArr.find(x =>
-        x.markdownElements.find(x => x === foundText)
-      );
-
-      if (foundInfo) {
-        let hoverRet: vscode.Hover = new vscode.Hover(foundInfo.GetMarkdown());
-        return hoverRet;
-      }
-    }
-
-    return null;
-  }
-  provideCompletionItems(
-    document: vscode.TextDocument,
-    position: vscode.Position,
-    token: vscode.CancellationToken,
-    context: vscode.CompletionContext
-  ): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
-    let index: number = position.character;
-
-    var retResults = new vscode.CompletionList();
-
-    const line = document.lineAt(position.line);
-
-    let openBracket: number = line.text.lastIndexOf(")[", index);
-
-    if (openBracket > -1) {
-      let foundText: string = line.text.substring(openBracket + 1, index);
-
-      console.log("found text: " + foundText);
-
-      const snippetCompletion = new vscode.CompletionItem(
-        "Good part of the day"
-      );
-      snippetCompletion.insertText = new vscode.SnippetString(
-        "Good ${1|morning,afternoon,evening|}. It is ${1}, right?"
-      );
-      snippetCompletion.documentation = new vscode.MarkdownString(
-        "Inserts a snippet that lets you select the _appropriate_ part of the day for your greeting."
-      );
-
-      // a completion item that can be accepted by a commit character,
-      // the `commitCharacters`-property is set which means that the completion will
-      // be inserted and then the character will be typed.
-      const commitCharacterCompletion = new vscode.CompletionItem("console");
-      commitCharacterCompletion.commitCharacters = ["."];
-      commitCharacterCompletion.documentation = new vscode.MarkdownString(
-        "Press `.` to get `console.`"
-      );
-
-      // a completion item that retriggers IntelliSense when being accepted,
-      // the `command`-property is set which the editor will execute after
-      // completion has been inserted. Also, the `insertText` is set so that
-      // a space is inserted after `new`
-      const commandCompletion = new vscode.CompletionItem("new");
-      commandCompletion.kind = vscode.CompletionItemKind.Keyword;
-      commandCompletion.insertText = "new ";
-      commandCompletion.command = {
-        command: "editor.action.triggerSuggest",
-        title: "Re-trigger completions..."
-      };
-
-      retResults.isIncomplete = true;
-      retResults.items.push(snippetCompletion);
-      retResults.items.push(commitCharacterCompletion);
-      retResults.items.push(commandCompletion);
-    }
-
-    return retResults;
-  }
-}
-
-var hoverInfoArr: SPHoverInfo[] = [
+export var hoverInfoArr: SPHoverInfo[] = [
   new SPHoverInfo(
-    ["address"],
+    [ new SPElement("address", [  new SPSnippet("address", "address", true, false, false, false) ])],
     "Speaks the value as a street address. \n ```text \n I'm at (150th CT NE, Redmond, WA)[address]. \n ```",
     true,
     false,
     true
   ),
   new SPHoverInfo(
-    ["audio"],
+    [new SPElement("audio", [  ])],
     'Plays short, pre-recorded audio.  \n ```text \n !["https://intro.mp3"] \n Welcome back. \n ```',
     true,
     true,
     true
   ),
   new SPHoverInfo(
-    ["break"],
+    [new SPElement("break", [ new SPSnippet("break", "break:'${1|none,x-weak,weak,medium,strong,x-strong|}'", false, false, false, true),
+       new SPSnippet("break short", "$0ms", false, false, false, true)
+      ])],
     'A pause in speech. \n ```text \n Step 1, take a deep breath. [200ms] \n Step 2, exhale. \n Step 3, take a deep breath again. [break:"weak"] \n Step 4, exhale. \n ```',
     true,
     true,
     false
   ),
   new SPHoverInfo(
-    ["cardinal", "number"],
+    [new SPElement("cardinal", [ new SPSnippet("cardinal", "cardinal", true, false, false, false)]), new SPElement("number", [ new SPSnippet("number", "number", true, false, false, false)])],
     "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc. \n \n ```text \n One, two, (3)[cardinal]. \n Your balance is: (12345)[cardinal]. \n (801)[cardinal] is the same as (801)[number] \n ```",
     true,
     true,
     false
   ),
   new SPHoverInfo(
-    ["characters"],
+    [new SPElement("characters", [new SPSnippet("characters", "characters", true, false, false, false)])],
     "Speaks a number or text as individual characters. \n ```text \n Countdown: (321)[characters] \n The word is spelled: (park)[chars] \n ```",
     true,
     true,
@@ -191,7 +146,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["date"],
+    [new SPElement("date", [  new SPSnippet("date", " date:'${1|mdy,dmy,ymd,ydm,md,dm,ym,my,y,m,d|}'", true, false, false, false) ])],
     "Speak the text as a date. \n" +
       "The date can use slash (/), dash (-), and dot (.) separators. \n" +
       "Some SSML formatters require the year to be 4 digits. Some might auto-expand 2-digit years to 4 digits. \n" +
@@ -208,7 +163,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["disappointed"],
+    [new SPElement("disappointed", [  new SPSnippet("disappointed", "disappointed:'${1|low,medium,high|}'", true, false, true, false), new SPSnippet("disappointed (short)", "disappointed", true, false, true, false)])],
     "Sets the spoken text to varying levels of disappointment. \n" +
       "```text \n" +
       '#[disappointed:"low"] \n' +
@@ -221,7 +176,7 @@ var hoverInfoArr: SPHoverInfo[] = [
     false
   ),
   new SPHoverInfo(
-    ["defaults"],
+    [new SPElement("defaults", [ new SPSnippet("defaults", "defaults", false, false, true, false)])],
     "Sets the spoken text back to normal (default) settings after using another section such as: disappointed, dj, excited, newscaster, voice \n" +
       "```text \n" +
       "Normal speech. \n \n" +
@@ -235,7 +190,7 @@ var hoverInfoArr: SPHoverInfo[] = [
     false
   ),
   new SPHoverInfo(
-    ["dj"],
+    [new SPElement("dj",[ new SPSnippet("dj", "dj", false, false, true, false)])],
     "Sets the spoken text similar to how a music/media announcer would speak them.\n" +
       "```text \n" +
       "Normal speech. \n \n" +
@@ -250,7 +205,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["emphasis"],
+    [new SPElement("emphasis", [ new SPSnippet("emphasis", "emphasis:'${1|strong,moderate,redurced,none|}'", true, false, false, false), new SPSnippet("emphasis (short)", "emphasis", true, false, false, false)])],
     'Add or remove emphasis from a word or phrase. \n ```text \n A (strong)[emphasis:"strong"] level \n ```',
     true,
     true,
@@ -258,31 +213,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["expletive", "bleep"],
-    '"Bleep" out the content \n' +
-      "```text \n" +
-      "You can't say (word)[bleep] on TV. \n" +
-      "You said (word)[bleep] and (word)[expletive] at school. \n" +
-      "```",
-    true,
-    true,
-    true
-  ),
-
-  new SPHoverInfo(
-    ["fraction"],
-    "Speaks the value as a fraction. \n \n" +
-      "```text \n" +
-      "Add (2/3)[fraction] cup of milk. \n" +
-      "Add (1+1/2)[fraction] cups of flour. \n " +
-      "```",
-    true,
-    true,
-    true
-  ),
-
-  new SPHoverInfo(
-    ["excited"],
+    [new SPElement("excited", [new SPSnippet("excited", "excited:'${1|low,medium,high|}'", true, false, true, false), new SPSnippet("excited (short)", "excited", true, false, true, false)])],
     "Sets the spoken text to varying levels of excitement. \n" +
       "Set intensity to: low, medium (default), high \n \n" +
       "```text \n" +
@@ -296,7 +227,33 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["interjection"],
+    [new SPElement("expletive", [ new SPSnippet("expletive", "expletive", true, false, false, false)]), new SPElement("bleep", [ new SPSnippet("bleep", "bleep", true, false, false, false)])],
+    '"Bleep" out the content \n' +
+      "```text \n" +
+      "You can't say (word)[bleep] on TV. \n" +
+      "You said (word)[bleep] and (word)[expletive] at school. \n" +
+      "```",
+    true,
+    true,
+    true
+  ),
+
+  new SPHoverInfo(
+    [new SPElement("fraction", [new SPSnippet("fraction", "fraction", true, false, false, false)])],
+    "Speaks the value as a fraction. \n \n" +
+      "```text \n" +
+      "Add (2/3)[fraction] cup of milk. \n" +
+      "Add (1+1/2)[fraction] cups of flour. \n " +
+      "```",
+    true,
+    true,
+    true
+  ),
+
+
+
+  new SPHoverInfo(
+    [new SPElement("interjection", [new SPSnippet("interjection", "interjection", true, false, false, false)])],
     "Speaks the text in a more expressive voice. \n \n" +
       "```text \n" +
       "(Wow)[interjection], I didn't see that coming. \n" +
@@ -306,7 +263,7 @@ var hoverInfoArr: SPHoverInfo[] = [
     false
   ),
   new SPHoverInfo(
-    ["ipa"],
+    [new SPElement("ipa", [ new SPSnippet("ipa", "ipa:'$0'", true, false, false, false)   ])],
     "Provides a phonemic/phonetic pronunciation for the contained text using the International Phonetic Alphabet (IPA). \n \n" +
       "```text \n" +
       'You say, (pecan)[ipa:"pɪˈkɑːn"]. \n' +
@@ -317,7 +274,7 @@ var hoverInfoArr: SPHoverInfo[] = [
     true
   ),
   new SPHoverInfo(
-    ["lang"],
+    [new SPElement("lang", [ new SPSnippet("lang", " lang:'${1|en-US,en-AU,en-GB,en-IN,de-DE,es-ES,it-IT,ja-JP,fr-FR|}'", true, true, false, false) ])],
     "Sets the language. Words and phrases in other languages usually sound better with the lang tag. \n \n" +
       "```text \n" +
       '#[voice:"Brian";lang:"en-GB"] \n \n' +
@@ -328,8 +285,9 @@ var hoverInfoArr: SPHoverInfo[] = [
     false
   ),
 
+
   new SPHoverInfo(
-    ["newscaster"],
+    [new SPElement("newscaster", [new SPSnippet("newscaster", "newscaster", false, false, true, false)])],
     "Sets the spoken text similar to how a news announcer would speak them. \n \n" +
       "```text \n" +
       "#[newscaster] \n" +
@@ -341,7 +299,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["ordinal"],
+    [new SPElement("ordinal", [ new SPSnippet("ordinal", "ordinal", true, false, false, false)])],
     "Speaks a number as an ordinal: first, second, third, etc. \n \n" +
       "```text \n" +
       "The others came in 2nd and (3)[ordinal]. \n" +
@@ -353,8 +311,13 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["phone", "telephone"],
-
+    [new SPElement("phone", 
+      [ new SPSnippet("phone", "phone", true,false, false, false), 
+        new SPSnippet("phone (with country code)", "phone:'$0'", true, false, false, false)]),      
+      new SPElement("telephone", 
+       [  new SPSnippet("telephone", "telephone", true, false, false, false) ,
+          new SPSnippet("telephone (with country code)", "telephone:'$0'", true, false, false, false) ])
+     ],     
     "Speak the number/value as a 7-digit or 10-digit telephone number. \n \n" +
       "The key, **phone** is a shortened form of **telephone** for convenience. \n \n" +
       "```text \n" +
@@ -371,7 +334,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["pitch"],
+    [new SPElement("pitch", [ new SPSnippet("pitch", "pitch:'${1|x-low,low,medium,high,x-high|}'", true, true, false, false)])],
     "Raise or lower the tone (pitch) of the speech. \n \n" +
       "```text \n" +
       'I can speak with my normal pitch, (but also with a much higher pitch)[pitch:"x-high"]. \n' +
@@ -384,7 +347,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["rate"],
+    [new SPElement("rate", [ new SPSnippet("rate", "rate:'${1|x-slow,slow,medium,fast,x-fast|}'", true, true, false, false)])],
     "Modify the rate of the speech. \n \n" +
       "```text \n" +
       'When I wake up, (I speak quite slowly)[rate:"x-slow"]. \n' +
@@ -397,7 +360,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["sub"],
+    [new SPElement("sub", [ new SPSnippet("sub", "sub:'$0'", true, false, false, false), new SPSnippet("sub short", "'$0'", true, false, false, false)   ])],
     "Substitute one word or phrase with a different word or phrase. Often used to expand/clarify abbreviations. \n \n" +
       "```text \n" +
       'My favorite chemical element is (Al)[sub:"aluminum"], \n' +
@@ -409,7 +372,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["time"],
+    [new SPElement("time", [ new SPSnippet("time", "time:'${1|hms12,hms24|}'", true, false, false, false)])],
     "Speak the value as a time. \n \n" +
       "```text \n" +
       'The time is (2:30pm)[time:"hms12"]. \n' +
@@ -422,7 +385,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["unit"],
+    [new SPElement("unit", [new SPSnippet("unit", "unit", true, false, false, false)])],
     "Speaks the value as a unit. Can be a number and unit or just a unit. \n " +
       "Units values include: 10 foot, 10 ft, 10ft, foot, ft, 6'3\" (depends on plaform) \n " +
       "Some implementations of SSML converts units to singular or plural depending on the number. \n \n " +
@@ -435,7 +398,19 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["voice"],
+    [new SPElement("voice", [ 
+      new SPSnippet("voice", "voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew,Salli,Nicole,Russell,Amy,Brian,Emma,Aditi,Raveena,Hans,Marlene,Vicki,Conchita,Enrique,Carla,Giorgio,Mizuki,Takumi,Celine,Lea,Mathieu|}'", true, false, true, false),
+      new SPSnippet("voice en-US", "voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew,Salli|}';lang:'en-US'", true, false, true, false),
+      new SPSnippet("voice en-AU", "voice:'${1|Nicole,Russell|}';lang:'en-AU'", true, false, true, false),
+      new SPSnippet("voice en-GB", "voice:'${1|Amy,Brian,Emma|}';lang:'en-GB'", true, false, true, false),
+      new SPSnippet("voice en-IN", "voice:'${1|Aditi,Raveena|}';lang:'en-IN'", true, false, true, false),
+      new SPSnippet("voice de-DE", "voice:'${1|Hans,Marlene,Vicki|}';lang:'de-DE'", true, false, true, false),
+      new SPSnippet("voice es-ES", "voice:'${1|Conchita,Enrique|}';lang:'es-ES'", true, false, true, false),
+      new SPSnippet("voice it-IT", "voice:'${1|Carla,Giorgio|}';lang:'it-IT'", true, false, true, false),
+      new SPSnippet("voice ja-JP", "voice:'${1|Mizuki,Takumi|}';lang:'ja-JP'", true, false, true, false),
+      new SPSnippet("voice fr-FR", "voice:'${1|Celine,Lea,Mathieu|}';lang:'fr-FR'", true, false, true, false),
+      new SPSnippet("voice device", "voice:'device'", true, false, true, false)
+    ])],
     "Sets the voice for the speech. The value is not validated. The formatter will use the value for a given voice if the platform supports it. \n \n " +
       "```text \n" +
       '#[voice:"Brian";lang:"en-GB"] \n' +
@@ -451,7 +426,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["volume", "vol"],
+    [new SPElement("volume", [ new SPSnippet("volume", "volume:'${1|silent,x-soft,soft,medium,loud,x-loud|}'", true, true, false, false)]), new SPElement("vol", [new SPSnippet("vol", "vol:'${1|silent,x-soft,soft,medium,loud,x-loud|}'", true, true, false, false)])],
     "Modify the volume of the speech. \n \n" +
       "```text \n" +
       "Normal volume for the first sentence. \n" +
@@ -466,7 +441,7 @@ var hoverInfoArr: SPHoverInfo[] = [
   ),
 
   new SPHoverInfo(
-    ["whisper"],
+    [new SPElement("whisper", [new SPSnippet("whisper", "whisper", true, false, false, false)])],
     "Speak text in a whispered voice. \n \n " +
       "```text \n" +
       "I want to tell you a secret. \n" +

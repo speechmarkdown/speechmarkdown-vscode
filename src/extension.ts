@@ -3,9 +3,9 @@
  *--------------------------------------------------------*/
 
 import * as vscode from "vscode";
-import * as hoverInfo from "./hoverinfo";
+import { JSHoverProvider } from "./hoverProvider";
 
-let jsCentralProvider = new hoverInfo.JSHoverProvider();
+let jsCentralProvider = new JSHoverProvider();
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.languages.registerHoverProvider("yaml", jsCentralProvider)
   );
-  /*
+ 
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider("json", jsCentralProvider)
   );
@@ -42,6 +42,13 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      "yaml",
+      jsCentralProvider
+    )
+  );
+ /*
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider("json", jsCentralProvider)
   );

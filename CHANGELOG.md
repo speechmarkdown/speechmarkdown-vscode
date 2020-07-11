@@ -8,8 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Known issue with phonemes in ipa tags that include quotes
+
+
+## [0.0.6] - 2020-07-11
+
+- Completion handlers for JSON, YAML, JavaScript, and TypeScript (use Ctrl+space bar for autocompletion)
+- Removed documentation images from deployed package to reduce package size
+- Updated dependent packages for vulnerability fixes
+- Fixed the smd rate and smd time snippets
+- Moved Salli Alexa voice to en-US from en-AU
+- Corrected typo in smd voice fr-FR snippet
 - Syntax highlighing for short form Speech Markdown for emphasis
-- Completion handlers for JSON, YAML, JavaScript, and TypeScript
 
 ## [0.0.5] - 2020-02-23
 
