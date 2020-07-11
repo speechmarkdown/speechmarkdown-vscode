@@ -16,7 +16,7 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 ### IntelliSense
 
-As of version 0.0.6, IntelliSense is supported in strings. By default, Visual Studio Code does not support IntelliSense in strings. In order to enable it, please see section [Enable Intellisense in TypeScript and JavaScript](enable-intellisense-in-typescript-and-javascript). 
+As of version 0.0.6, IntelliSense is supported in strings. By default, Visual Studio Code does not support IntelliSense in strings. In order to enable it, please see section [Enable Intellisense in TypeScript and JavaScript](#enable-intellisense-in-typescript-and-javascript). 
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/intellisense01.gif" width="60%" alt="Syntax highlighting example"/>
 
