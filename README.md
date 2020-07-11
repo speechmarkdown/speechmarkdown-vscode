@@ -6,7 +6,7 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 ## Features
 
-- Intellisense
+- IntelliSense
 - Syntax Highlighting
 - Hover over informational text
 - Comprehensive Snippets
