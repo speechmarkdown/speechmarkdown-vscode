@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Known issue with phonemes in ipa tags that include quotes
 
+## [0.0.7] - 2020-07-12
+- Corrected snippet typos and updated snippet documentation.
 
 ## [0.0.6] - 2020-07-11
 

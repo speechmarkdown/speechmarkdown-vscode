@@ -2,162 +2,162 @@
   "excited": {
     "prefix": "smd excited",
     "body": ["#[excited:'${1|low,medium,high|}']"],
-    "description": "Add an excited section. Valid values are low, medium, and high"
+    "description": "Sets the spoken text to varying levels of excitement. Valid values are low, medium (default), and high."
   },
   "emphasis": {
     "prefix": "smd emphasis",
     "body": [
       "(${TM_SELECTED_TEXT})[emphasis:'${1|strong,moderate,redurced,none|}']"
     ],
-    "description": "Add an emphasis modifier. Valid values are strong, moderate, reduced, none"
+    "description": "Add or remove emphasis from a word or phrase. Valid values are strong, moderate (default), reduced, none."
   },
   "date": {
     "prefix": "smd date",
     "body": [
       "(${TM_SELECTED_TEXT})[date:'${1|mdy,dmy,ymd,ydm,md,dm,ym,my,y,m,d|}']"
     ],
-    "description": "Add a date modifier."
+    "description": "Speak the text as a date. Valid date format values are mdy, dmy, ymd (not universally supported), ydm, md, dm, ym, my, y, m, d."
   },
   "volume": {
     "prefix": "smd volume",
     "body": [
       "(${TM_SELECTED_TEXT})[volume:'${1|silent,x-soft,soft,medium,loud,x-loud|}']"
     ],
-    "description": "Add a volume modifier."
+    "description": "Modify the volume of the speech. Valid volume modifiers are silent, x-soft, soft, medium (default), loud, x-loud. Default to medium if not specified."
   },
   "disappointed": {
     "prefix": "smd disappointed",
     "body": ["(${TM_SELECTED_TEXT})[disappointed:'${1|low,medium,high|}']"],
-    "description": "Add a disappointed modifier."
+    "description": "Sets the spoken text to varying levels of disappointment. Valid disappointed modifiers are low, medium (default), high."
   },
 
   "time": {
     "prefix": "smd time",
     "body": ["(${TM_SELECTED_TEXT})[time:'${1|hms12,hms24|}']"],
-    "description": "Add a time modifier."
+    "description": "Speak the value as a time. Valid values are hms12, hms24."
   },
 
   "lang": {
     "prefix": "smd lang",
     "body": [
-      "(${TM_SELECTED_TEXT})[lang:'${1|en-US,en-AU,en-GB,en-IN,de-DE,es-ES,it-IT,ja-JP,fr-FR||}']"
+      "(${TM_SELECTED_TEXT})[lang:'${1|en-US,en-AU,en-GB,en-IN,de-DE,es-ES,it-IT,ja-JP,fr-FR|}']"
     ],
-    "description": "Add a lang modifier."
+    "description": "Sets the language. Words and phrases in other languages usually sound better with the lang tag. Valid values are en-US, en-AU, en-GB, en-IN, de-DE, es-ES, it-IT,j a-JP, fr-FR."
   },
   "ordinal": {
-    "prefix": "smd lang",
+    "prefix": "smd ordinal",
     "body": ["(${TM_SELECTED_TEXT})[ordinal]"],
-    "description": "Add an ordinal  modifier."
+    "description": "Speaks a number as an ordinal: first, second, third, etc."
   },
   "dj": {
     "prefix": "smd voice dj",
     "body": ["#[dj]"],
-    "description": "Change the voice to a dj voice"
+    "description": "Change the voice to a dj voice. Supported on Alexa only."
   },
   "default voice": {
     "prefix": "smd voice default",
     "body": ["#[defaults]"],
-    "description": "switch to the default voice for the platform"
+    "description": "Sets the spoken text back to the normal voice for the plaform. Useful when switching to different voices."
   },
   "newscaster": {
     "prefix": "smd voice newscaster",
     "body": ["#[newscaster]"],
-    "description": "switch to a newscaster voice"
+    "description": "Sets the spoken text similar to how a news announcer would speak them."
   },
   "address": {
     "prefix": "smd address",
     "body": "(${TM_SELECTED_TEXT})[address]",
-    "description": "Apply the address modifier to the selected text."
+    "description": "Speaks the selected text as a street address."
   },
   "cardinal": {
     "prefix": "smd cardinal",
     "body": "(${TM_SELECTED_TEXT})[cardinal]",
-    "description": "Apply the cardinal modifier to the selected text."
+    "description": "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc."
   },
   "expletive": {
     "prefix": "smd expletive",
     "body": "(${TM_SELECTED_TEXT})[expletive]",
-    "description": "Apply the expletive modifier to the selected text."
+    "description": "'Bleep' out the content."
   },
   "bleep": {
     "prefix": "smd bleep",
     "body": "(${TM_SELECTED_TEXT})[bleep]",
-    "description": "Apply the bleep modifier to the selected text."
+    "description": "'Bleep' out the content."
   },
   "unit": {
     "prefix": "smd unit",
     "body": "(${TM_SELECTED_TEXT})[unit]",
-    "description": "Apply the unit modifier to the selected text."
+    "description": "Speaks the value as a unit. Can be a number and unit or just a unit."
   },
   "sub": {
     "prefix": "smd sub",
     "body": "(${TM_SELECTED_TEXT})[sub:'$0']",
-    "description": "Apply the sub modifier to the selected text."
+    "description": "Substitute one word or phrase with a different word or phrase. Often used to expand/clarify abbreviations."
   },
   "phone": {
     "prefix": "smd phone",
     "body": "(${TM_SELECTED_TEXT})[phone]",
-    "description": "Apply the phone modifier to the selected text."
+    "description": "Speak the number/value as a 7-digit or 10-digit telephone number."
   },
   "interjection": {
     "prefix": "smd interjection",
     "body": "(${TM_SELECTED_TEXT})[interjection]",
-    "description": "Apply the interjection modifier to the selected text."
+    "description": "Speaks the text in a more expressive voice."
   },
   "fraction": {
     "prefix": "smd fraction",
     "body": "(${TM_SELECTED_TEXT})[fraction]",
-    "description": "Apply the fraction modifier to the selected text."
+    "description": "Speaks the value as a fraction."
   },
   "characters": {
     "prefix": "smd characters",
     "body": "(${TM_SELECTED_TEXT})[characters]",
-    "description": "Apply the characters modifier to the selected text."
+    "description": "Speaks a number or text as individual characters."
   },
   "ipa": {
     "prefix": "smd ipa",
     "body": "(${TM_SELECTED_TEXT})[ipa:'$0']",
-    "description": "Apply the ipa modifier."
+    "description": "Provides a phonemic/phonetic pronunciation for the contained text using the International Phonetic Alphabet (IPA)."
   },
   "pitch": {
     "prefix": "smd pitch",
     "body": "(${TM_SELECTED_TEXT})[pitch:'${1|x-low,low,medium,high,x-high|}']",
-    "description": "Apply the pitch of the voice speech."
+    "description": "Raise or lower the tone (pitch) of the speech. Valid values are x-low, low, medium (default), high, x-high."
   },
   "rate": {
     "prefix": "smd rate",
     "body": "(${TM_SELECTED_TEXT})[rate:'${1|x-slow,slow,medium,fast,x-fast|}']",
-    "description": "Adjust the speed of the voice speech."
+    "description": "Modify the rate of the speech. Valid values are x-slow, slow, medium (default), fast, x-fast."
   },
   "audio": {
     "prefix": "smd audio",
     "body": "!['$0']",
-    "description": "Apply the audio tag"
+    "description": "Plays short, pre-recorded audio. Value in the tag should be a fully qualified URL to a publically accessible audio file."
   },
   "whisper": {
     "prefix": "smd whisper",
     "body": "(${TM_SELECTED_TEXT})[whisper]",
-    "description": "Apply the whisper modifier to the selected text."
+    "description": "Speak text in a whispered voice."
   },
   "number": {
     "prefix": "smd number",
     "body": "(${TM_SELECTED_TEXT})[number]",
-    "description": "Apply the number modifier to the selected text."
+    "description": "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc. (same as cardinal)"
   },
   "break ms": {
     "prefix": "smd break short",
     "body": "[$0ms]",
-    "description": "Enter a break tag using milliseconds"
+    "description": "A pause in speech. Value is set in milliseconds."
   },
   "break strength": {
     "prefix": "smd break",
     "body": "[break:'${1|none,x-weak,weak,medium,strong,x-strong|}']",
-    "description": "Enter a break tag using strength"
+    "description": "A pause in speech. Valid values are none, x-weak, weak, medium, strong, x-strong"
   },
   "voice": {
     "prefix": "smd voice",
    "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew,Salli,Nicole,Russell,Amy,Brian,Emma,Aditi,Raveena,Hans,Marlene,Vicki,Conchita,Enrique,Carla,Giorgio,Mizuki,Takumi,Celine,Lea,Mathieu|}']",
-   "description": "Apply voice modifier and use any Alexa voice"
+   "description": "Apply voice modifier and use any Alexa voice. Valid values are Ivy,Joanna, Joey, Justin,Kendra, Kimberly, Matthew, Salli, Nicole, Russell, Amy, Brian, Emma, Aditi, Raveena, Hans, Marlene, Vicki, Conchita, Enrique, Carla, Giorgio, Mizuki, Takumi, Celine, Lea, and Mathieu."
   },
   "voice device": {
     "prefix": "smd voice device",
@@ -166,47 +166,47 @@
   },
   "voice en-US": {
     "prefix": "smd voice en-US",
-    "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew|}';lang:'en-US']",
-    "description": "Apply voice modifier and limit to en-US Alexa voice"
+    "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew,Salli|}';lang:'en-US']",
+    "description": "Apply voice modifier and limit to en-US Alexa voices. Valid values are Ivy, Joanna, Joey, Justin, Kendra, Kimberly, Matthew, and Salli."
   },
   "voice en-UK": {
     "prefix": "smd voice en-GB",
     "body": "#[voice:'${1|Amy,Brian,Emma|}';lang:'en-GB']",
-    "description": "Apply voice modifier and limit to en-GB Alexa voice"
+    "description": "Apply voice modifier and limit to en-GB Alexa voices. Valid values are Amy, Brian, and Emma."
   },
   "voice en-AU": {
     "prefix": "smd voice en-AU",
     "body": "#[voice:'${1|Nicole,Russell|}';lang:'en-AU']",
-    "description": "Apply voice modifier and limit to en-AU Alexa voice"
+    "description": "Apply voice modifier and limit to en-AU Alexa voices. Valid values are Nicole and Russell."
   },
   "voice en-IN": {
     "prefix": "smd voice en-IN",
     "body": "#[voice:'${1|Aditi,Raveena|}';lang:'en-IN']",
-    "description": "Apply voice modifier and limit to en-IN Alexa voice"
+    "description": "Apply voice modifier and limit to en-IN Alexa voices. Valid values are Aditi and Raveena."
   },
   "voice de-DE": {
     "prefix": "smd voice de-DE",
     "body": "#[voice:'${1|Hans,Marlene,Vicki|}';lang:'de-DE']",
-    "description": "Apply voice modifier and limit to de-DE Alexa voices"
+    "description": "Apply voice modifier and limit to de-DE Alexa voices. Valid values are Hans, Marlene, and Vicki."
   },
   "voice es-ES": {
     "prefix": "smd voice es-ES",
     "body": "#[voice:'${1|Conchita,Enrique|}';lang:'es-ES']",
-    "description": "Apply voice modifier and limit to es-ES Alexa voice"
+    "description": "Apply voice modifier and limit to es-ES Alexa voices. Valid values are Conchita and Enrique."
   },
   "voice it-IT": {
     "prefix": "smd voice it-IT",
     "body": "#[voice:'${1|Carla,Giorgio|}';lang:'it-IT']",
-    "description": "Apply voice modifier and limit to it-IT Alexa voice"
+    "description": "Apply voice modifier and limit to it-IT Alexa voice. Valid values are Carla and Giorgio."
   },
   "voice ja-JP": {
     "prefix": "smd voice ja-JP",
     "body": "#[voice:'${1|Mizuki,Takumi|}';lang:'ja-JP']",
-    "description": "Apply voice modifier and limit to ja-JP Alexa voice"
+    "description": "Apply voice modifier and limit to ja-JP Alexa voices. Valid values are Mizuki and Takumi."
   },
   "voice fr-FR": {
     "prefix": "smd voice fr-FR",
     "body": "#[voice:'${1|Celine,Lea,Mathieu|}';lang:'fr-FR']",
-    "description": "Apply voice modifier and limit to fr-FR Alexa voice"
+    "description": "Apply voice modifier and limit to fr-FR Alexa voices. Valid values are Celine, Lea, and Mathieu."
   }
 }
