@@ -1,9 +1,3 @@
-SPDXVersion: SPDX-2.1
-DataLicense: CC0-1.0
-PackageName: speechmarkdown-vscode
-PackageOriginator: Whetstone Technologies, Inc.
-PackageHomePage: https://github.com/speechmarkdown/speechmarkdown-vscode
-PackageLicenseDeclared: MIT
 
 Copyright 2020 Speech Markdown
 
