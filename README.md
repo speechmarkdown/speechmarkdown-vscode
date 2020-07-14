@@ -27,6 +27,8 @@ Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SS
 
 The resulting SSML is displayed in the Speech Markdown output channel.
 
+For those that prefer keyboard shortcuts, use Ctrl+Shift+L.
+
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/markdownpref.gif" width="75%" alt="Speech Markdown Preview"/>
 
 

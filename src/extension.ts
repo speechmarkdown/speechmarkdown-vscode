@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
   var outProv = new smdOutputProvider();
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('extension.speechmarkdown', () => {
+    vscode.commands.registerCommand('extension.speechmarkdownpreview', () => {
       const editor = vscode.window.activeTextEditor;
       if (editor !== undefined) {
          
