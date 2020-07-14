@@ -13,7 +13,7 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "preview": false,
   "author": {
     "name": "johniwasz"
@@ -63,6 +63,22 @@
         "path": "./snippets.json"
       }
     ],
+    "commands": [
+      {
+          "command": "extension.speechmarkdown", 
+          "title": "Speech Markdown to SSML"
+          
+      }
+    ],
+    "menus": {
+        "editor/context": [
+            {
+                "command": "extension.speechmarkdown",
+                "group": "speechmarkdown@1",
+                "when": "editorHasSelection"
+            }
+        ]
+    },
     "languages": [
       {
         "id": "speechmarkdown",

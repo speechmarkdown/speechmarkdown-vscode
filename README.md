@@ -6,6 +6,7 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 ## Features
 
+- [Speech Markdown Preview](#speech-markdown-preview)
 - [IntelliSense](#intellisense)
 - [Syntax Highlighting](#syntax-highlighting)
 - [Hover over](#hover-over)
@@ -13,6 +14,21 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/smd-demo-1.gif" width="75%" alt="Speech Markdown Visual Studio Code Sample"/>
+
+
+### Speech Markdown Preview
+
+Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SSML). Selecting Speech Markdown in an editor, right-clicking and selecting the "Speech Markdown to SSML" menu option provides SSML output for all supported platforms. At the time of this release (v0.0.8) this includes:
+
+- Alexa
+- Google Assistant
+- Samsung Bixby
+- Plain Text
+
+The resulting SSML is displayed in the Speech Markdown output channel.
+
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/markdownpref.gif" width="75%" alt="Speech Markdown Preview"/>
+
 
 ### IntelliSense
 
@@ -56,8 +72,7 @@ I'm at (150th CT NE, Redmond, WA)[address].
 ```
 - smd audio - Plays short, pre-recorded audio. Value in the tag should be a fully qualified URL to a publically accessible audio file.
 ```
-!["https://intro.mp3"]
-Welcome back.
+!["https://intro.mp3"] Welcome back.
 ```
 - smd bleep - 'Bleep' out the content.
 ```
@@ -69,8 +84,7 @@ A pause [break:"250ms"] then continue.
 ```
 - smd break short - A pause in speech. Value is set in milliseconds or seconds.
 ```
-A pause [250ms] then continue.
-A longer pause [1s] then continue.
+A pause [250ms] then continue. A longer pause [1s] then continue.
 ```
 - smd cardinal - Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc.
 ```
@@ -138,7 +152,7 @@ The others came in 2nd and (3)[ordinal].
 ```
 - smd phone - Speak the number/value as a 7-digit or 10-digit telephone number.
 ```
-My number is NOT (8675309)[phone:"1"].          // same
+My number is NOT (8675309)[phone:"1"].
 ```
 - smd pitch - Raise or lower the tone (pitch) of the speech. Valid values are x-low, low, medium (default), high, x-high.
 ```

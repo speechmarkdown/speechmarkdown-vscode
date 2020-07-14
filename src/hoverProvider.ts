@@ -43,6 +43,8 @@ provideHover(
 }
 
 
+
+
 provideCompletionItems(
 	document: vscode.TextDocument,
 	position: vscode.Position,

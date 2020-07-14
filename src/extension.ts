@@ -4,10 +4,38 @@
 
 import * as vscode from "vscode";
 import { JSHoverProvider } from "./hoverProvider";
+import smdOutputProvider from "./smdOutputProvider";
 
 let jsCentralProvider = new JSHoverProvider();
 
+
+
+
 export function activate(context: vscode.ExtensionContext) {
+
+
+  var outProv = new smdOutputProvider();
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.speechmarkdown', () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor !== undefined) {
+         
+          let selection : string = editor.document.getText(editor.selection);
+          try
+          {
+            outProv.displaySSMLText(selection);
+          }
+          catch(ex)
+          {
+
+            console.log(ex);
+          }
+      }
+    })
+  );
+
+
   context.subscriptions.push(
     vscode.languages.registerHoverProvider("typescript", jsCentralProvider)
   );
@@ -48,6 +76,9 @@ export function activate(context: vscode.ExtensionContext) {
       jsCentralProvider
     )
   );
+
+
+  
  /*
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider("json", jsCentralProvider)
