@@ -13,12 +13,14 @@ let jsCentralProvider = new JSHoverProvider();
 
 export function activate(context: vscode.ExtensionContext) {
 
-
+  try
+  {
   var outProv = new smdOutputProvider();
 
   context.subscriptions.push(
     vscode.commands.registerCommand('extension.speechmarkdownpreview', () => {
       const editor = vscode.window.activeTextEditor;
+
       if (editor !== undefined) {
          
           let selection : string = editor.document.getText(editor.selection);
@@ -77,7 +79,11 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  } catch(ex)
+  {
+     console.error(ex);
 
+  }
   
  /*
   context.subscriptions.push(

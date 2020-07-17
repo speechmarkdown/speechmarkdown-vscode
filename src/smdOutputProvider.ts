@@ -16,64 +16,78 @@ export default class  {
 	  let speechOpts :  SpeechOptions = { platform: "amazon-alexa" };
 	  speechOpts.includeSpeakTag = false;
 	  
-
-	  var output : string = 'Alexa: \n';
+	  var output : string = 'Speech Mardown text: \n';		 
 	  
-	  var speechOut : string = '';
-	  
-	  try
+	  if(smdText.length == 0)
 	  {
-		speechOut = speech.toSSML(smdText, speechOpts);	 
+		output = 'No text selected';
 	  }
-	  catch(ex)
+	  else
 	  {
-		speechOut = ex;
+
+		output += smdText;
+		output += '\n------------------------\n';
+		
+		var speechOut : string = '';
+		
+		try
+		{
+			speechOut = speech.toSSML(smdText, speechOpts);	 
+		}
+		catch(ex)
+		{
+			speechOut = ex;
+		}
+
+		output +='\n\nAlexa: \n';
+		output +=speechOut;
+		output +='\n';
+
+
+		speechOpts.platform = "google-assistant";
+		try
+		{
+			speechOut = speech.toSSML(smdText, speechOpts);	 
+		}
+		catch(ex)
+		{
+			speechOut = ex;
+		}
+
+		output +='\n\nGoogle Assistant: \n';
+		output +=speechOut;
+		output +='\n';
+
+
+		speechOpts.platform = "samsung-bixby";
+		try
+		{
+			speechOut = speech.toSSML(smdText, speechOpts);	 
+		}
+		catch(ex)
+		{
+			speechOut = ex;
+		}
+
+		output +='\nSamsung Bixby: \n';
+		output +=speechOut;
+		output +='\n';
+
+
+		try
+		{
+			speechOut = speech.toSSML(smdText);	 
+		}
+		catch(ex)
+		{
+			speechOut = ex;
+		}
+
+		output +='\nPlain Text: \n';
+		output +=speechOut;
+		output +='\n';
+
 	  }
-
-	  output +=speechOut;
-
-	  speechOpts.platform = "google-assistant";
-	  try
-	  {
-		speechOut = speech.toSSML(smdText, speechOpts);	 
-	  }
-	  catch(ex)
-	  {
-		speechOut = ex;
-	  }
-
-	  output +='\n\nGoogle Assistant: \n';
-	  output +=speechOut;
-	  output +='\n';
-
-
-	  speechOpts.platform = "samsung-bixby";
-	  try
-	  {
-		speechOut = speech.toSSML(smdText, speechOpts);	 
-	  }
-	  catch(ex)
-	  {
-		speechOut = ex;
-	  }
-
-	  output +='\nSamsung Bixby: \n';
-	  output +=speechOut;
-	  output +='\n';
-
-
-	  try
-	  {
-		speechOut = speech.toSSML(smdText);	 
-	  }
-	  catch(ex)
-	  {
-		speechOut = ex;
-	  }
-
-	  output +='\nPlain Text: \n';
-	  output +=speechOut;
-	  output +='\n';
   	  outChannel.clear();
 	  outChannel.append(output);
 	  outChannel.show(true);
