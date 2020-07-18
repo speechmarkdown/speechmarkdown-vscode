@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.9] - 2020-07-17
 
 - Removed support for cardinal modifier as it is not supported in SpeechMarkdown
-- Output selected text in SpeechMarkdown output channel
+- Changed default SSML output to include speak tags
 - Added four configuration settings:
   - speechmarkdown.includeFormatterComment
   - speechmarkdown.includeParagraphTags
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.8] - 2020-07-14
 
+- Output selected text in SpeechMarkdown output channel
 - Added an editor context menu option which provides SSML that results from selected Speech Markdown text.
 
 ## [0.0.7] - 2020-07-12
