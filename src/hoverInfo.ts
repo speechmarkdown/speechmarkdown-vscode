@@ -131,13 +131,6 @@ export var hoverInfoArr: SPHoverInfo[] = [
     false
   ),
   new SPHoverInfo(
-    [new SPElement("cardinal", [ new SPSnippet("cardinal", "cardinal", true, false, false, false)]), new SPElement("number", [ new SPSnippet("number", "number", true, false, false, false)])],
-    "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc. \n \n ```text \n One, two, (3)[cardinal]. \n Your balance is: (12345)[cardinal]. \n (801)[cardinal] is the same as (801)[number] \n ```",
-    true,
-    true,
-    false
-  ),
-  new SPHoverInfo(
     [new SPElement("characters", [new SPSnippet("characters", "characters", true, false, false, false)])],
     "Speaks a number or text as individual characters. \n ```text \n Countdown: (321)[characters] \n The word is spelled: (park)[chars] \n ```",
     true,

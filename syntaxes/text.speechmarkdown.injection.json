@@ -183,7 +183,7 @@
       }
     },
     "simple-modifier-expression": {
-      "match": "(\\()([^)]+)(\\))(\\[)(address|cardinal|characters|bleep|expletive|fraction|interjection|number|ordinal|unit|whisper)(\\])",
+      "match": "(\\()([^)]+)(\\))(\\[)(address|characters|bleep|expletive|fraction|interjection|number|ordinal|unit|whisper)(\\])",
       "name": "meta.modifier.simple.speechmarkdown",
       "captures": {
         "1": { "name": "meta.embedded.meta.brace.round.speechmarkdown" },
@@ -351,7 +351,7 @@
           }
         },
         {
-          "match": "(address|cardinal|characters|bleep|expletive|fraction|interjection|number|ordinal|unit|whisper)",
+          "match": "(address|characters|bleep|expletive|fraction|interjection|number|ordinal|unit|whisper)",
           "name": "meta.modifier.simple.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" }

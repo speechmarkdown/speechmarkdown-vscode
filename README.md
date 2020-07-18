@@ -12,10 +12,6 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 - [Hover over](#hover-over)
 - [Comprehensive Snippets](#snippets)
 
-
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/smd-demo-1.gif" width="75%" alt="Speech Markdown Visual Studio Code Sample"/>
-
-
 ### Speech Markdown Preview
 
 Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SSML). Selecting Speech Markdown in an editor, right-clicking and selecting the "Speech Markdown to SSML" menu option provides SSML output for all supported platforms. At the time of this release (v0.0.8) this includes:
@@ -31,6 +27,9 @@ For those that prefer keyboard shortcuts, use Ctrl+Shift+L.
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/markdownpref.gif" width="75%" alt="Speech Markdown Preview"/>
 
+By default, the starting and ending speak tags are included in the output. This can be disabled in Settings -> Extensions -> SpeechMarkdown -> Include Speak Tags. Here are the current configuration options:
+
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/config01.png" width="75%" alt="Configuration"/>
 
 ### IntelliSense
 
@@ -87,10 +86,6 @@ A pause [break:"250ms"] then continue.
 - smd break short - A pause in speech. Value is set in milliseconds or seconds.
 ```
 A pause [250ms] then continue. A longer pause [1s] then continue.
-```
-- smd cardinal - Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc.
-```
-One, two, (3)[cardinal].
 ```
 - smd characters - Speaks a number or text as individual characters.
 ```

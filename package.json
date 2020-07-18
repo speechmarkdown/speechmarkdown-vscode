@@ -13,7 +13,7 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "preview": false,
   "author": {
     "name": "johniwasz"
@@ -36,7 +36,9 @@
     "onLanguage:json",
     "onLanguage:javascript",
     "onLanguage:typescript",
-    "onLanguage:yaml"
+    "onLanguage:yaml",
+    "onLanguage:markdown",
+    "onLanguage:speechmarkdown"
   ],
   "main": "./dist/extension",
   "contributes": {
@@ -63,28 +65,53 @@
         "path": "./snippets.json"
       }
     ],
+    "configuration": {
+      "title": "SpeechMarkdown",
+      "properties": {
+        "speechmarkdown.includeSpeakTags": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include open and close speech tags around generated SSML."
+        },
+        "speechmarkdown.includeParagraphTags": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include paragraph tags in generated SSML."
+        },
+        "speechmarkdown.includeFormatterComment": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include formatter comments in generated SSML."
+        },
+        "speechmarkdown.preserveEmptyLines": {
+          "type": "boolean",
+          "default": false,
+          "description": "Keep empty lines in generated SSML."
+        }
+      }
+    },
     "keybindings": [
       {
         "command": "extension.speechmarkdownpreview",
-        "key": "ctrl+shift+l",       
+        "key": "ctrl+shift+l",
         "when": "editorHasSelection"
       }
     ],
     "commands": [
       {
-          "command": "extension.speechmarkdownpreview", 
-          "title": "Speech Markdown to SSML",
-          "category": "Speech Markdown"
+        "command": "extension.speechmarkdownpreview",
+        "title": "Speech Markdown to SSML",
+        "category": "Speech Markdown"
       }
     ],
     "menus": {
-        "editor/context": [
-            {
-                "command": "extension.speechmarkdownpreview",
-                "group": "speechmarkdown@1",
-                "when": "editorHasSelection"
-            }
-        ]
+      "editor/context": [
+        {
+          "command": "extension.speechmarkdownpreview",
+          "group": "speechmarkdown@1",
+          "when": "editorHasSelection"
+        }
+      ]
     },
     "languages": [
       {

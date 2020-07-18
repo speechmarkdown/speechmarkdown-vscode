@@ -14,9 +14,13 @@ export default class  {
 	  const speech = new SpeechMarkdown();
 
 	  let speechOpts :  SpeechOptions = { platform: "amazon-alexa" };
-	  speechOpts.includeSpeakTag = false;
-	  
-	  var output : string = 'Speech Mardown text: \n';		 
+
+      speechOpts.includeParagraphTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeParagraphTags');
+	  speechOpts.includeSpeakTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeSpeakTags');
+	  speechOpts.includeFormatterComment = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeFormatterComment');
+	  speechOpts.preserveEmptyLines = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.preserveEmptyLines');
+
+	  var output : string = 'Speech Mardown text: \n';
 	  
 	  if(smdText.length == 0)
 	  {
@@ -39,7 +43,7 @@ export default class  {
 			speechOut = ex;
 		}
 
-		output +='\n\nAlexa: \n';
+		output +='\nAlexa: \n';
 		output +=speechOut;
 		output +='\n';
 

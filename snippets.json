@@ -69,11 +69,6 @@
     "body": "(${TM_SELECTED_TEXT})[address]",
     "description": "Speaks the selected text as a street address."
   },
-  "cardinal": {
-    "prefix": "smd cardinal",
-    "body": "(${TM_SELECTED_TEXT})[cardinal]",
-    "description": "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc."
-  },
   "expletive": {
     "prefix": "smd expletive",
     "body": "(${TM_SELECTED_TEXT})[expletive]",
@@ -142,7 +137,7 @@
   "number": {
     "prefix": "smd number",
     "body": "(${TM_SELECTED_TEXT})[number]",
-    "description": "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc. (same as cardinal)"
+    "description": "Speaks a number as a cardinal: one, twenty, twelve thousand three hundred forty five, etc."
   },
   "break ms": {
     "prefix": "smd break short",
