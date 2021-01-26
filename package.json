@@ -13,13 +13,13 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "preview": false,
   "author": {
     "name": "johniwasz"
   },
   "engines": {
-    "vscode": "^1.32.0"
+    "vscode": "^1.40.0"
   },
   "categories": [
     "Snippets",
@@ -156,7 +156,7 @@
   },
   "devDependencies": {
     "@types/node": "^14.14.22",
-    "@types/vscode": "^1.52.0",
+    "@types/vscode": "^1.40.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "eslint": "^7.18.0",
