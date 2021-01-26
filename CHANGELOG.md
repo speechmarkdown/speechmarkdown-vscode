@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Known issue with phonemes in ipa tags that include quotes
 
+## [0.0.9] - 2021-01-26
+
+- Upgraded speechmarkdown-js to 1.8
+
 ## [0.0.9] - 2020-07-17
 
 - Removed support for cardinal modifier as it is not supported in SpeechMarkdown

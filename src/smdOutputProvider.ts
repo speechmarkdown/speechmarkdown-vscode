@@ -36,7 +36,7 @@ export default class  {
 		
 		try
 		{
-			speechOut = speech.toSSML(smdText, speechOpts);	 
+			speechOut = speech.toSSML(smdText, speechOpts);	 			
 		}
 		catch(ex)
 		{

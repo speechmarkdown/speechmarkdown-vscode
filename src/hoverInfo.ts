@@ -76,7 +76,14 @@ export class SPHoverInfo {
   }
 
   GetMarkdown(): vscode.MarkdownString {
-    let markdownText: string = "**" + this.names.join(" /") + "**  \n \n";
+    let labelList: Array<string> = [];
+
+    this.names.forEach(function (speechPart)
+    {
+      labelList.push(speechPart.element);      
+    });
+
+    let markdownText: string = "**" + labelList.join("/") + "**  \n \n";
 
     markdownText = markdownText + this.description + " \n \n";
 
