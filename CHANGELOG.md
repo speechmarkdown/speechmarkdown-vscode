@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Known issue with phonemes in ipa tags that include quotes
 
+## [0.0.11] - 2022-12-08
+
+- Upgraded to speech-markdown 2.0.0
+- Upgraded dependent libraries to latest
+- Updated hover over information to be current with speech-markdown 2.0.0
+- Added support for the following providers for "Speech Markdown to SSML" context menu:
+  - amazon-polly
+  - amazon-polly-neural
+  - microsoft-azure
+
 ## [0.0.10] - 2021-01-26
 
 - Upgraded speechmarkdown-js to 1.8

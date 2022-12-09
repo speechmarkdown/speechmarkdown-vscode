@@ -4,22 +4,14 @@ import { ProviderResult, Event } from "vscode";
 import { SpeechMarkdown } from "speechmarkdown-js";
 import { SpeechOptions } from "speechmarkdown-js/dist/src/SpeechOptions";
 
-
 const outChannel = vscode.window.createOutputChannel('Speech Markdown');
+const speech = new SpeechMarkdown();
 
 export default class  {
 
+
 	public displaySSMLText(smdText : string) {
-	
-	  const speech = new SpeechMarkdown();
-
-	  let speechOpts :  SpeechOptions = { platform: "amazon-alexa" };
-
-      speechOpts.includeParagraphTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeParagraphTags');
-	  speechOpts.includeSpeakTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeSpeakTags');
-	  speechOpts.includeFormatterComment = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeFormatterComment');
-	  speechOpts.preserveEmptyLines = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.preserveEmptyLines');
-
+		  
 	  var output : string = 'Speech Mardown text: \n';
 	  
 	  if(smdText.length == 0)
@@ -31,65 +23,20 @@ export default class  {
 
 		output += smdText;
 		output += '\n------------------------\n';
-		
-		var speechOut : string = '';
-		
-		try
-		{
-			speechOut = speech.toSSML(smdText, speechOpts);	 			
-		}
-		catch(ex)
-		{
-			speechOut = ex;
-		}
 
-		output +='\nAlexa: \n';
-		output +=speechOut;
-		output +='\n';
+		output += GetSSML(smdText, 'Amazon Alexa', 'amazon-alexa');
 
+		output += GetSSML(smdText, 'Amazon Polly', 'amazon-polly');
 
-		speechOpts.platform = "google-assistant";
-		try
-		{
-			speechOut = speech.toSSML(smdText, speechOpts);	 
-		}
-		catch(ex)
-		{
-			speechOut = ex;
-		}
+		output += GetSSML(smdText, 'Amazon Polly Neural', 'amazon-polly-neural');
 
-		output +='\n\nGoogle Assistant: \n';
-		output +=speechOut;
-		output +='\n';
+		output += GetSSML(smdText, 'Microsoft Azure', 'microsoft-azure');
 
+		output += GetSSML(smdText, 'Samsung Bixby', 'samsung-bixby');
 
-		speechOpts.platform = "samsung-bixby";
-		try
-		{
-			speechOut = speech.toSSML(smdText, speechOpts);	 
-		}
-		catch(ex)
-		{
-			speechOut = ex;
-		}
+		output += GetSSML(smdText, 'Google Assistant', 'google-assistant');
 
-		output +='\nSamsung Bixby: \n';
-		output +=speechOut;
-		output +='\n';
-
-
-		try
-		{
-			speechOut = speech.toSSML(smdText);	 
-		}
-		catch(ex)
-		{
-			speechOut = ex;
-		}
-
-		output +='\nPlain Text: \n';
-		output +=speechOut;
-		output +='\n';
+		output += GetSSML(smdText, 'Plain Text');
 
 	  }
   	  outChannel.clear();
@@ -98,3 +45,37 @@ export default class  {
 	}
 
   };
+
+function GetSSML(smdText: string, assistantLabel: string, platform?: string) {
+	
+	let output : string = '';
+	var speechOut : string;
+	
+	let speechOpts : SpeechOptions = { platform : platform };
+
+	speechOpts.includeParagraphTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeParagraphTags');
+	speechOpts.includeSpeakTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeSpeakTags');
+	speechOpts.includeFormatterComment = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeFormatterComment');
+	speechOpts.preserveEmptyLines = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.preserveEmptyLines');
+	
+	try {
+		speechOut = speech.toSSML(smdText, speechOpts);
+	}
+	catch (ex) {
+        if (ex instanceof Error) 
+		{
+			speechOut = ex.name + ': ' + ex.message + ' \n';
+			if (ex.stack !== undefined)
+				speechOut += ex.stack;
+		}
+		else
+		{
+			speechOut = String(ex);
+		}
+	}
+
+	output += '\n' + assistantLabel +': \n';
+	output += speechOut;
+	output += '\n';
+	return output;
+}

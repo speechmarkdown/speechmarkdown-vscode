@@ -16,9 +16,12 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SSML). Selecting Speech Markdown in an editor, right-clicking and selecting the "Speech Markdown to SSML" menu option provides SSML output for all supported platforms. At the time of this release (v0.0.8) this includes:
 
-- Alexa
-- Google Assistant
+- Amazon Alexa
+- Amazon Polly
+- Amazon Polly Neural
+- Microsoft Azure
 - Samsung Bixby
+- Google Assistant
 - Plain Text
 
 The resulting SSML is displayed in the Speech Markdown output channel.

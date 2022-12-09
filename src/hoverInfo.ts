@@ -2,11 +2,17 @@ import * as vscode from "vscode";
 
 export enum SPModifierType
 {
-
   Simple = 1,
   Adjunct = 2,
   Short = 3,
   SingleBracket = 4
+}
+
+export enum SPSupportType
+{
+  NotSupported = 0,
+  PartiallySupported = 1,
+  Supported = 2
 }
 
 export class SPSnippet 
@@ -55,22 +61,31 @@ export class SPElement {
 export class SPHoverInfo {
   markdownElements: SPElement[];
 
-  hasAlexaSupport: boolean;
+  hasAlexaSupport: SPSupportType;
+  hasPollySupport: SPSupportType;
+  hasPollyNeuralSupport: SPSupportType;
+  hasMicrosoftAzureSupport: SPSupportType;
+  hasGoogleSupport: SPSupportType;
+  hasBixbySupport: SPSupportType;
 
-  hasGoogleSupport: boolean;
-  hasBixbySupport: boolean;
 
   descriptionText: string;
   constructor(
     public names: SPElement[],
     public description: string,
-    public alexaSupport: boolean,
-    public googleSupport: boolean,
-    public bixbySupport: boolean
+    public alexaSupport: SPSupportType,
+    public googleSupport: SPSupportType,
+    public bixbySupport: SPSupportType,
+    public pollySupport: SPSupportType,
+    public pollyNeuralSupport: SPSupportType,
+    public azureSupport: SPSupportType
   ) {
     this.markdownElements = names;
     this.descriptionText = description;
     this.hasAlexaSupport = alexaSupport;
+    this.hasPollySupport = pollySupport;
+    this.hasPollyNeuralSupport = pollyNeuralSupport;
+    this.hasMicrosoftAzureSupport = azureSupport;
     this.hasGoogleSupport = googleSupport;
     this.hasBixbySupport = bixbySupport;
   }
@@ -89,20 +104,19 @@ export class SPHoverInfo {
 
     markdownText = markdownText + "--- \n \n";
 
-    markdownText = markdownText + "Alexa: ";
+    markdownText = markdownText + "Alexa: " + this.GetSupport(this.hasAlexaSupport);
 
-    if (this.hasAlexaSupport) markdownText = markdownText + "_supported_  \n";
-    else markdownText = markdownText + "_not supported_  \n";
+    markdownText = markdownText + ", Polly: " + this.GetSupport(this.hasPollySupport);
 
-    markdownText = markdownText + "Google Actions: ";
+    markdownText = markdownText + ", Polly Neural: " + this.GetSupport(this.hasPollyNeuralSupport);
 
-    if (this.hasGoogleSupport) markdownText = markdownText + "_supported_  \n";
-    else markdownText = markdownText + "_not supported_  \n";
+    markdownText = markdownText + ", Azure: " + this.GetSupport(this.hasMicrosoftAzureSupport);
 
-    markdownText = markdownText + "Bixby: ";
+    markdownText = markdownText + ", Samsung Bixby: " + this.GetSupport(this.hasBixbySupport);
 
-    if (this.hasBixbySupport) markdownText = markdownText + "_supported_  \n";
-    else markdownText = markdownText + "_not supported_  \n";
+    markdownText = markdownText + ", Google Actions: " + this.GetSupport(this.hasGoogleSupport);
+
+    
 
     let retMarkdown: vscode.MarkdownString = new vscode.MarkdownString(
       markdownText
@@ -110,6 +124,27 @@ export class SPHoverInfo {
 
     return retMarkdown;
   }
+
+
+  GetSupport(supportType: SPSupportType) : string
+  {
+    var retVal : string;
+
+    switch(supportType)
+    {
+      case SPSupportType.NotSupported:
+        retVal = "_not supported_";
+        break;  
+      case SPSupportType.PartiallySupported:
+        retVal = "_partially supported_";
+        break;
+      case SPSupportType.Supported:
+        retVal = "_supported_";
+        break;
+    }
+    return retVal;
+  }
+
 }
 
 
@@ -117,32 +152,44 @@ export var hoverInfoArr: SPHoverInfo[] = [
   new SPHoverInfo(
     [ new SPElement("address", [  new SPSnippet("address", "address", true, false, false, false) ])],
     "Speaks the value as a street address. \n ```text \n I'm at (150th CT NE, Redmond, WA)[address]. \n ```",
-    true,
-    false,
-    true
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
   ),
   new SPHoverInfo(
     [new SPElement("audio", [  ])],
     'Plays short, pre-recorded audio.  \n ```text \n !["https://intro.mp3"] \n Welcome back. \n ```',
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
   ),
   new SPHoverInfo(
     [new SPElement("break", [ new SPSnippet("break", "break:'${1|none,x-weak,weak,medium,strong,x-strong|}'", false, false, false, true),
        new SPSnippet("break short", "$0ms", false, false, false, true)
       ])],
     'A pause in speech. \n ```text \n Step 1, take a deep breath. [200ms] \n Step 2, exhale. \n Step 3, take a deep breath again. [break:"weak"] \n Step 4, exhale. \n ```',
-    true,
-    true,
-    false
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
   ),
   new SPHoverInfo(
     [new SPElement("characters", [new SPSnippet("characters", "characters", true, false, false, false)])],
     "Speaks a number or text as individual characters. \n ```text \n Countdown: (321)[characters] \n The word is spelled: (park)[chars] \n ```",
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
   ),
 
   new SPHoverInfo(
@@ -157,9 +204,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "``` \n" +
       "The following format values are accepted: mdy, dmy, ydm, md, dm, ym, my, y, m, d \n \n" +
       "ydm (not supported by Alexa)",
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
   ),
 
   new SPHoverInfo(
@@ -171,9 +221,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'We can switch (from disappointed)[disappointed] to (really disappointed)[disappointed:"high"]. \n' +
       "``` \n \n" +
       "Set intensity to: low, medium (default), high",
-    true,
-    false,
-    false
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
   new SPHoverInfo(
     [new SPElement("defaults", [ new SPSnippet("defaults", "defaults", false, false, true, false)])],
@@ -185,9 +238,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "#[defaults] \n" +
       "Now back to normal speech. \n" +
       "```",
-    true,
-    false,
-    false
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
   new SPHoverInfo(
     [new SPElement("dj",[ new SPSnippet("dj", "dj", false, false, true, false)])],
@@ -199,17 +255,23 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "#[defaults] \n" +
       "Now back to normal speech. \n" +
       "```",
-    true,
-    false,
-    false
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
 
   new SPHoverInfo(
     [new SPElement("emphasis", [ new SPSnippet("emphasis", "emphasis:'${1|strong,moderate,redurced,none|}'", true, false, false, false), new SPSnippet("emphasis (short)", "emphasis", true, false, false, false)])],
     'Add or remove emphasis from a word or phrase. \n ```text \n A (strong)[emphasis:"strong"] level \n ```',
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
 
   new SPHoverInfo(
@@ -221,9 +283,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "I am excited - high. \n \n" +
       'We can switch (from excited)[excited] to (really excited)[excited:"high"]. \n' +
       "```",
-    true,
-    false,
-    false
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
 
   new SPHoverInfo(
@@ -233,9 +298,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "You can't say (word)[bleep] on TV. \n" +
       "You said (word)[bleep] and (word)[expletive] at school. \n" +
       "```",
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
   ),
 
   new SPHoverInfo(
@@ -245,9 +313,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "Add (2/3)[fraction] cup of milk. \n" +
       "Add (1+1/2)[fraction] cups of flour. \n " +
       "```",
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
 
 
@@ -258,9 +329,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "```text \n" +
       "(Wow)[interjection], I didn't see that coming. \n" +
       "```",
-    true,
-    false,
-    false
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
   ),
   new SPHoverInfo(
     [new SPElement("ipa", [ new SPSnippet("ipa", "ipa:'$0'", true, false, false, false)   ])],
@@ -269,9 +343,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'You say, (pecan)[ipa:"pɪˈkɑːn"]. \n' +
       "I say, (pecan)[/ˈpi.kæn/]. \n" +
       "```",
-    true,
-    false,
-    true
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
   new SPHoverInfo(
     [new SPElement("lang", [ new SPSnippet("lang", " lang:'${1|en-US,en-AU,en-GB,en-IN,de-DE,es-ES,it-IT,ja-JP,fr-FR|}'", true, true, false, false) ])],
@@ -280,12 +357,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       '#[voice:"Brian";lang:"en-GB"] \n \n' +
       'In Paris, they pronounce it (Paris)[lang:"fr-FR"]. \n' +
       "```",
-    true,
-    false,
-    false
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.PartiallySupported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.PartiallySupported,
   ),
-
-
   new SPHoverInfo(
     [new SPElement("newscaster", [new SPSnippet("newscaster", "newscaster", false, false, true, false)])],
     "Sets the spoken text similar to how a news announcer would speak them. \n \n" +
@@ -293,11 +371,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "#[newscaster] \n" +
       "Switching to a news announcer. \n" +
       "```",
-    true,
-    false,
-    false
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   ),
-
   new SPHoverInfo(
     [new SPElement("ordinal", [ new SPSnippet("ordinal", "ordinal", true, false, false, false)])],
     "Speaks a number as an ordinal: first, second, third, etc. \n \n" +
@@ -305,11 +385,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "The others came in 2nd and (3)[ordinal]. \n" +
       "Your rank is (123)[ordinal]. \n" +
       "```",
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
   ),
-
   new SPHoverInfo(
     [new SPElement("phone", 
       [ new SPSnippet("phone", "phone", true,false, false, false), 
@@ -328,11 +410,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "The number is ((888) 555-1212)[phone]. \n" +
       "``` \n \n" +
       'Some implementations of SSML (Google Actions) need a country code set as a **format** attribute. If no format is included, the default is "1".',
-    true,
-    true,
-    true
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
+    SPSupportType.Supported,
   ),
-
   new SPHoverInfo(
     [new SPElement("pitch", [ new SPSnippet("pitch", "pitch:'${1|x-low,low,medium,high,x-high|}'", true, true, false, false)])],
     "Raise or lower the tone (pitch) of the speech. \n \n" +
@@ -341,11 +425,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'I can combine (multiple values)[pitch:"low";rate:"slow";volume:"loud";voice:"Brian"] at once. \n' +
       "``` \n \n" +
       "Possible values: x-low, low, medium (default), high, x-high",
-    true,
-    true,
-    true
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.NotSupported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
   ),
-
   new SPHoverInfo(
     [new SPElement("rate", [ new SPSnippet("rate", "rate:'${1|x-slow,slow,medium,fast,x-fast|}'", true, true, false, false)])],
     "Modify the rate of the speech. \n \n" +
@@ -354,9 +440,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'I can combine (multiple values)[pitch:"low";rate:"slow";volume:"loud";voice:"Brian"] at once. \n' +
       "``` \n \n" +
       "Possible values: x-low, low, medium (default), high, x-high",
-    true,
-    true,
-    true
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
   ),
 
   new SPHoverInfo(
@@ -366,11 +455,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'My favorite chemical element is (Al)[sub:"aluminum"], \n' +
       'but Al prefers (Mg)["magnesium"]. \n' +
       "```",
-    true,
-    true,
-    true
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
   ),
-
   new SPHoverInfo(
     [new SPElement("time", [ new SPSnippet("time", "time:'${1|hms12,hms24|}'", true, false, false, false)])],
     "Speak the value as a time. \n \n" +
@@ -379,11 +470,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'The time is (2:30pm)[time:"hms24"]. \n' +
       "``` \n \n" +
       "Some implementations of SSML (Google Assistant) need a value the **format** attribute: hms12, hms24",
-    true,
-    true,
-    true
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.NotSupported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
   ),
-
   new SPHoverInfo(
     [new SPElement("unit", [new SPSnippet("unit", "unit", true, false, false, false)])],
     "Speaks the value as a unit. Can be a number and unit or just a unit. \n " +
@@ -392,11 +485,13 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "```text \n" +
       "I would walk (500 mi)[unit] \n" +
       "```",
-    true,
-    true,
-    true
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.NotSupported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
   ),
-
   new SPHoverInfo(
     [new SPElement("voice", [ 
       new SPSnippet("voice", "voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew,Salli,Nicole,Russell,Amy,Brian,Emma,Aditi,Raveena,Hans,Marlene,Vicki,Conchita,Enrique,Carla,Giorgio,Mizuki,Takumi,Celine,Lea,Mathieu|}'", true, false, true, false),
@@ -420,9 +515,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'Why do you keep switching voices (from one)[voice:"Brian"] (to the other)[voice:"Kendra"]? \n' +
       "``` \n \n" +
       "The **device** value removes any overrides, therefore using the device settings.",
-    true,
-    false,
-    false
+    SPSupportType.Supported,
+    SPSupportType.PartiallySupported,
+    SPSupportType.NotSupported,
+    SPSupportType.PartiallySupported,
+    SPSupportType.PartiallySupported,
+    SPSupportType.PartiallySupported,
   ),
 
   new SPHoverInfo(
@@ -435,9 +533,12 @@ export var hoverInfoArr: SPHoverInfo[] = [
       'I can combine (multiple values)[pitch:"low";rate:"slow";volume:"loud";voice:"Brian"] at once. \n' +
       "``` \n \n" +
       "Possible values: silent, x-soft, soft, medium (default), loud, x-loud",
-    true,
-    true,
-    true
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
+      SPSupportType.Supported,
   ),
 
   new SPHoverInfo(
@@ -449,8 +550,11 @@ export var hoverInfoArr: SPHoverInfo[] = [
       "``` \n \n" +
       "Since Google Assistant doesn’t have a whisper effect, through a configuration setting, you can either ignore the tag. Or use the **prosidy** tag.",
 
-    true,
-    false,
-    true
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.Supported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
+    SPSupportType.NotSupported,
   )
 ];

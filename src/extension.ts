@@ -8,9 +8,6 @@ import smdOutputProvider from "./smdOutputProvider";
 
 let jsCentralProvider = new JSHoverProvider();
 
-
-
-
 export function activate(context: vscode.ExtensionContext) {
 
   try
