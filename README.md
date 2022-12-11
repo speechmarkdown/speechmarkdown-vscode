@@ -7,6 +7,7 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 ## Features
 
 - [Speech Markdown Preview](#speech-markdown-preview)
+- [Speech Markdown Playback](#speech-markdown-playback)
 - [IntelliSense](#intellisense)
 - [Syntax Highlighting](#syntax-highlighting)
 - [Hover over](#hover-over)
@@ -33,6 +34,18 @@ For those that prefer keyboard shortcuts, use Ctrl+Shift+L.
 By default, the starting and ending speak tags are included in the output. This can be disabled in Settings -> Extensions -> SpeechMarkdown -> Include Speak Tags. Here are the current configuration options:
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/config01.png" width="75%" alt="Configuration"/>
+
+### Speech Markdown Playback
+
+Play SSML generated from Speech Markdown. Highlight and select Speech Markdown in the editor, right-click for a context menu and select either:
+
+- Speak Selected SSML (Amazon Polly)
+- Speak Selected SSML (Amazon Neural)
+
+This will invoke the Amazon Polly API and play the generated MP3 file from your system's default MP3 player. In order to authenticate, you need an AWS account and your credentials:
+
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/awsconfig.png" width="75%" alt="AWS Configuration"/>
+
 
 ### IntelliSense
 
@@ -64,7 +77,7 @@ Languages that support Speech Markdown syntax highlighting are:
 
 Hover over the mark up text for additional information.
 
-<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/hoverover.png" width="50%" alt="Hover over example"/>
+<img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/hoverover.png" width="80%" alt="Hover over example"/>
 
 ### Snippets
 
