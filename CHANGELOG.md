@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Known issue with phonemes in ipa tags that include quotes
 
+## [0.0.12] - 2022-12-11
+
+- Play SSML generated from Speech Markdown through Amazon Polly or Amazon Polly Neural
+
 ## [0.0.11] - 2022-12-08
 
 - Upgraded to speech-markdown 2.0.0

@@ -13,7 +13,7 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "preview": false,
   "author": {
     "name": "johniwasz"
@@ -87,6 +87,48 @@
           "type": "boolean",
           "default": false,
           "description": "Keep empty lines in generated SSML."
+        },
+        "speechmarkdown.aws.accessKeyId": {
+          "type": "string",
+          "default": "",
+          "description": "AWS account access key id. If blank, then the AWS_ACCESS_KEY_ID is used."
+        },
+        "speechmarkdown.aws.secretAccessKey": {
+          "type": "string",
+          "default": "",
+          "description": "AWS account secret access key. If blank, then the AWS_SECRET_ACCESS_KEY environment variable is used."
+        },
+        "speechmarkdown.aws.region": {
+          "type": "string",
+          "enum": [
+            "",
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "af-south-1",
+            "ap-east-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ca-central-1",
+            "eu-central-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "eu-north-1",
+            "me-south-1",
+            "sa-east-1",
+            "us-gov-west-1"
+          ],
+          "default": "us-east-1",
+          "markdownDescription": "[AWS Regions](https://docs.aws.amazon.com/general/latest/gr/pol.html) that support Polly. Not all AWS regions support Polly. If the setting is blank, then the AWS_DEFAULT_REGION environment variable is used."
+        },
+        "speechmarkdown.aws.pollyDefaultVoice": {
+          "type": "string",
+          "default": "Kendra",
+          "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
         }
       }
     },
@@ -102,12 +144,32 @@
         "command": "extension.speechmarkdownpreview",
         "title": "Speech Markdown to SSML",
         "category": "Speech Markdown"
+      },
+      {
+        "command": "extension.speechmarkdownspeakpolly",
+        "title": "Speak Selected SSML (Amazon Polly)",
+        "category": "Speech Markdown"
+      },
+      {
+        "command": "extension.speechmarkdownspeakpollyneural",
+        "title": "Speak Selected SSML (Amazon Neural)",
+        "category": "Speech Markdown"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "extension.speechmarkdownpreview",
+          "group": "speechmarkdown@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "extension.speechmarkdownspeakpolly",
+          "group": "speechmarkdown@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "extension.speechmarkdownspeakpollyneural",
           "group": "speechmarkdown@1",
           "when": "editorHasSelection"
         }
@@ -156,6 +218,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.12",
+    "@types/tmp": "^0.2.3",
     "@types/vscode": "^1.70.0",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
@@ -187,7 +250,10 @@
     }
   ],
   "dependencies": {
+    "@aws-sdk/client-polly": "^3.226.0",
+    "fs": "^0.0.1-security",
     "minimist": "^1.2.7",
-    "speechmarkdown-js": "^2.0.0"
+    "speechmarkdown-js": "^2.0.0",
+    "tmp": "^0.2.1"
   }
 }
