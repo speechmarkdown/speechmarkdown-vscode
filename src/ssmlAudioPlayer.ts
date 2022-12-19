@@ -21,7 +21,7 @@ export class SSMLAudioPlayer {
 
 	public static async getSSMLSpeechAsync(smdText : string, engineType: Engine) {
 		  
-	  var output : string = 'Speech Mardown text: \n';
+	  var output : string = 'Speech Markdown text: \n';
 	  
 
 	  if(smdText.length == 0)

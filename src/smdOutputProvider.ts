@@ -11,7 +11,7 @@ export class SMLTextWriter {
 
 	public static displaySSMLText(smdText : string) {
 		  
-	  var output : string = 'Speech Mardown text: \n';
+	  var output : string = 'Speech Markdown text: \n';
 	  
 	  if(smdText.length == 0)
 	  {
