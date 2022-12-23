@@ -18,7 +18,6 @@ const outChannel = vscode.window.createOutputChannel('Speech Markdown');
 
 export class SSMLAudioPlayer {
 
-
 	public static async getSSMLSpeechAsync(smdText : string, engineType: Engine) {
 		  
 	  var output : string = 'Speech Markdown text: \n';
@@ -100,10 +99,10 @@ export class SSMLAudioPlayer {
 
 			try {			
 				let client : PollyClient = new PollyClient({ region: awsRegion,
-				credentials: {
-					accessKeyId: awsAccessKeyId,
-					secretAccessKey: awsSecretKey
-				}		
+					credentials: {
+						accessKeyId: awsAccessKeyId,
+						secretAccessKey: awsSecretKey
+					}		
 				});
 
 				let synthCommandInp : SynthesizeSpeechCommandInput = { OutputFormat: 'mp3', Text: ssmlText, VoiceId: pollyVoice, TextType: TextType.SSML, Engine: Engine.STANDARD};
@@ -123,8 +122,6 @@ export class SSMLAudioPlayer {
 					output += String(err);
 					console.error(err);
 				}
-			} finally {
-				// finally.
 			}
 		}
 	  }
@@ -146,43 +143,47 @@ export class SSMLAudioPlayer {
 			commandOutput.AudioStream.on('data', chunk => {
 				writableStream.write(chunk);
 			});
+			
+			// First, we need to wait for the command output to end
+			// before playing the audio.
+			commandOutput.AudioStream.on('end',  () =>
+			{
 
+			  writableStream.close((err?: NodeJS.ErrnoException | null) => {
 
-	  
-			writableStream.close((err?: NodeJS.ErrnoException | null) => {
-		
-			var cmd: string;
-	
-			switch (process.platform) {
-				case 'darwin': {
-					cmd = `osascript -e 'tell application "QuickTime Player"' -e 'set theMovie to open POSIX file "${outfile}"' -e 'tell theMovie to play' -e 'end tell'`;
-					break;
-				}
-				case 'win32': {
-					cmd = `start ${outfile}`;
-					break;
-				}
-				default: {
-					cmd = `xdg-open ${outfile}`;
-					break;
-				}
-			}
+				var cmd: string;
 
-			outChannel.appendLine(`Open command: ${cmd}`);
-					
-			child.exec(cmd, {}, (err: Error | null, stdout: string, stderr: string) => {
-				if (err) {
-					//vscode.window.showErrorMessage(`Launch error: ${err}`);
-					outChannel.appendLine(`Launch stdout: ${stdout}`);		
-					console.error(err, err.stack);
-	
-					fs.unlink(outfile, (err) => {
-						if (err) throw err;
-						outChannel.appendLine(`${outfile}  was deleted\n`);
-					});
+				switch (process.platform) {
+				  case 'darwin': {
+					  cmd = `osascript -e 'tell application "QuickTime Player"' -e 'set theMovie to open POSIX file "${outfile}"' -e 'tell theMovie to play' -e 'end tell'`;
+					  break;
+				  }
+				  case 'win32': {
+					  cmd = `start ${outfile}`;
+					  break;
+				  }
+				  default: {
+					  cmd = `xdg-open ${outfile}`;
+					  break;
+				  }
 				}
-				});
-			}); 
+
+				outChannel.appendLine(`Open command: ${cmd}`);
+
+				child.exec(cmd, {}, (err: Error | null, stdout: string, stderr: string) => {
+					if (err) {
+						//vscode.window.showErrorMessage(`Launch error: ${err}`);
+						outChannel.appendLine(`Launch stdout: ${stdout}`);		
+						console.error(err, err.stack);
+
+						fs.unlink(outfile, (err) => {
+						  if (err) throw err;
+						  outChannel.appendLine(`${outfile}  was deleted\n`);
+						});
+					}
+				  });
+				}); 
+			});
 		}
 	}
   }
