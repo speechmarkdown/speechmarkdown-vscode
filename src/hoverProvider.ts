@@ -90,7 +90,7 @@ provideCompletionItems(
 		snippetItems.forEach(i => {
 			retResults.items.push(i);	
 
-		})
+		});
 			
 		retResults.isIncomplete = false;
 
