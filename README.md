@@ -6,12 +6,17 @@ This extentsion supports snippets, hover-over, syntax highlighting of Speech Mar
 
 ## Features
 
-- [Speech Markdown Preview](#speech-markdown-preview)
-- [Speech Markdown Playback](#speech-markdown-playback)
-- [IntelliSense](#intellisense)
-- [Syntax Highlighting](#syntax-highlighting)
-- [Hover over](#hover-over)
-- [Comprehensive Snippets](#snippets)
+- [Speech Markdown](#speech-markdown)
+  - [Features](#features)
+    - [Speech Markdown Preview](#speech-markdown-preview)
+    - [Speech Markdown Playback](#speech-markdown-playback)
+    - [IntelliSense](#intellisense)
+    - [Syntax Highlighting](#syntax-highlighting)
+    - [Hover Over](#hover-over)
+    - [Snippets](#snippets)
+      - [Text Selection](#text-selection)
+      - [Insert Snippet](#insert-snippet)
+      - [Enable Intellisense in TypeScript and JavaScript](#enable-intellisense-in-typescript-and-javascript)
 
 ### Speech Markdown Preview
 
@@ -278,13 +283,12 @@ By default Visual Studio Code does not provide IntelliSense handling in strings.
 
 [TS/JS Path Quick Suggestion IntelliSense Does Not Work Unless QuickSuggestions.strings is enabled #23962](https://github.com/microsoft/vscode/issues/23962)
 
-**NOTE:** IntelliSense in strings is _not_ available in JSON or YAML. If you wish to use Intellisense
-in JSON files you can temporarily change the file extension to _js_.
+**NOTE:** IntelliSense in strings is _not_ available in JSON or YAML. If you wish to use Intellisense in JSON files you can temporarily change the file extension to _js_.
 
-If you wish to enabled IntelliSense in strings, then apply the following settings to your project folder.
+If you wish to enabled IntelliSense in strings apply the following settings to your project folder.
 
 1. Create a .vscode folder
-2. Ad the following settings a new settings.json file:
+2. Add the following settings to a new settings.json file:
 
 ```json
  "editor.quickSuggestions": {
@@ -296,6 +300,6 @@ If you wish to enabled IntelliSense in strings, then apply the following setting
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/enableperproject.png" width="80%" alt="Intellisense Directions"/>
 
-Once configured, then IntelliSense works in JavaScript and TypeScript:
+Once configured, IntelliSense works in JavaScript and TypeScript:
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="80%" alt="IntelliSense Sample Snippets"/>

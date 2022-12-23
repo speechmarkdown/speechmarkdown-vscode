@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Known issue with phonemes in ipa tags that include quotes
 
+## [0.0.13] - 2022-12-22
+- Fixed typos
+- Upgraded to speechmarkdown-js 2.1.0
+
 ## [0.0.12] - 2022-12-11
 
 - Play SSML generated from Speech Markdown through Amazon Polly or Amazon Polly Neural
@@ -17,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgraded to speech-markdown 2.0.0
 - Upgraded dependent libraries to latest
-- Updated hover over information to be current with speech-markdown 2.0.0
+- Updated hover over information to be current with speechmarkdown-js 2.0.0
 - Added support for the following providers for "Speech Markdown to SSML" context menu:
   - amazon-polly
   - amazon-polly-neural
