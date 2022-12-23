@@ -102,11 +102,5 @@ dist
 
 # TernJS port file
 .tern-port
-out/diagnostics.js
-out/diagnostics.js.map
-out/extension.js
-out/extension.js.map
-out/hoverInfo.js
-out/hoverInfo.js.map
-out/hoverinfo.json
-speechmarkdown-vscode-0.0.1.vsix
+out/**
+speechmarkdown-vscode-*.vsix

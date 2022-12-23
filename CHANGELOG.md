@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-- Known issue with phonemes in ipa tags that include quotes
+## [0.0.13] - 2022-12-23
+- Fixed typos
+- Upgraded to speechmarkdown-js 2.1.0
 
 ## [0.0.12] - 2022-12-11
 
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgraded to speech-markdown 2.0.0
 - Upgraded dependent libraries to latest
-- Updated hover over information to be current with speech-markdown 2.0.0
+- Updated hover over information to be current with speechmarkdown-js 2.0.0
 - Added support for the following providers for "Speech Markdown to SSML" context menu:
   - amazon-polly
   - amazon-polly-neural
