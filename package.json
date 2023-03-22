@@ -220,7 +220,7 @@
     "@types/node": "^18.15.5",
     "@types/tmp": "^0.2.3",
     "@types/vscode": "^1.76.0",
-    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.54.1",
     "eslint": "^8.36.0",
     "ts-loader": "^9.4.2",
