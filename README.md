@@ -1,22 +1,20 @@
 # Speech Markdown
 
-This extentsion supports snippets, hover-over, syntax highlighting of Speech Markdown. Speech Markdown is a text-to-speech formatting for content authors, designers, and developers. Converts to SSML while handling inconsistencies across Amazon Alexa & Google Assistant.
+This extension supports snippets, hover-over, and syntax highlighting of Speech Markdown. Speech Markdown is a text-to-speech formatting language for content authors, designers, and developers. It converts SpeechMarkdown to SSML while handling inconsistencies across a variety of voice assistants and SSML-to-voice engines.
 
 [Speech Markdown](https://speechmarkdown.org)
 
 ## Features
 
-- [Speech Markdown](#speech-markdown)
-  - [Features](#features)
-    - [Speech Markdown Preview](#speech-markdown-preview)
-    - [Speech Markdown Playback](#speech-markdown-playback)
-    - [IntelliSense](#intellisense)
-    - [Syntax Highlighting](#syntax-highlighting)
-    - [Hover Over](#hover-over)
-    - [Snippets](#snippets)
-      - [Text Selection](#text-selection)
-      - [Insert Snippet](#insert-snippet)
-      - [Enable Intellisense in TypeScript and JavaScript](#enable-intellisense-in-typescript-and-javascript)
+- [Speech Markdown Preview](#speech-markdown-preview)
+- [Speech Markdown Playback](#speech-markdown-playback)
+- [IntelliSense](#intellisense)
+- [Syntax Highlighting](#syntax-highlighting)
+- [Hover Over](#hover-over)
+- [Snippets](#snippets)
+  - [Text Selection](#text-selection)
+  - [Insert Snippet](#insert-snippet)
+  - [Enable Intellisense in TypeScript and JavaScript](#enable-intellisense-in-typescript-and-javascript)
 
 ### Speech Markdown Preview
 
@@ -50,7 +48,6 @@ Play SSML generated from Speech Markdown. Highlight and select Speech Markdown i
 This will invoke the Amazon Polly API and play the generated MP3 file from your system's default MP3 player. In order to authenticate, you need an AWS account and your credentials:
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/awsconfig.png" width="75%" alt="AWS Configuration"/>
-
 
 ### IntelliSense
 
