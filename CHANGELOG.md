@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.14] - 2023-03-25
+- Minor readme updates
+- Upgraded dependency versions
+- Added ap-south-1 to list of AWS regions in extension configuration
+- Required minimum 1.76.0 engines.vscode
+
 ## [0.0.13] - 2022-12-23
 - Fixed typos
 - Upgraded to speechmarkdown-js 2.1.0
