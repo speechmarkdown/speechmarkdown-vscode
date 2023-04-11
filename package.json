@@ -222,7 +222,7 @@
     "@types/vscode": "^1.77.0",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.58.0",
-    "eslint": "^8.36.0",
+    "eslint": "^8.38.0",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.3",
     "webpack": "^5.77.0",
