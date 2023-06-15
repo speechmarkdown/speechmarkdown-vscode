@@ -250,7 +250,7 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-polly": "^3.348.0",
+    "@aws-sdk/client-polly": "^3.350.0",
     "fs": "^0.0.1-security",
     "minimist": "^1.2.8",
     "speechmarkdown-js": "^2.1.0",
