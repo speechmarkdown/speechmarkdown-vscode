@@ -217,7 +217,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/node": "^20.8.10",
+    "@types/node": "^20.9.0",
     "@types/tmp": "^0.2.5",
     "@types/vscode": "^1.83.1",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
