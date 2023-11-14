@@ -221,7 +221,7 @@
     "@types/tmp": "^0.2.6",
     "@types/vscode": "^1.83.1",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
-    "@typescript-eslint/parser": "^6.10.0",
+    "@typescript-eslint/parser": "^6.11.0",
     "eslint": "^8.53.0",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
