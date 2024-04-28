@@ -7,7 +7,7 @@
   "emphasis": {
     "prefix": "smd emphasis",
     "body": [
-      "(${TM_SELECTED_TEXT})[emphasis:'${1|strong,moderate,redurced,none|}']"
+      "(${TM_SELECTED_TEXT})[emphasis:'${1|strong,moderate,reduced,none|}']"
     ],
     "description": "Add or remove emphasis from a word or phrase. Valid values are strong, moderate (default), reduced, none."
   },
@@ -151,8 +151,8 @@
   },
   "voice": {
     "prefix": "smd voice",
-   "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew,Salli,Nicole,Russell,Amy,Brian,Emma,Aditi,Raveena,Hans,Marlene,Vicki,Conchita,Enrique,Carla,Giorgio,Mizuki,Takumi,Celine,Lea,Mathieu|}']",
-   "description": "Apply voice modifier and use any Alexa voice. Valid values are Ivy,Joanna, Joey, Justin,Kendra, Kimberly, Matthew, Salli, Nicole, Russell, Amy, Brian, Emma, Aditi, Raveena, Hans, Marlene, Vicki, Conchita, Enrique, Carla, Giorgio, Mizuki, Takumi, Celine, Lea, and Mathieu."
+     "body": "#[voice:'${1|Aditi,Adriano,Amy,Andres,Aria,Arlet,Arthur,Astrid,Ayanda,Bianca,Brian,Burcu,Camila,Carla,Carmen,Celine,Chantal,Conchita,Cristiano,Daniel,Danielle,Dora,Elin,Emma,Enrique,Ewa,Filiz,Gabrielle,Geraint,Giorgio,Gregory,Gwyneth,Hala,Hannah,Hans,Hiujin,Ida,Ines,Isabelle,Ivy,Jacek,Jan,Joanna,Joey,Justin,Kajal,Karl,Kazuha,Kendra,Kevin,Kimberly,Laura,Lea,Liam,Lisa,Liv,Lotte,Lucia,Lupe,Mads,Maja,Marlene,Mathieu,Matthew,Maxim,Mia,Miguel,Mizuki,Naja,Niamh,Nicole,Ola,Olivia,Pedro,Penelope,Raveena,Remi,Ricardo,Ruben,Russell,Ruth,Salli,Seoyeon,Sergio,Sofie,Stephen,Suvi,Takumi,Tatyana,Thiago,Tomoko,Vicki,Vitoria,Zayd,Zeina,Zhiyu|}']",
+     "description": "Apply voice modifier and use any Alexa voice. Valid values are Aditi, Adriano, Amy, Andres, Aria, Arlet, Arthur, Astrid, Ayanda, Bianca, Brian, Burcu, Camila, Carla, Carmen, Celine, Chantal, Conchita, Cristiano, Daniel, Danielle, Dora, Elin, Emma, Enrique, Ewa, Filiz, Gabrielle, Geraint, Giorgio, Gregory, Gwyneth, Hala, Hannah, Hans, Hiujin, Ida, Ines, Isabelle, Ivy, Jacek, Jan, Joanna, Joey, Justin, Kajal, Karl, Kazuha, Kendra, Kevin, Kimberly, Laura, Lea, Liam, Lisa, Liv, Lotte, Lucia, Lupe, Mads, Maja, Marlene, Mathieu, Matthew, Maxim, Mia, Miguel, Mizuki, Naja, Niamh, Nicole, Ola, Olivia, Pedro, Penelope, Raveena, Remi, Ricardo, Ruben, Russell, Ruth, Salli, Seoyeon, Sergio, Sofie, Stephen, Suvi, Takumi, Tatyana, Thiago, Tomoko, Vicki, Vitoria, Zayd, Zeina, and Zhiyu."
   },
   "voice device": {
     "prefix": "smd voice device",
@@ -169,6 +169,11 @@
     "body": "#[voice:'${1|Amy,Brian,Emma|}';lang:'en-GB']",
     "description": "Apply voice modifier and limit to en-GB Alexa voices. Valid values are Amy, Brian, and Emma."
   },
+  "voice en-GB-WLS": {
+    "prefix": "smd voice en-GB-WLS",
+    "body": "#[voice:'${1|Geraint|}';lang:'en-GB-WLS']",
+    "description": "Apply voice modifier and limit to en-GB-WLS (Welsh) Alexa voices. Valid values are Geraint."
+  },
   "voice en-AU": {
     "prefix": "smd voice en-AU",
     "body": "#[voice:'${1|Nicole,Russell|}';lang:'en-AU']",
@@ -179,6 +184,11 @@
     "body": "#[voice:'${1|Aditi,Raveena|}';lang:'en-IN']",
     "description": "Apply voice modifier and limit to en-IN Alexa voices. Valid values are Aditi and Raveena."
   },
+  "voice hi-IN": {
+    "prefix": "smd voice hi-IN",
+    "body": "#[voice:'${1|Aditi|}';lang:'hi-IN']",
+    "description": "Apply voice modifier and limit to hi-IN Alexa voices. Valid value is Aditi."
+  },
   "voice de-DE": {
     "prefix": "smd voice de-DE",
     "body": "#[voice:'${1|Hans,Marlene,Vicki|}';lang:'de-DE']",
@@ -186,8 +196,13 @@
   },
   "voice es-ES": {
     "prefix": "smd voice es-ES",
-    "body": "#[voice:'${1|Conchita,Enrique|}';lang:'es-ES']",
-    "description": "Apply voice modifier and limit to es-ES Alexa voices. Valid values are Conchita and Enrique."
+    "body": "#[voice:'${1|Conchita,Enrique,Lucia|}';lang:'es-ES']",
+    "description": "Apply voice modifier and limit to es-ES Alexa voices. Valid values are Conchita, Enrique, and Lucia."
+  },
+  "voice fr-CA": {
+    "prefix": "smd voice fr-CA",
+    "body": "#[voice:'${1|Chantal|}';lang:'fr-CA']",
+    "description": "Apply voice modifier and limit to fr-CA Alexa voices. Valid values are Chantal and Enrique."
   },
   "voice it-IT": {
     "prefix": "smd voice it-IT",
@@ -203,5 +218,20 @@
     "prefix": "smd voice fr-FR",
     "body": "#[voice:'${1|Celine,Lea,Mathieu|}';lang:'fr-FR']",
     "description": "Apply voice modifier and limit to fr-FR Alexa voices. Valid values are Celine, Lea, and Mathieu."
+  },
+  "voice pt-BR": {
+    "prefix": "smd voice fr-FR",
+    "body": "#[voice:'${1|Vitoria,Camila,Ricardo|}';lang:'pt-BR']",
+    "description": "Apply voice modifier and limit to pt-BR Alexa voices. Valid values are Vitoria, Camila, and Ricardo."
+  },
+  "voice es-US": {
+    "prefix": "smd voice es-US",
+    "body": "#[voice:'${1|Penelope,Lupe,Miguel|}';lang:'es-US']",
+    "description": "Apply voice modifier and limit to es-US Alexa voices. Valid values are Penelope, Lupe, and Miguel."
+  },
+  "voice es-MX": {
+    "prefix": "smd voice es-MX",
+    "body": "#[voice:'${1|Mia|}';lang:'es-MX']",
+    "description": "Apply voice modifier and limit to es-MX Alexa voices. Valid value is Mia."
   }
 }

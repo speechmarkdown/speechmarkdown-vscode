@@ -3,7 +3,8 @@ import { PollyClient,
 	SynthesizeSpeechCommand,
 	SynthesizeSpeechCommandInput,
 	SynthesizeSpeechCommandOutput,
-    TextType
+    TextType,
+    VoiceId
 	 } from "@aws-sdk/client-polly";
 
 import { Readable } from "stream";
@@ -35,7 +36,7 @@ export class PollyAudioPlayer {
             } });
     }
 
-	public async getAudioStream(ssmlText : string, pollyVoice: string) : Promise<Readable> {
+	public async getAudioStream(ssmlText : string, pollyVoice: VoiceId) : Promise<Readable> {
 
         try {
         
