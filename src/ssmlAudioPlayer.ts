@@ -5,7 +5,7 @@ import { PollyClient,
 	SynthesizeSpeechCommand,
 	SynthesizeSpeechCommandInput,
 	SynthesizeSpeechCommandOutput, 
-	TextType, Engine,
+	TextType, Engine, VoiceId,
 	InvalidSsmlException} from "@aws-sdk/client-polly";
 
 import { SMLTextWriter } from "./smdOutputProvider";
@@ -42,6 +42,10 @@ export class SSMLAudioPlayer {
 				ssmlEngine = 'amazon-polly';
 				output += 'Using Amazon Polly Standard\n';
 				break;
+			default:
+				ssmlEngine = 'amazon-polly';
+				output += 'Using Amazon Polly Standard by default\n';
+				break;
 		}
 
 		var ssmlText = SMLTextWriter.GetSSML(smdText, ssmlEngine);
@@ -67,7 +71,7 @@ export class SSMLAudioPlayer {
 			awsSecretKey = process.env.AWS_SECRET_ACCESS_KEY;
 		}
 
-		let pollyVoice = <string>vscode.workspace.getConfiguration().get('speechmarkdown.aws.pollyDefaultVoice');
+		let pollyVoice = <VoiceId>vscode.workspace.getConfiguration().get('speechmarkdown.aws.pollyDefaultVoice');
 		
 		if (!awsAccessKeyId || !awsSecretKey || !awsRegion || !pollyVoice)
 		{
