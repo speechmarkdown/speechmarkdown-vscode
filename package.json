@@ -218,7 +218,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/vscode": "^1.88.0",
+    "@types/vscode": "^1.89.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.12.7",
     "@types/tmp": "^0.2.6",
