@@ -223,7 +223,7 @@
     "@types/node": "^22.4.1",
     "@types/tmp": "^0.2.6",
     "@typescript-eslint/eslint-plugin": "^8.2.0",
-    "@typescript-eslint/parser": "^8.1.0",
+    "@typescript-eslint/parser": "^8.2.0",
     "eslint": "^9.9.0",
     "typescript": "^5.5.4",
     "ts-loader": "^9.5.1",
