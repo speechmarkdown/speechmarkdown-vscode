@@ -222,7 +222,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.10",
     "@types/tmp": "^0.2.6",
-    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.27.0",
     "eslint": "^9.22.0",
     "typescript": "^5.8.2",
