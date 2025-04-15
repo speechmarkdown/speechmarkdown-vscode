@@ -130,7 +130,22 @@
           "type": "string",
           "default": "Kendra",
           "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
-        }
+        },
+        "speechmarkdown.elevenLabs.apiKey": {
+  "type": "string",
+  "description": "ElevenLabs API Key"
+},
+"speechmarkdown.elevenLabs.voiceId": {
+  "type": "string",
+  "default": "21m00Tcm4TlvDq8ikWAM",
+  "description": "Voice ID from your ElevenLabs account"
+},
+"speechmarkdown.ttsProvider": {
+  "type": "string",
+  "enum": ["Amazon Polly", "ElevenLabs"],
+  "default": "Amazon Polly",
+  "description": "TTS Provider for speech playback"
+}
       }
     },
     "keybindings": [
@@ -141,6 +156,10 @@
       }
     ],
     "commands": [
+      {
+        "command": "speechmarkdown.speakSelectedText",
+        "title": "Speak Selected Text (TTS)"
+      },
       {
         "command": "extension.speechmarkdownpreview",
         "title": "Speech Markdown to SSML",
