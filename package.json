@@ -132,20 +132,48 @@
           "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
         },
         "speechmarkdown.elevenLabs.apiKey": {
-  "type": "string",
-  "description": "ElevenLabs API Key"
-},
-"speechmarkdown.elevenLabs.voiceId": {
-  "type": "string",
-  "default": "21m00Tcm4TlvDq8ikWAM",
-  "description": "Voice ID from your ElevenLabs account"
-},
-"speechmarkdown.ttsProvider": {
-  "type": "string",
-  "enum": ["Amazon Polly", "ElevenLabs"],
-  "default": "Amazon Polly",
-  "description": "TTS Provider for speech playback"
-}
+          "type": "string",
+          "description": "ElevenLabs API Key"
+        },
+        "speechmarkdown.elevenLabs.voiceId": {
+          "type": "string",
+          "default": "21m00Tcm4TlvDq8ikWAM",
+          "description": "Voice ID from your ElevenLabs account"
+        },
+        "speechmarkdown.ttsProvider": {
+          "type": "string",
+          "enum": [
+            "Amazon Polly",
+            "ElevenLabs",
+            "OpenAI",
+            "Azure"
+          ],
+          "default": "Amazon Polly",
+          "description": "TTS Provider for speech playback"
+        },
+        "speechmarkdown.openai.apiKey": {
+          "type": "string",
+          "description": "Your OpenAI API key for TTS"
+        },
+        "speechmarkdown.openai.voice": {
+          "type": "string",
+          "default": "alloy",
+          "description": "Voice to use (e.g., alloy, echo, fable, onyx, nova, shimmer)"
+        },
+        "speechmarkdown.openai.model": {
+          "type": "string",
+          "default": "gpt-4o-mini-tts",
+          "description": "TTS model to use (e.g., gpt-4o-mini-tts)"
+        },
+        "speechmarkdown.azure.subscriptionKey": {
+          "type": "string",
+          "description": "Azure subscription key for TTS"
+        },
+        "speechmarkdown.azure.region": {
+          "type": "string",
+          "default": "eastus",
+          "description": "Azure region for TTS (e.g., eastus, westus, westeurope)"
+        }
       }
     },
     "keybindings": [
@@ -237,19 +265,19 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/vscode": "^1.98.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.10",
     "@types/tmp": "^0.2.6",
+    "@types/vscode": "^1.98.0",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.27.0",
-    "eslint": "^9.24.0",
-    "typescript": "^5.8.2",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.98.0",
-    "webpack-cli": "^6.0.1",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.24.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
   },
   "languages": [
     {
@@ -275,7 +303,10 @@
   "dependencies": {
     "@aws-sdk/client-polly": "^3.782.0",
     "fs": "^0.0.1-security",
+    "js-tts-wrapper": "^0.1.6",
+    "microsoft-cognitiveservices-speech-sdk": "^1.43.1",
     "minimist": "^1.2.8",
+    "openai": "^4.93.0",
     "speechmarkdown-js": "^2.1.0",
     "tmp": "^0.2.3"
   }

@@ -5,6 +5,9 @@ import { SMLTextWriter } from "./smdOutputProvider";
 import { SSMLAudioPlayer } from "./ssmlAudioPlayer";
 import { PollyTTSClient } from 'js-tts-wrapper/engines/polly';
 import { ElevenLabsTTSClient } from 'js-tts-wrapper/engines/elevenlabs';
+import { OpenAITTSClient } from 'js-tts-wrapper/engines/openai';
+import { AzureTTSClient } from 'js-tts-wrapper/engines/azure';
+
 import { SpeechMarkdown } from 'speechmarkdown-js';
 import * as fs from 'fs';
 import * as os from 'os';
@@ -65,22 +68,49 @@ export function activate(context: vscode.ExtensionContext) {
         client.setVoice(elevenVoiceId);
         console.log("🔈 ElevenLabs voice set to:", elevenVoiceId);
       }
+    } else if (provider === 'OpenAI') {
+      const apiKey = config.get<string>('openai.apiKey');
+      const voice = config.get<string>('openai.voice') || 'alloy';
+      const model = config.get<string>('openai.model') || 'gpt-4o-mini-tts';
+    
+      if (!apiKey) {
+        vscode.window.showErrorMessage('Missing OpenAI API key in settings.');
+        return;
+      }
+    
+      client = new OpenAITTSClient({ apiKey });
+      client.setVoice(voice);
+      client.setModel(model);
+    }
+    else if (provider === 'Azure') {
+      const subscriptionKey = config.get<string>('azure.subscriptionKey');
+      const region = config.get<string>('azure.region') || 'eastus';
+      const voice = config.get<string>('azure.voice') || 'en-US-AriaNeural';
+
+      if (!subscriptionKey){
+        vscode.window.showErrorMessage('Missing Microsoft Azure API key in settings.');
+        return;
+      }
+      client = new AzureTTSClient({
+        subscriptionKey,
+        region
+      });
+      client.setVoice(voice);
+
     } else {
+
       vscode.window.showErrorMessage('Invalid TTS provider.');
       return;
     }
   
-    // Convert Speech Markdown to SSML
     const sm = new SpeechMarkdown();
     const ssml = sm.toSSML(text, { platform: 'amazon-polly' });
   
-    // Synthesize audio
     try {
       const audioBytes = await client.synthToBytes(ssml, { format: 'mp3' });
       const tempPath = path.join(os.tmpdir(), `speechmarkdown-${Date.now()}.mp3`);
       fs.writeFileSync(tempPath, Buffer.from(audioBytes));
   
-      // Play the file 
       vscode.env.openExternal(vscode.Uri.file(tempPath));
     } catch (err: any) {
       vscode.window.showErrorMessage(`TTS Error: ${err.message}`);
