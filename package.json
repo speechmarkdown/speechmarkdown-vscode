@@ -227,7 +227,7 @@
     "eslint": "^9.24.0",
     "typescript": "^5.8.2",
     "ts-loader": "^9.5.2",
-    "webpack": "^5.98.0",
+    "webpack": "^5.99.5",
     "webpack-cli": "^6.0.1",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.5.2"
