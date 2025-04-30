@@ -178,6 +178,11 @@
     },
     "keybindings": [
       {
+        "command": "speechmarkdown.speakText",
+        "key": "ctrl+shift+s",
+        "when": "editorTextFocus"
+      },
+      {
         "command": "extension.speechmarkdownpreview",
         "key": "ctrl+shift+l",
         "when": "editorHasSelection"
@@ -185,8 +190,8 @@
     ],
     "commands": [
       {
-        "command": "speechmarkdown.speakSelectedText",
-        "title": "Speak Selected Text (TTS)"
+        "command": "speechmarkdown.speakText",
+        "title": "Speak Text (TTS)"
       },
       {
         "command": "extension.speechmarkdownpreview",

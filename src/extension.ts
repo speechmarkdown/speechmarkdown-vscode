@@ -18,13 +18,13 @@ let jsCentralProvider = new JSHoverProvider();
 export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('speechmarkdown.speakSelectedText', async () => {
+    vscode.commands.registerCommand('speechmarkdown.speakText', async () => {
       const editor = vscode.window.activeTextEditor;
       if (!editor) return;
   
-      const text = editor.document.getText(editor.selection);
+      const text = editor.document.getText(editor.selection) || editor.document.getText();
       if (!text) {
-        vscode.window.showErrorMessage("No text selected.");
+        vscode.window.showErrorMessage("Document is empty.");
         return;
       }
   
@@ -205,6 +205,14 @@ export function activate(context: vscode.ExtensionContext) {
         jsCentralProvider
       )
     );
+
+    // Add status bar button for Speak Text
+    const speakTextStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+    speakTextStatusBarItem.command = 'speechmarkdown.speakText';
+    speakTextStatusBarItem.text = '$(unmute) Speak Text';
+    speakTextStatusBarItem.tooltip = 'Speak selected text or entire document (Ctrl+Shift+S)';
+    speakTextStatusBarItem.show();
+    context.subscriptions.push(speakTextStatusBarItem);
 
   } catch(ex)
   {
