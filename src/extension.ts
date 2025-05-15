@@ -3,11 +3,10 @@ import * as vscode from "vscode";
 import { JSHoverProvider } from "./hoverProvider";
 import { SMLTextWriter } from "./smdOutputProvider";
 import { SSMLAudioPlayer } from "./ssmlAudioPlayer";
-import { PollyTTSClient } from 'js-tts-wrapper/engines/polly';
-import { ElevenLabsTTSClient } from 'js-tts-wrapper/engines/elevenlabs';
-import { OpenAITTSClient } from 'js-tts-wrapper/engines/openai';
-import { AzureTTSClient } from 'js-tts-wrapper/engines/azure';
-
+import { AzureTTSClient } from 'js-tts-wrapper';
+import { PollyTTSClient } from 'js-tts-wrapper';
+import { ElevenLabsTTSClient } from 'js-tts-wrapper';
+import { OpenAITTSClient } from 'js-tts-wrapper';
 import { SpeechMarkdown } from 'speechmarkdown-js';
 import * as fs from 'fs';
 import * as os from 'os';

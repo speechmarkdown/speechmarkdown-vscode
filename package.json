@@ -307,6 +307,9 @@
   ],
   "dependencies": {
     "@aws-sdk/client-polly": "^3.782.0",
+    "@google-cloud/text-to-speech": "^6.1.0",
+    "decompress": "^4.2.1",
+    "decompress-tarbz2": "^4.1.1",
     "fs": "^0.0.1-security",
     "js-tts-wrapper": "^0.1.6",
     "microsoft-cognitiveservices-speech-sdk": "^1.43.1",
