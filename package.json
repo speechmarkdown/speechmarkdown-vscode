@@ -194,6 +194,11 @@
         "when": "editorTextFocus"
       },
       {
+        "command": "speechmarkdown.selectTTSProvider",
+        "title": "Select TTS Provider",
+        "category": "Speech Markdown"
+      },
+      {
         "command": "extension.speechmarkdownpreview",
         "key": "ctrl+shift+l",
         "when": "editorHasSelection"

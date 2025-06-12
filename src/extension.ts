@@ -73,12 +73,36 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
  const speakBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-speakBtn.text = '$(unmute) Speak Text';  
-speakBtn.command = "speechmarkdown.speakText";
-speakBtn.tooltip = "Speak selected text or entire document (Ctrl+Shift+S)";
-speakBtn.show();
-context.subscriptions.push(speakBtn);
+speakBtn.text = '$(unmute) Speak Text';
+ speakBtn.command = "speechmarkdown.speakText";
+ speakBtn.tooltip = "Speak selected text or entire document (Ctrl+Shift+S)";
+ speakBtn.show();
+ context.subscriptions.push(speakBtn);
 
+  const providerBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
+  providerBtn.command = "speechmarkdown.selectTTSProvider";
+  providerBtn.tooltip = "Select TTS Provider";
+  function updateProviderButton() {
+    const provider = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider") || "Amazon Polly";
+    providerBtn.text = `$(gear) ${provider}`;
+  }
+  updateProviderButton();
+  providerBtn.show();
+  context.subscriptions.push(providerBtn);
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("speechmarkdown.selectTTSProvider", async () => {
+      const config = vscode.workspace.getConfiguration("speechmarkdown");
+      const current = config.get<string>("ttsProvider") || "Amazon Polly";
+      const providers = ["Amazon Polly", "ElevenLabs", "OpenAI", "Azure", "SherpaOnnx"];
+      const selection = await vscode.window.showQuickPick(providers, { placeHolder: "Select TTS Provider" });
+      if (selection && selection !== current) {
+      await config.update("ttsProvider", selection, vscode.ConfigurationTarget.Workspace);
+        updateProviderButton();
+        vscode.window.showInformationMessage(`TTS provider set to ${selection}`);
+      }
+    })
+  );
 
 
   function getTimestamp(): string {
