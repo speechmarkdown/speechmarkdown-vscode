@@ -3,218 +3,231 @@ import * as vscode from "vscode";
 import { JSHoverProvider } from "./hoverProvider";
 import { SMLTextWriter } from "./smdOutputProvider";
 import { SSMLAudioPlayer } from "./ssmlAudioPlayer";
-import { AzureTTSClient } from 'js-tts-wrapper';
-import { PollyTTSClient } from 'js-tts-wrapper';
-import { ElevenLabsTTSClient } from 'js-tts-wrapper';
-import { OpenAITTSClient } from 'js-tts-wrapper';
-import { SpeechMarkdown } from 'speechmarkdown-js';
-import * as fs from 'fs';
-import * as os from 'os';
-import * as path from 'path';
+import {
+  AzureTTSClient,
+  ElevenLabsTTSClient,
+  OpenAITTSClient,
+  PollyTTSClient,
+  SherpaOnnxTTSClient,
+  GoogleTTSClient
+} from "js-tts-wrapper";
 
-let jsCentralProvider = new JSHoverProvider();
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
+import sound from "sound-play"; 
+interface BaseTTSClient {
+  synthToBytes(textOrSSML: string, options?: { format?: string }): Promise<Uint8Array>;
+  checkCredentialsDetailed(): Promise<{ success: boolean; error?: string }>;
+  supportsSSML?(): boolean;
+  setVoice?(voice: string): void;
+  setModel?(model: string): void;
+}
 
 export function activate(context: vscode.ExtensionContext) {
+  const jsCentralProvider = new JSHoverProvider();
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('speechmarkdown.speakText', async () => {
+    vscode.commands.registerCommand("speechmarkdown.speakText", async () => {
       const editor = vscode.window.activeTextEditor;
       if (!editor) return;
-  
       const text = editor.document.getText(editor.selection) || editor.document.getText();
       if (!text) {
         vscode.window.showErrorMessage("Document is empty.");
         return;
       }
-  
       await speakWithTTS(text);
     })
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.speechmarkdownpreview", () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) return;
+      const sel = editor.document.getText(editor.selection);
+      try {
+        SMLTextWriter.displaySSMLText(sel);
+      } catch (ex) {
+        console.error(ex);
+      }
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.speechmarkdownspeakpolly", () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) return;
+      SSMLAudioPlayer.getSSMLSpeechAsync(editor.document.getText(editor.selection), Engine.STANDARD);
+    })
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.speechmarkdownspeakpollyneural", () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) return;
+      SSMLAudioPlayer.getSSMLSpeechAsync(editor.document.getText(editor.selection), Engine.NEURAL);
+    })
+  );
+
+  ["typescript", "javascript", "json", "yaml"].forEach(lang => {
+    context.subscriptions.push(vscode.languages.registerHoverProvider(lang, jsCentralProvider));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider(lang, jsCentralProvider));
+  });
+
+ const speakBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+speakBtn.text = '$(unmute) Speak Text';  
+speakBtn.command = "speechmarkdown.speakText";
+speakBtn.tooltip = "Speak selected text or entire document (Ctrl+Shift+S)";
+speakBtn.show();
+context.subscriptions.push(speakBtn);
+
+
+
+  function getTimestamp(): string {
+    const d = new Date();
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}-${pad(d.getSeconds())}`;
+  }
 
   async function speakWithTTS(text: string) {
-    const config = vscode.workspace.getConfiguration('speechmarkdown');
-    const provider = config.get<string>('ttsProvider') || 'Amazon Polly';
-  
-    let client: any;
-  
-    if (provider === 'Amazon Polly') {
-      const accessKeyId = config.get<string>('aws.accessKeyId');
-      const secretAccessKey = config.get<string>('aws.secretAccessKey');
-      const region = config.get<string>('aws.region') || 'us-east-1';
-  
-      if (!accessKeyId || !secretAccessKey) {
-        vscode.window.showErrorMessage('Missing AWS credentials in settings.');
-        return;
-      }
-  
-      client = new PollyTTSClient({
-        accessKeyId,
-        secretAccessKey,
-        region
-      });
-    } else if (provider === 'ElevenLabs') {
-      const apiKey = config.get<string>('elevenLabs.apiKey');
-      const elevenVoiceId = config.get<string>('elevenLabs.voiceId');
-      if (!apiKey) {
-        vscode.window.showErrorMessage('Missing ElevenLabs API key in settings.');
-        return;
-      }
-  
-      client = new ElevenLabsTTSClient({
-        apiKey
-      });
-      if (elevenVoiceId) {
-        client.setVoice(elevenVoiceId);
-        console.log("🔈 ElevenLabs voice set to:", elevenVoiceId);
-      }
-    } else if (provider === 'OpenAI') {
-      const apiKey = config.get<string>('openai.apiKey');
-      const voice = config.get<string>('openai.voice') || 'alloy';
-      const model = config.get<string>('openai.model') || 'gpt-4o-mini-tts';
-    
-      if (!apiKey) {
-        vscode.window.showErrorMessage('Missing OpenAI API key in settings.');
-        return;
-      }
-    
-      client = new OpenAITTSClient({ apiKey });
-      client.setVoice(voice);
-      client.setModel(model);
-    }
-    else if (provider === 'Azure') {
-      const subscriptionKey = config.get<string>('azure.subscriptionKey');
-      const region = config.get<string>('azure.region') || 'eastus';
-      const voice = config.get<string>('azure.voice') || 'en-US-AriaNeural';
+    const config = vscode.workspace.getConfiguration("speechmarkdown");
+    const provider = config.get<string>("ttsProvider") || "Amazon Polly";
+    const client = await getTTSClient(provider, config);
+    if (!client) return;
 
-      if (!subscriptionKey){
-        vscode.window.showErrorMessage('Missing Microsoft Azure API key in settings.');
-        return;
-      }
-      client = new AzureTTSClient({
-        subscriptionKey,
-        region
-      });
-      client.setVoice(voice);
+    const { SpeechMarkdown } = await import("speechmarkdown-js");
+    const platform = { "Amazon Polly": "amazon-polly", "Azure": "microsoft", "Google": "google" }[provider] || "generic";
+    const ssml = new SpeechMarkdown().toSSML(text, { platform });
+    const input = client.supportsSSML?.() === false ? text : ssml;
 
-    } else {
-
-      vscode.window.showErrorMessage('Invalid TTS provider.');
-      return;
-    }
-  
-    const sm = new SpeechMarkdown();
-    const ssml = sm.toSSML(text, { platform: 'amazon-polly' });
-  
     try {
-      const audioBytes = await client.synthToBytes(ssml, { format: 'mp3' });
-      const tempPath = path.join(os.tmpdir(), `speechmarkdown-${Date.now()}.mp3`);
-      fs.writeFileSync(tempPath, Buffer.from(audioBytes));
-  
-      vscode.env.openExternal(vscode.Uri.file(tempPath));
+      const audio = await client.synthToBytes(input, { format: "mp3" });
+
+      const editor = vscode.window.activeTextEditor;
+      const baseName = editor && editor.document.uri.fsPath
+        ? path.basename(editor.document.uri.fsPath, path.extname(editor.document.uri.fsPath))
+        : "untitled";
+
+      const fileName = `${provider.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.mp3`;
+      const outDir = config.get<string>("outputDir")?.trim()
+        || path.join(os.homedir(), "tts-output");
+      fs.mkdirSync(outDir, { recursive: true });
+
+      const fullPath = path.join(outDir, fileName);
+      fs.writeFileSync(fullPath, Buffer.from(audio));
+
+      vscode.window.showInformationMessage(`Saved audio: ${fullPath}`);
+      await sound.play(fullPath);
     } catch (err: any) {
-      vscode.window.showErrorMessage(`TTS Error: ${err.message}`);
+      vscode.window.showErrorMessage(`TTS/Playback Error: ${err.message}`);
       console.error(err);
     }
   }
 
-  try
-  {
-    context.subscriptions.push(
-      vscode.commands.registerCommand('extension.speechmarkdownpreview', () => {
-        const editor = vscode.window.activeTextEditor;
-
-        if (editor) {
-          
-            let selection : string = editor.document.getText(editor.selection);
-            try
-            {
-              SMLTextWriter.displaySSMLText(selection);
-            }
-            catch(ex)
-            {
-              console.log(ex);
-            }
+  async function getTTSClient(provider: string, config: vscode.WorkspaceConfiguration): Promise<BaseTTSClient | null> {
+    try {
+      switch (provider) {
+        case "Amazon Polly": {
+          const ak = config.get<string>("aws.accessKeyId");
+          const sk = config.get<string>("aws.secretAccessKey");
+          const region = config.get<string>("aws.region") || "us-east-1";
+          if (!ak || !sk) {
+            vscode.window.showErrorMessage("Missing AWS credentials.");
+            return null;
+          }
+          const client = new PollyTTSClient({ accessKeyId: ak, secretAccessKey: sk, region });
+          const res = await client.checkCredentialsDetailed();
+          if (!res.success) {
+            vscode.window.showErrorMessage(`AWS Error: ${res.error}`);
+            return null;
+          }
+          return client;
         }
-      })
-    );
-
-    context.subscriptions.push(
-      vscode.commands.registerCommand('extension.speechmarkdownspeakpolly', () => {
-        const editor = vscode.window.activeTextEditor;
-
-        if (editor) {
-          
-            let selection : string = editor.document.getText(editor.selection);
-            
-            SSMLAudioPlayer.getSSMLSpeechAsync(selection, Engine.STANDARD);
+        case "ElevenLabs": {
+          const apiKey = config.get<string>("elevenLabs.apiKey");
+          const voiceId = config.get<string>("elevenLabs.voiceId");
+          if (!apiKey) {
+            vscode.window.showErrorMessage("Missing ElevenLabs API key.");
+            return null;
+          }
+          const client = new ElevenLabsTTSClient({ apiKey });
+          if (voiceId) client.setVoice?.(voiceId);
+          const res = await client.checkCredentialsDetailed();
+          if (!res.success) {
+            vscode.window.showErrorMessage(`ElevenLabs Error: ${res.error}`);
+            return null;
+          }
+          return client;
         }
-      })
-    );
-
-    context.subscriptions.push(
-      vscode.commands.registerCommand('extension.speechmarkdownspeakpollyneural', () => {
-        const editor = vscode.window.activeTextEditor;
-
-        if (editor) {
-          
-            let selection : string = editor.document.getText(editor.selection);
-            
-            SSMLAudioPlayer.getSSMLSpeechAsync(selection, Engine.NEURAL);
+        case "OpenAI": {
+          const apiKey = config.get<string>("openai.apiKey");
+          const voice = config.get<string>("openai.voice") || "alloy";
+          const model = config.get<string>("openai.model") || "gpt-4o-mini-tts";
+          if (!apiKey) {
+            vscode.window.showErrorMessage("Missing OpenAI API key.");
+            return null;
+          }
+          const client = new OpenAITTSClient({ apiKey });
+          client.setVoice?.(voice);
+          client.setModel?.(model);
+          const res = await client.checkCredentialsDetailed();
+          if (!res.success) {
+            vscode.window.showErrorMessage(`OpenAI Error: ${res.error}`);
+            return null;
+          }
+          return client;
         }
-      })
-    );
-
-    context.subscriptions.push(
-      vscode.languages.registerHoverProvider("typescript", jsCentralProvider)
-    );
-
-    context.subscriptions.push(
-      vscode.languages.registerHoverProvider("javascript", jsCentralProvider)
-    );
-
-    context.subscriptions.push(
-      vscode.languages.registerHoverProvider("json", jsCentralProvider)
-    );
-
-    context.subscriptions.push(
-      vscode.languages.registerHoverProvider("yaml", jsCentralProvider)
-    );
-  
-    context.subscriptions.push(
-      vscode.languages.registerCompletionItemProvider("json", jsCentralProvider)
-    );
-
-    context.subscriptions.push(
-      vscode.languages.registerCompletionItemProvider(
-        "typescript",
-        jsCentralProvider
-      )
-    );
-
-    context.subscriptions.push(
-      vscode.languages.registerCompletionItemProvider(
-        "javascript",
-        jsCentralProvider
-      )
-    );
-
-    context.subscriptions.push(
-      vscode.languages.registerCompletionItemProvider(
-        "yaml",
-        jsCentralProvider
-      )
-    );
-
-    // Add status bar button for Speak Text
-    const speakTextStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-    speakTextStatusBarItem.command = 'speechmarkdown.speakText';
-    speakTextStatusBarItem.text = '$(unmute) Speak Text';
-    speakTextStatusBarItem.tooltip = 'Speak selected text or entire document (Ctrl+Shift+S)';
-    speakTextStatusBarItem.show();
-    context.subscriptions.push(speakTextStatusBarItem);
-
-  } catch(ex)
-  {
-     console.error(ex);
+        case "Azure": {
+          const key = config.get<string>("azure.subscriptionKey");
+          const region = config.get<string>("azure.region") || "eastus";
+          const voice = config.get<string>("azure.voice") || "en-US-AriaNeural";
+          if (!key) {
+            vscode.window.showErrorMessage("Missing Azure subscription key.");
+            return null;
+          }
+          const client = new AzureTTSClient({ subscriptionKey: key, region });
+          client.setVoice?.(voice);
+          const res = await client.checkCredentialsDetailed();
+          if (!res.success) {
+            vscode.window.showErrorMessage(`Azure Error: ${res.error}`);
+            return null;
+          }
+          return client;
+        }
+        case "SherpaOnnx": {
+          const mp = config.get<string>("sherpa.modelPath");
+          const token = config.get<string>("sherpa.token");
+          if (!mp || !token) {
+            vscode.window.showErrorMessage("Missing SherpaONNX config.");
+            return null;
+          }
+          const client = new SherpaOnnxTTSClient({ modelPath: mp, token });
+          const res = await client.checkCredentialsDetailed();
+          if (!res.success) {
+            vscode.window.showErrorMessage(`Sherpa Error: ${res.error}`);
+            return null;
+          }
+          return client;
+        }
+        case "Google": {
+          const keyFile = config.get<string>("google.keyFilePath");
+          if (!keyFile) {
+            vscode.window.showErrorMessage("Missing Google key file path.");
+            return null;
+          }
+          const client = new GoogleTTSClient({ keyFile });
+          const res = await client.checkCredentialsDetailed();
+          if (!res.success) {
+            vscode.window.showErrorMessage(`Google TTS Error: ${res.error}`);
+            return null;
+          }
+          return client;
+        }
+        default:
+          vscode.window.showErrorMessage("Invalid TTS provider.");
+          return null;
+      }
+    } catch (err: any) {
+      vscode.window.showErrorMessage(`TTS init failed: ${err.message}`);
+      return null;
+    }
   }
 }
