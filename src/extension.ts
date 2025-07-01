@@ -191,27 +191,17 @@ export function activate(context: vscode.ExtensionContext) {
     const client = await getTTSClient(provider, config);
     if (!client) return;
 
-    const { SpeechMarkdown } = await import("speechmarkdown-js");
-    const platform = { "Amazon Polly": "amazon-polly", "Azure": "microsoft", "Google": "google" }[provider] || "generic";
-    const ssml = new SpeechMarkdown().toSSML(text, { platform });
-    const input = client.supportsSSML?.() === false ? text : ssml;
-
     try {
-      const audio = await client.synthToBytes(input, { format: "mp3" });
-
       const editor = vscode.window.activeTextEditor;
       const baseName = editor && editor.document.uri.fsPath
         ? path.basename(editor.document.uri.fsPath, path.extname(editor.document.uri.fsPath))
         : "untitled";
-
-      const fileName = `${provider.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.mp3`;
+      const fileName = `${provider.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.wav`;
       const outDir = config.get<string>("outputDir")?.trim()
         || path.join(os.homedir(), "tts-output");
       fs.mkdirSync(outDir, { recursive: true });
-
       const fullPath = path.join(outDir, fileName);
-      fs.writeFileSync(fullPath, Buffer.from(audio));
-
+      await client.synthToFile(text, fullPath, "wav", { useSpeechMarkdown: true });
       vscode.window.showInformationMessage(`Saved audio: ${fullPath}`);
       await sound.play(fullPath);
     } catch (err: any) {
