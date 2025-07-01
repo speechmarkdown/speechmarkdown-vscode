@@ -143,12 +143,51 @@
         },
         "speechmarkdown.elevenLabs.voiceId": {
           "type": "string",
-          "default": "21m00Tcm4TlvDq8ikWAM",
+          "default": "",
           "description": "Voice ID from your ElevenLabs account"
         },
         "speechmarkdown.google.keyFilePath": {
           "type": "string",
           "description": "Path to Google Cloud service account JSON key"
+        },
+        "speechmarkdown.playht.apiKey": {
+          "type": "string",
+          "description": "PlayHT API Key"
+        },
+        "speechmarkdown.playht.userId": {
+          "type": "string",
+          "description": "PlayHT User ID"
+        },
+        "speechmarkdown.watson.apiKey": {
+          "type": "string",
+          "description": "IBM Watson API Key"
+        },
+        "speechmarkdown.watson.region": {
+          "type": "string",
+          "description": "IBM Watson Region"
+        },
+        "speechmarkdown.watson.instanceId": {
+          "type": "string",
+          "description": "IBM Watson Instance ID"
+        },
+        "speechmarkdown.witai.token": {
+          "type": "string",
+          "description": "WitAI Token"
+        },
+        "speechmarkdown.sapi": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Windows SAPI TTS (Windows only)"
+        },
+        "speechmarkdown.espeak": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable eSpeak NG TTS (Node.js only)"
+        },
+        "speechmarkdown.espeakWasm": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable eSpeak NG WASM TTS (browser/Node.js)"
         },
         "speechmarkdown.ttsProvider": {
           "type": "string",
