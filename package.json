@@ -308,6 +308,11 @@
         "command": "extension.speechmarkdownspeakpollyneural",
         "title": "Speak Selected SSML (Amazon Neural)",
         "category": "Speech Markdown"
+      },
+      {
+        "command": "speechmarkdown.listVoices",
+        "title": "SpeechMarkdown: List Voices",
+        "category": "Speech Markdown"
       }
     ],
     "menus": {
