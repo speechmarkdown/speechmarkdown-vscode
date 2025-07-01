@@ -214,8 +214,7 @@
         },
         "speechmarkdown.openai.voice": {
           "type": "string",
-          "default": "alloy",
-          "description": "Voice to use (e.g., alloy, echo, fable, onyx, nova, shimmer)"
+          "description": "Voice to use for OpenAI TTS (e.g., alloy, echo, fable, onyx, nova, shimmer)."
         },
         "speechmarkdown.openai.model": {
           "type": "string",
