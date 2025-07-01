@@ -196,7 +196,14 @@
             "ElevenLabs",
             "OpenAI",
             "Azure",
-            "SherpaOnnx"
+            "SherpaOnnx",
+            "Google",
+            "PlayHT",
+            "IBM Watson",
+            "WitAI",
+            "SAPI",
+            "eSpeak NG",
+            "eSpeak NG WASM"
           ],
           "default": "Amazon Polly",
           "description": "TTS Provider for speech playback"
