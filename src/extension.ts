@@ -86,16 +86,98 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("speechmarkdown.selectTTSProvider", async () => {
       const config = vscode.workspace.getConfiguration("speechmarkdown");
       const current = config.get<string>("ttsProvider") || "Amazon Polly";
-      const providers = ["Amazon Polly", "ElevenLabs", "OpenAI", "Azure", "SherpaOnnx"];
+      const providers = [
+        "Amazon Polly",
+        "ElevenLabs",
+        "OpenAI",
+        "Azure",
+        "SherpaOnnx",
+        "Google",
+        "PlayHT",
+        "IBM Watson",
+        "WitAI",
+        "SAPI",
+        "eSpeak NG",
+        "eSpeak NG WASM"
+      ];
       const selection = await vscode.window.showQuickPick(providers, { placeHolder: "Select TTS Provider" });
       if (selection && selection !== current) {
-      await config.update("ttsProvider", selection, vscode.ConfigurationTarget.Workspace);
+        await config.update("ttsProvider", selection, vscode.ConfigurationTarget.Global);
         updateProviderButton();
         vscode.window.showInformationMessage(`TTS provider set to ${selection}`);
       }
     })
   );
 
+  context.subscriptions.push(
+    vscode.commands.registerCommand("speechmarkdown.listVoices", async () => {
+      const config = vscode.workspace.getConfiguration("speechmarkdown");
+      const provider = config.get<string>("ttsProvider") || "Amazon Polly";
+      const client = await getTTSClient(provider, config);
+      if (!client) return;
+      try {
+        const voices = await client.getVoices();
+        if (!voices || voices.length === 0) {
+          vscode.window.showInformationMessage("No voices found for this provider.");
+          return;
+        }
+        const items: vscode.QuickPickItem[] = voices.map((v: any) => ({
+          label: v.id || v.name,
+          description: v.lang || v.language || ''
+        }));
+        const selection = await vscode.window.showQuickPick(items, { placeHolder: "Available Voices" });
+        if (selection) {
+          let key = '';
+          switch (provider) {
+            case 'Amazon Polly':
+              key = 'aws.voice';
+              break;
+            case 'ElevenLabs':
+              key = 'elevenLabs.voiceId';
+              break;
+            case 'OpenAI':
+              key = 'openai.voice';
+              break;
+            case 'Azure':
+              key = 'azure.voice';
+              break;
+            case 'Google':
+              key = 'google.voice';
+              break;
+            case 'PlayHT':
+              key = 'playht.voice';
+              break;
+            case 'IBM Watson':
+              key = 'watson.voice';
+              break;
+            case 'WitAI':
+              key = 'witai.voice';
+              break;
+            case 'SAPI':
+              key = 'sapi.voice';
+              break;
+            case 'eSpeak NG':
+              key = 'espeak.voice';
+              break;
+            case 'eSpeak NG WASM':
+              key = 'espeakWasm.voice';
+              break;
+            case 'SherpaOnnx':
+              key = 'sherpa.voice';
+              break;
+            default:
+              key = '';
+          }
+          if (key) {
+            await config.update(key, selection.label, vscode.ConfigurationTarget.Global);
+            vscode.window.showInformationMessage(`Voice set to ${selection.label} for ${provider}`);
+          }
+        }
+      } catch (err: any) {
+        vscode.window.showErrorMessage(`Error fetching voices: ${err.message}`);
+      }
+    })
+  );
 
   function getTimestamp(): string {
     const d = new Date();
