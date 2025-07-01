@@ -4,25 +4,12 @@ import { JSHoverProvider } from "./hoverProvider";
 import { SMLTextWriter } from "./smdOutputProvider";
 import { SSMLAudioPlayer } from "./ssmlAudioPlayer";
 import {
-  AzureTTSClient,
-  ElevenLabsTTSClient,
-  OpenAITTSClient,
-  PollyTTSClient,
-  SherpaOnnxTTSClient,
-  GoogleTTSClient
+  createTTSClient
 } from "js-tts-wrapper";
-
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import sound from "sound-play"; 
-interface BaseTTSClient {
-  synthToBytes(textOrSSML: string, options?: { format?: string }): Promise<Uint8Array>;
-  checkCredentialsDetailed(): Promise<{ success: boolean; error?: string }>;
-  supportsSSML?(): boolean;
-  setVoice?(voice: string): void;
-  setModel?(model: string): void;
-}
+import sound from "sound-play";
 
 export function activate(context: vscode.ExtensionContext) {
   const jsCentralProvider = new JSHoverProvider();
