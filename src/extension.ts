@@ -26,6 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
       await speakWithTTS(text);
     })
   );
+
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.speechmarkdownpreview", () => {
       const editor = vscode.window.activeTextEditor;
