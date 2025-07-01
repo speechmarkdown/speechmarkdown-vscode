@@ -229,6 +229,46 @@
           "type": "string",
           "default": "eastus",
           "description": "Azure region for TTS (e.g., eastus, westus, westeurope)"
+        },
+        "speechmarkdown.aws.voice": {
+          "type": "string",
+          "description": "Default voice to use for Amazon Polly."
+        },
+        "speechmarkdown.azure.voice": {
+          "type": "string",
+          "description": "Voice to use for Azure TTS (e.g., en-US-AriaNeural)."
+        },
+        "speechmarkdown.google.voice": {
+          "type": "string",
+          "description": "Voice to use for Google TTS."
+        },
+        "speechmarkdown.playht.voice": {
+          "type": "string",
+          "description": "Voice to use for PlayHT TTS."
+        },
+        "speechmarkdown.watson.voice": {
+          "type": "string",
+          "description": "Voice to use for IBM Watson TTS."
+        },
+        "speechmarkdown.witai.voice": {
+          "type": "string",
+          "description": "Voice to use for WitAI TTS."
+        },
+        "speechmarkdown.sapi.voice": {
+          "type": "string",
+          "description": "Voice to use for Windows SAPI TTS."
+        },
+        "speechmarkdown.espeak.voice": {
+          "type": "string",
+          "description": "Voice to use for eSpeak NG TTS."
+        },
+        "speechmarkdown.espeakWasm.voice": {
+          "type": "string",
+          "description": "Voice to use for eSpeak NG WASM TTS."
+        },
+        "speechmarkdown.sherpa.voice": {
+          "type": "string",
+          "description": "Voice to use for SherpaOnnx TTS."
         }
       }
     },
