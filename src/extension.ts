@@ -210,109 +210,163 @@ export function activate(context: vscode.ExtensionContext) {
     }
   }
 
-  async function getTTSClient(provider: string, config: vscode.WorkspaceConfiguration): Promise<BaseTTSClient | null> {
-    try {
-      switch (provider) {
-        case "Amazon Polly": {
-          const ak = config.get<string>("aws.accessKeyId");
-          const sk = config.get<string>("aws.secretAccessKey");
-          const region = config.get<string>("aws.region") || "us-east-1";
-          if (!ak || !sk) {
-            vscode.window.showErrorMessage("Missing AWS credentials.");
-            return null;
-          }
-          const client = new PollyTTSClient({ accessKeyId: ak, secretAccessKey: sk, region });
-          const res = await client.checkCredentialsDetailed();
-          if (!res.success) {
-            vscode.window.showErrorMessage(`AWS Error: ${res.error}`);
-            return null;
-          }
-          return client;
-        }
-        case "ElevenLabs": {
-          const apiKey = config.get<string>("elevenLabs.apiKey");
-          const voiceId = config.get<string>("elevenLabs.voiceId");
-          if (!apiKey) {
-            vscode.window.showErrorMessage("Missing ElevenLabs API key.");
-            return null;
-          }
-          const client = new ElevenLabsTTSClient({ apiKey });
-          if (voiceId) client.setVoice?.(voiceId);
-          const res = await client.checkCredentialsDetailed();
-          if (!res.success) {
-            vscode.window.showErrorMessage(`ElevenLabs Error: ${res.error}`);
-            return null;
-          }
-          return client;
-        }
-        case "OpenAI": {
-          const apiKey = config.get<string>("openai.apiKey");
-          const voice = config.get<string>("openai.voice") || "alloy";
-          const model = config.get<string>("openai.model") || "gpt-4o-mini-tts";
-          if (!apiKey) {
-            vscode.window.showErrorMessage("Missing OpenAI API key.");
-            return null;
-          }
-          const client = new OpenAITTSClient({ apiKey });
-          client.setVoice?.(voice);
-          client.setModel?.(model);
-          const res = await client.checkCredentialsDetailed();
-          if (!res.success) {
-            vscode.window.showErrorMessage(`OpenAI Error: ${res.error}`);
-            return null;
-          }
-          return client;
-        }
-        case "Azure": {
-          const key = config.get<string>("azure.subscriptionKey");
-          const region = config.get<string>("azure.region") || "eastus";
-          const voice = config.get<string>("azure.voice") || "en-US-AriaNeural";
-          if (!key) {
-            vscode.window.showErrorMessage("Missing Azure subscription key.");
-            return null;
-          }
-          const client = new AzureTTSClient({ subscriptionKey: key, region });
-          client.setVoice?.(voice);
-          const res = await client.checkCredentialsDetailed();
-          if (!res.success) {
-            vscode.window.showErrorMessage(`Azure Error: ${res.error}`);
-            return null;
-          }
-          return client;
-        }
-        case "SherpaOnnx": {
-          const mp = config.get<string>("sherpa.modelPath");
-          const token = config.get<string>("sherpa.token");
-          if (!mp || !token) {
-            vscode.window.showErrorMessage("Missing SherpaONNX config.");
-            return null;
-          }
-          const client = new SherpaOnnxTTSClient({ modelPath: mp, token });
-          const res = await client.checkCredentialsDetailed();
-          if (!res.success) {
-            vscode.window.showErrorMessage(`Sherpa Error: ${res.error}`);
-            return null;
-          }
-          return client;
-        }
-        case "Google": {
-          const keyFile = config.get<string>("google.keyFilePath");
-          if (!keyFile) {
-            vscode.window.showErrorMessage("Missing Google key file path.");
-            return null;
-          }
-          const client = new GoogleTTSClient({ keyFile });
-          const res = await client.checkCredentialsDetailed();
-          if (!res.success) {
-            vscode.window.showErrorMessage(`Google TTS Error: ${res.error}`);
-            return null;
-          }
-          return client;
-        }
-        default:
-          vscode.window.showErrorMessage("Invalid TTS provider.");
+  async function getTTSClient(provider: string, config: vscode.WorkspaceConfiguration): Promise<any> {
+
+  const engine = {
+  "Amazon Polly": "polly",
+  "ElevenLabs": "elevenlabs",
+  "OpenAI": "openai",
+  "Azure": "azure",
+  "SherpaOnnx": "sherpaonnx",
+  "Google": "google",
+  "PlayHT": "playht",
+  "IBM Watson": "watson",
+  "WitAI": "witai",
+  "SAPI": "sapi",
+  "eSpeak NG": "espeak",
+  "eSpeak NG WASM": "espeak-wasm"
+}[provider];
+
+    if (!engine) {
+      vscode.window.showErrorMessage("Invalid TTS provider.");
+      return null;
+    }
+
+    let opts: any = {};
+    switch (engine) {
+      case "polly":
+        opts = {
+          accessKeyId: config.get<string>("aws.accessKeyId"),
+          secretAccessKey: config.get<string>("aws.secretAccessKey"),
+          region: config.get<string>("aws.region") || "us-east-1",
+          voice: config.get<string>("aws.voice")
+        };
+        if (!opts.accessKeyId || !opts.secretAccessKey) {
+          vscode.window.showErrorMessage("Missing AWS credentials.");
           return null;
+        }
+        break;
+
+      case "elevenlabs":
+        const elevenKey = config.get<string>("elevenLabs.apiKey");
+        if (!elevenKey) {
+          vscode.window.showErrorMessage("Missing ElevenLabs API key.");
+          return null;
+        }
+        opts = { apiKey: elevenKey, voice: config.get<string>("elevenLabs.voiceId") };
+        break;
+
+      case "openai":
+        opts = {
+          apiKey: config.get<string>("openai.apiKey"),
+          voice: config.get<string>("openai.voice"),
+          model: config.get<string>("openai.model")
+        };
+        if (!opts.apiKey) {
+          vscode.window.showErrorMessage("Missing OpenAI API key.");
+          return null;
+        }
+        break;
+
+      case "azure":
+        opts = {
+          subscriptionKey: config.get<string>("azure.subscriptionKey"),
+          region: config.get<string>("azure.region") || "eastus",
+          voice: config.get<string>("azure.voice")
+        };
+        if (!opts.subscriptionKey) {
+          vscode.window.showErrorMessage("Missing Azure subscription key.");
+          return null;
+        }
+        break;
+
+      case "google":
+        opts = {
+          keyFile: config.get<string>("google.keyFilePath"),
+          voice: config.get<string>("google.voice")
+        };
+        if (!opts.keyFile) {
+          vscode.window.showErrorMessage("Missing Google key file path.");
+          return null;
+        }
+        break;
+
+      case "playht":
+        opts = {
+          apiKey: config.get<string>("playht.apiKey"),
+          userId: config.get<string>("playht.userId"),
+          voice: config.get<string>("playht.voice")
+        };
+        if (!opts.apiKey || !opts.userId) {
+          vscode.window.showErrorMessage("Missing PlayHT API key or User ID.");
+          return null;
+        }
+        break;
+
+      case "watson":
+        opts = {
+          apiKey: config.get<string>("watson.apiKey"),
+          region: config.get<string>("watson.region"),
+          instanceId: config.get<string>("watson.instanceId"),
+          voice: config.get<string>("watson.voice")
+        };
+        if (!opts.apiKey || !opts.region || !opts.instanceId) {
+          vscode.window.showErrorMessage("Missing IBM Watson config.");
+          return null;
+        }
+        break;
+
+      case "witai":
+        opts = { token: config.get<string>("witai.token"), voice: config.get<string>("witai.voice") };
+        if (!opts.token) {
+          vscode.window.showErrorMessage("Missing WitAI token.");
+          return null;
+        }
+        break;
+
+      case "sapi":
+        if (process.platform !== "win32") {
+          vscode.window.showErrorMessage("SAPI is only supported on Windows.");
+          return null;
+        }
+        opts = { voice: config.get<string>("sapi.voice") };
+        break;
+
+      case "espeak":
+        opts = { voice: config.get<string>("espeak.voice") };
+        break;
+
+      case "espeak-wasm":
+        opts = { voice: config.get<string>("espeakWasm.voice") };
+        break;
+
+      case "sherpaonnx":
+        opts = {
+          modelPath: config.get<string>("sherpa.modelPath"),
+          token: config.get<string>("sherpa.token")
+        };
+        if (!opts.modelPath || !opts.token) {
+          vscode.window.showErrorMessage("Missing SherpaONNX config.");
+          return null;
+        }
+        break;
+
+      default:
+        opts = {};
+    }
+
+    try {
+      const client = createTTSClient(engine as any, opts);
+      if (client.checkCredentialsDetailed) {
+        const res = await client.checkCredentialsDetailed();
+        if (!res.success) {
+          vscode.window.showErrorMessage(`${provider} Error: ${res.error}`);
+          return null;
+        }
       }
+      if (client.setVoice && opts.voice) client.setVoice(opts.voice);
+      if (client.setModel && opts.model) client.setModel(opts.model);
+      return client;
     } catch (err: any) {
       vscode.window.showErrorMessage(`TTS init failed: ${err.message}`);
       return null;
