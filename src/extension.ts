@@ -43,29 +43,33 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.speechmarkdownspeakpolly", () => {
       const editor = vscode.window.activeTextEditor;
-      if (!editor) return;
-      SSMLAudioPlayer.getSSMLSpeechAsync(editor.document.getText(editor.selection), Engine.STANDARD);
+      if (!editor) { return; }
+      const text = editor.document.getText(editor.selection) || editor.document.getText();
+      SSMLAudioPlayer.getSSMLSpeechAsync(text, Engine.STANDARD);
     })
   );
+
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.speechmarkdownspeakpollyneural", () => {
       const editor = vscode.window.activeTextEditor;
-      if (!editor) return;
-      SSMLAudioPlayer.getSSMLSpeechAsync(editor.document.getText(editor.selection), Engine.NEURAL);
+      if (!editor) { return; }
+      const text = editor.document.getText(editor.selection) || editor.document.getText();
+      SSMLAudioPlayer.getSSMLSpeechAsync(text, Engine.NEURAL);
     })
   );
+
 
   ["typescript", "javascript", "json", "yaml"].forEach(lang => {
     context.subscriptions.push(vscode.languages.registerHoverProvider(lang, jsCentralProvider));
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(lang, jsCentralProvider));
   });
 
- const speakBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-speakBtn.text = '$(unmute) Speak Text';
- speakBtn.command = "speechmarkdown.speakText";
- speakBtn.tooltip = "Speak selected text or entire document (Ctrl+Shift+S)";
- speakBtn.show();
- context.subscriptions.push(speakBtn);
+  const speakBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+  speakBtn.text = '$(unmute) Speak Text';
+  speakBtn.command = "speechmarkdown.speakText";
+  speakBtn.tooltip = "Speak selected text or entire document (Ctrl+Shift+S)";
+  speakBtn.show();
+  context.subscriptions.push(speakBtn);
 
   const providerBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   providerBtn.command = "speechmarkdown.selectTTSProvider";
