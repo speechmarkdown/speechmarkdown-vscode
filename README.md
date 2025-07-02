@@ -31,7 +31,7 @@ This extension supports snippets, hover-over, and syntax highlighting of Speech 
 - **Keyboard Accessibility:**
   - All major TTS features are accessible via keyboard shortcuts.
 
-[Watch TTS Provider & Voice Selection + Speak Demo](TTS_speak%20provider.mp4)
+![TTS Provider & Voice Selection + Speak Demo](TTS_speakprovidergif.gif)
 
 ### Speech Markdown Preview
 
