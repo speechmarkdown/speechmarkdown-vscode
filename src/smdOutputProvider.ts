@@ -1,4 +1,3 @@
-
 import * as vscode from "vscode";
 import { SpeechMarkdown } from "speechmarkdown-js";
 import { SpeechOptions } from "speechmarkdown-js/dist/src/SpeechOptions";
@@ -55,8 +54,8 @@ export class SMLTextWriter {
 			speechOpts.platform = platform;
 		}
 
+		speechOpts.includeSpeakTag = false;
 		speechOpts.includeParagraphTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeParagraphTags');
-		speechOpts.includeSpeakTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeSpeakTags');
 		speechOpts.includeFormatterComment = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeFormatterComment');
 		speechOpts.preserveEmptyLines = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.preserveEmptyLines');
 		

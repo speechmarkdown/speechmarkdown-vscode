@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "speechmarkdown-vscode",
   "displayName": "Speech Markdown",
   "publisher": "WhetstoneTechnologiesInc",
@@ -67,6 +68,11 @@
     "configuration": {
       "title": "SpeechMarkdown",
       "properties": {
+        "speechmarkdown.outputDir": {
+          "type": "string",
+          "default": "",
+          "description": "Directory to save TTS audio files (uses '~/tts-output' if blank)."
+        },
         "speechmarkdown.includeSpeakTags": {
           "type": "boolean",
           "default": true,
@@ -130,10 +136,153 @@
           "type": "string",
           "default": "Kendra",
           "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
+        },
+        "speechmarkdown.elevenLabs.apiKey": {
+          "type": "string",
+          "description": "ElevenLabs API Key"
+        },
+        "speechmarkdown.elevenLabs.voiceId": {
+          "type": "string",
+          "default": "",
+          "description": "Voice ID from your ElevenLabs account"
+        },
+        "speechmarkdown.google.keyFilePath": {
+          "type": "string",
+          "description": "Path to Google Cloud service account JSON key"
+        },
+        "speechmarkdown.playht.apiKey": {
+          "type": "string",
+          "description": "PlayHT API Key"
+        },
+        "speechmarkdown.playht.userId": {
+          "type": "string",
+          "description": "PlayHT User ID"
+        },
+        "speechmarkdown.watson.apiKey": {
+          "type": "string",
+          "description": "IBM Watson API Key"
+        },
+        "speechmarkdown.watson.region": {
+          "type": "string",
+          "description": "IBM Watson Region"
+        },
+        "speechmarkdown.watson.instanceId": {
+          "type": "string",
+          "description": "IBM Watson Instance ID"
+        },
+        "speechmarkdown.witai.token": {
+          "type": "string",
+          "description": "WitAI Token"
+        },
+        "speechmarkdown.sapi": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Windows SAPI TTS (Windows only)"
+        },
+        "speechmarkdown.espeak": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable eSpeak NG TTS (Node.js only)"
+        },
+        "speechmarkdown.espeakWasm": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable eSpeak NG WASM TTS (browser/Node.js)"
+        },
+        "speechmarkdown.ttsProvider": {
+          "type": "string",
+          "enum": [
+            "Amazon Polly",
+            "ElevenLabs",
+            "OpenAI",
+            "Azure",
+            "SherpaOnnx",
+            "Google",
+            "PlayHT",
+            "IBM Watson",
+            "WitAI",
+            "SAPI",
+            "eSpeak NG",
+            "eSpeak NG WASM"
+          ],
+          "default": "Amazon Polly",
+          "description": "TTS Provider for speech playback"
+        },
+        "speechmarkdown.openai.apiKey": {
+          "type": "string",
+          "description": "Your OpenAI API key for TTS"
+        },
+        "speechmarkdown.openai.voice": {
+          "type": "string",
+          "description": "Voice to use for OpenAI TTS (e.g., alloy, echo, fable, onyx, nova, shimmer)."
+        },
+        "speechmarkdown.openai.model": {
+          "type": "string",
+          "default": "gpt-4o-mini-tts",
+          "description": "TTS model to use (e.g., gpt-4o-mini-tts)"
+        },
+        "speechmarkdown.azure.subscriptionKey": {
+          "type": "string",
+          "description": "Azure subscription key for TTS"
+        },
+        "speechmarkdown.azure.region": {
+          "type": "string",
+          "default": "eastus",
+          "description": "Azure region for TTS (e.g., eastus, westus, westeurope)"
+        },
+        "speechmarkdown.aws.voice": {
+          "type": "string",
+          "description": "Default voice to use for Amazon Polly."
+        },
+        "speechmarkdown.azure.voice": {
+          "type": "string",
+          "description": "Voice to use for Azure TTS (e.g., en-US-AriaNeural)."
+        },
+        "speechmarkdown.google.voice": {
+          "type": "string",
+          "description": "Voice to use for Google TTS."
+        },
+        "speechmarkdown.playht.voice": {
+          "type": "string",
+          "description": "Voice to use for PlayHT TTS."
+        },
+        "speechmarkdown.watson.voice": {
+          "type": "string",
+          "description": "Voice to use for IBM Watson TTS."
+        },
+        "speechmarkdown.witai.voice": {
+          "type": "string",
+          "description": "Voice to use for WitAI TTS."
+        },
+        "speechmarkdown.sapi.voice": {
+          "type": "string",
+          "description": "Voice to use for Windows SAPI TTS."
+        },
+        "speechmarkdown.espeak.voice": {
+          "type": "string",
+          "description": "Voice to use for eSpeak NG TTS."
+        },
+        "speechmarkdown.espeakWasm.voice": {
+          "type": "string",
+          "description": "Voice to use for eSpeak NG WASM TTS."
+        },
+        "speechmarkdown.sherpa.voice": {
+          "type": "string",
+          "description": "Voice to use for SherpaOnnx TTS."
         }
       }
     },
     "keybindings": [
+      {
+        "command": "speechmarkdown.speakText",
+        "key": "ctrl+shift+s",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "speechmarkdown.selectTTSProvider",
+        "title": "Select TTS Provider",
+        "category": "Speech Markdown"
+      },
       {
         "command": "extension.speechmarkdownpreview",
         "key": "ctrl+shift+l",
@@ -141,6 +290,10 @@
       }
     ],
     "commands": [
+      {
+        "command": "speechmarkdown.speakText",
+        "title": "Speak Text (TTS)"
+      },
       {
         "command": "extension.speechmarkdownpreview",
         "title": "Speech Markdown to SSML",
@@ -154,6 +307,11 @@
       {
         "command": "extension.speechmarkdownspeakpollyneural",
         "title": "Speak Selected SSML (Amazon Neural)",
+        "category": "Speech Markdown"
+      },
+      {
+        "command": "speechmarkdown.listVoices",
+        "title": "SpeechMarkdown: List Voices",
         "category": "Speech Markdown"
       }
     ],
@@ -218,19 +376,20 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/vscode": "^1.99.1",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.13.10",
+    "@types/sound-play": "^1.1.3",
     "@types/tmp": "^0.2.6",
-    "@typescript-eslint/eslint-plugin": "^8.31.0",
-    "@typescript-eslint/parser": "^8.31.0",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.2",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.99.5",
-    "webpack-cli": "^6.0.1",
+    "@types/vscode": "^1.98.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.27.0",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.24.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
   },
   "languages": [
     {
@@ -254,10 +413,26 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-polly": "^3.782.0",
+    "@aws-sdk/client-polly": "latest",
+    "@google-cloud/text-to-speech": "latest",
+    "decompress": "latest",
+    "decompress-bzip2": "latest",
+    "decompress-tarbz2": "latest",
+    "decompress-targz": "latest",
     "fs": "^0.0.1-security",
-    "minimist": "^1.2.8",
+    "js-tts-wrapper": "^0.1.36",
+    "latest": "^0.2.0",
+    "mespeak": "^2.0.2",
+    "microsoft-cognitiveservices-speech-sdk": "latest",
+    "node-fetch": "^2",
+    "openai": "latest",
+    "pcm-convert": "latest",
+    "say": "latest",
+    "sherpa-onnx-node": "latest",
+    "sound-play": "latest",
     "speechmarkdown-js": "^2.1.0",
+    "tar-stream": "latest",
+    "text2wav": "^0.0.14",
     "tmp": "^0.2.3"
   }
 }
