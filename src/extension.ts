@@ -9,7 +9,7 @@ import {
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import sound from "sound-play";
+
 
 export function activate(context: vscode.ExtensionContext) {
   const jsCentralProvider = new JSHoverProvider();
