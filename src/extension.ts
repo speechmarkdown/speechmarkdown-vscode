@@ -196,14 +196,14 @@ export function activate(context: vscode.ExtensionContext) {
       const baseName = editor && editor.document.uri.fsPath
         ? path.basename(editor.document.uri.fsPath, path.extname(editor.document.uri.fsPath))
         : "untitled";
-      const fileName = `${provider.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.wav`;
+      const fileName = `${provider.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.mp3`;
       const outDir = config.get<string>("outputDir")?.trim()
         || path.join(os.homedir(), "tts-output");
       fs.mkdirSync(outDir, { recursive: true });
       const fullPath = path.join(outDir, fileName);
-      await client.synthToFile(text, fullPath, "wav", { useSpeechMarkdown: true });
+      await client.synthToFile(text, fullPath, "mp3", { useSpeechMarkdown: true });
       vscode.window.showInformationMessage(`Saved audio: ${fullPath}`);
-      await sound.play(fullPath);
+      await client.speak({filename : fullPath});
     } catch (err: any) {
       vscode.window.showErrorMessage(`TTS/Playback Error: ${err.message}`);
       console.error(err);
