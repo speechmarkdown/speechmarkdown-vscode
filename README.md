@@ -16,6 +16,23 @@ This extension supports snippets, hover-over, and syntax highlighting of Speech 
   - [Insert Snippet](#insert-snippet)
   - [Enable Intellisense in TypeScript and JavaScript](#enable-intellisense-in-typescript-and-javascript)
 
+## Text-to-Speech (TTS) Features
+
+- **Multi-Provider TTS Support:**
+  - Amazon Polly, ElevenLabs, OpenAI, Azure, SherpaOnnx, Google, PlayHT, IBM Watson, WitAI, SAPI (Windows), eSpeak NG, eSpeak NG WASM
+- **Voice Selection:**
+  - List and select available voices for the chosen provider. Voice selection is saved per provider.
+- **Provider Selection:**
+  - Easily switch between TTS providers via a quick pick menu or status bar button.
+- **Status Bar Integration:**
+  - Quick access buttons for speaking text and selecting TTS provider.
+- **Output Directory:**
+  - Configure where generated audio files are saved.
+- **Keyboard Accessibility:**
+  - All major TTS features are accessible via keyboard shortcuts.
+
+[Watch TTS Provider & Voice Selection + Speak Demo](TTS_speak%20provider.mp4)
+
 ### Speech Markdown Preview
 
 Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SSML). Selecting Speech Markdown in an editor, right-clicking and selecting the "Speech Markdown to SSML" menu option provides SSML output for all supported platforms. At the time of this release (v0.0.8) this includes:
@@ -44,6 +61,14 @@ Play SSML generated from Speech Markdown. Highlight and select Speech Markdown i
 
 - Speak Selected SSML (Amazon Polly)
 - Speak Selected SSML (Amazon Neural)
+
+**New:**
+- Use the status bar button or `Ctrl+Alt+P` to select a TTS provider.
+- Use `Ctrl+Shift+L` to list and select voices for the current provider.
+- Use `Ctrl+Shift+S` to speak selected text or the entire document with the chosen provider and voice.
+- Output audio files are saved to a configurable directory (see Configuration section).
+
+[Watch TTS Provider & Voice Selection + Speak Demo](TTS_speak%20provider.mp4)
 
 This will invoke the Amazon Polly API and play the generated MP3 file from your system's default MP3 player. In order to authenticate, you need an AWS account and your credentials:
 
@@ -300,3 +325,47 @@ If you wish to enabled IntelliSense in strings apply the following settings to y
 Once configured, IntelliSense works in JavaScript and TypeScript:
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/snippetsample02.gif" width="80%" alt="IntelliSense Sample Snippets"/>
+
+## Commands & Hotkeys
+
+| Command                                 | Description                                 | Default Hotkey      |
+|------------------------------------------|---------------------------------------------|---------------------|
+| `speechmarkdown.speakText`               | Speak selected text or entire document      | Ctrl+Shift+S        |
+| `speechmarkdown.listVoices`              | List and select available voices            | Ctrl+Shift+L        |
+| `speechmarkdown.selectTTSProvider`       | Select TTS provider                         | Ctrl+Alt+P          |
+| `extension.speechmarkdownpreview`        | Convert Speech Markdown to SSML (selection) | *(Command Palette)* |
+| `extension.speechmarkdownspeakpolly`     | Speak selected SSML (Amazon Polly)          | *(Command Palette)* |
+| `extension.speechmarkdownspeakpollyneural`| Speak selected SSML (Amazon Neural)         | *(Command Palette)* |
+
+> **Tip:** All commands are available from the Command Palette (`Ctrl+Shift+P`).
+
+## Configuration
+
+Set these in your VS Code settings (`settings.json` or via the Settings UI):
+
+- **Provider Credentials & Options**
+  - `speechmarkdown.ttsProvider`: Select the default TTS provider.
+  - `speechmarkdown.aws.accessKeyId`, `speechmarkdown.aws.secretAccessKey`, `speechmarkdown.aws.region`, `speechmarkdown.aws.voice`
+  - `speechmarkdown.elevenLabs.apiKey`, `speechmarkdown.elevenLabs.voiceId`
+  - `speechmarkdown.openai.apiKey`, `speechmarkdown.openai.voice`, `speechmarkdown.openai.model`
+  - `speechmarkdown.azure.subscriptionKey`, `speechmarkdown.azure.region`, `speechmarkdown.azure.voice`
+  - `speechmarkdown.google.keyFilePath`, `speechmarkdown.google.voice`
+  - `speechmarkdown.playht.apiKey`, `speechmarkdown.playht.userId`, `speechmarkdown.playht.voice`
+  - `speechmarkdown.watson.apiKey`, `speechmarkdown.watson.region`, `speechmarkdown.watson.instanceId`, `speechmarkdown.watson.voice`
+  - `speechmarkdown.witai.token`, `speechmarkdown.witai.voice`
+  - `speechmarkdown.sapi.voice`
+  - `speechmarkdown.espeak.voice`
+  - `speechmarkdown.espeakWasm.voice`
+  - `speechmarkdown.sherpa.modelPath`, `speechmarkdown.sherpa.token`, `speechmarkdown.sherpa.voice`
+
+- **Output**
+  - `speechmarkdown.outputDir`: Directory to save generated audio files.
+
+![Output Directory Setting](ttsouput.png)
+
+## Accessibility
+
+- All major commands are accessible via keyboard shortcuts.
+- Status bar buttons are screen reader friendly.
+- Quick pick menus for provider and voice selection.
+

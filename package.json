@@ -280,13 +280,13 @@
       },
       {
         "command": "speechmarkdown.selectTTSProvider",
-        "title": "Select TTS Provider",
-        "category": "Speech Markdown"
+        "key": "ctrl+alt+p",
+        "when": "editorTextFocus"
       },
       {
-        "command": "extension.speechmarkdownpreview",
+        "command": "speechmarkdown.listVoices",
         "key": "ctrl+shift+l",
-        "when": "editorHasSelection"
+        "when": "editorTextFocus"
       }
     ],
     "commands": [
