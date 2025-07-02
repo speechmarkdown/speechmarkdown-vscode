@@ -68,7 +68,7 @@ Play SSML generated from Speech Markdown. Highlight and select Speech Markdown i
 - Use `Ctrl+Shift+S` to speak selected text or the entire document with the chosen provider and voice.
 - Output audio files are saved to a configurable directory (see Configuration section).
 
-[Watch TTS Provider & Voice Selection + Speak Demo](TTS_speak%20provider.mp4)
+[Watch TTS Provider & Voice Selection + Speak Demo](TTS_speakprovidergif.gif)
 
 This will invoke the Amazon Polly API and play the generated MP3 file from your system's default MP3 player. In order to authenticate, you need an AWS account and your credentials:
 
