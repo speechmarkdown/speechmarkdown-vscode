@@ -71,6 +71,13 @@ export function activate(context: vscode.ExtensionContext) {
   speakBtn.show();
   context.subscriptions.push(speakBtn);
 
+  const listVoicesBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98);
+  listVoicesBtn.text = '$(megaphone) List Voices';
+  listVoicesBtn.command = "speechmarkdown.listVoices";
+  listVoicesBtn.tooltip = "List and select available voices (Ctrl+Shift+L)";
+  listVoicesBtn.show();
+  context.subscriptions.push(listVoicesBtn);
+
   const providerBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   providerBtn.command = "speechmarkdown.selectTTSProvider";
   providerBtn.tooltip = "Select TTS Provider";
