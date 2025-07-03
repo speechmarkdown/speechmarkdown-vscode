@@ -341,27 +341,93 @@ Once configured, IntelliSense works in JavaScript and TypeScript:
 
 ## Configuration
 
-Set these in your VS Code settings (`settings.json` or via the Settings UI):
+Set these in your VS Code settings (Settings UI or `settings.json`):
 
-- **Provider Credentials & Options**
-  - `speechmarkdown.ttsProvider`: Select the default TTS provider.
-  - `speechmarkdown.aws.accessKeyId`, `speechmarkdown.aws.secretAccessKey`, `speechmarkdown.aws.region`, `speechmarkdown.aws.voice`
-  - `speechmarkdown.elevenLabs.apiKey`, `speechmarkdown.elevenLabs.voiceId`
-  - `speechmarkdown.openai.apiKey`, `speechmarkdown.openai.voice`, `speechmarkdown.openai.model`
-  - `speechmarkdown.azure.subscriptionKey`, `speechmarkdown.azure.region`, `speechmarkdown.azure.voice`
-  - `speechmarkdown.google.keyFilePath`, `speechmarkdown.google.voice`
-  - `speechmarkdown.playht.apiKey`, `speechmarkdown.playht.userId`, `speechmarkdown.playht.voice`
-  - `speechmarkdown.watson.apiKey`, `speechmarkdown.watson.region`, `speechmarkdown.watson.instanceId`, `speechmarkdown.watson.voice`
-  - `speechmarkdown.witai.token`, `speechmarkdown.witai.voice`
-  - `speechmarkdown.sapi.voice`
-  - `speechmarkdown.espeak.voice`
-  - `speechmarkdown.espeakWasm.voice`
-  - `speechmarkdown.sherpa.modelPath`, `speechmarkdown.sherpa.token`, `speechmarkdown.sherpa.voice`
+### Provider Credentials & Options
 
-- **Output**
-  - `speechmarkdown.outputDir`: Directory to save generated audio files.
+| Setting (UI Name)                | Description / Example Value                        |
+|----------------------------------|----------------------------------------------------|
+| **TTS Provider**                 | Select the default TTS provider (e.g., Amazon Polly, ElevenLabs, OpenAI, etc.) |
+| **Amazon Polly Access Key ID**   | Your AWS account access key ID                     |
+| **Amazon Polly Secret Access Key**| Your AWS account secret access key                 |
+| **Amazon Polly Region**          | AWS region for Polly (e.g., us-east-1)             |
+| **Amazon Polly Voice**           | Default voice for Polly (e.g., Joanna, Matthew)    |
+| **ElevenLabs API Key**           | Your ElevenLabs API key                            |
+| **ElevenLabs Voice ID**          | Voice ID from your ElevenLabs account              |
+| **OpenAI API Key**               | Your OpenAI API key for TTS                        |
+| **OpenAI Voice**                 | Voice for OpenAI TTS (e.g., alloy, echo, nova)     |
+| **OpenAI Model**                 | TTS model for OpenAI (e.g., gpt-4o-mini-tts)       |
+| **Azure Subscription Key**       | Your Azure subscription key for TTS                |
+| **Azure Region**                 | Azure region (e.g., eastus, westeurope)            |
+| **Azure Voice**                  | Voice for Azure TTS (e.g., en-US-AriaNeural)       |
+| **Google Key File Path**         | Path to Google Cloud service account JSON key       |
+| **Google Voice**                 | Voice for Google TTS                               |
+| **PlayHT API Key**               | Your PlayHT API key                                |
+| **PlayHT User ID**               | Your PlayHT user ID                                |
+| **PlayHT Voice**                 | Voice for PlayHT TTS                               |
+| **IBM Watson API Key**           | Your IBM Watson API key                            |
+| **IBM Watson Region**            | IBM Watson region                                  |
+| **IBM Watson Instance ID**       | IBM Watson instance ID                             |
+| **IBM Watson Voice**             | Voice for IBM Watson TTS                           |
+| **WitAI Token**                  | Your WitAI token                                   |
+| **WitAI Voice**                  | Voice for WitAI TTS                                |
+| **Windows SAPI Voice**           | Voice for Windows SAPI TTS (Windows only)          |
+| **eSpeak NG Voice**              | Voice for eSpeak NG TTS                            |
+| **eSpeak NG WASM Voice**         | Voice for eSpeak NG WASM TTS                       |
+| **SherpaOnnx Model Path**        | Path to SherpaOnnx model                           |
+| **SherpaOnnx Token**             | SherpaOnnx token                                   |
+| **SherpaOnnx Voice**             | Voice for SherpaOnnx TTS                           |
 
-![Output Directory Setting](ttsouput.png)
+### Output
+
+| Setting (UI Name)    | Description / Example Value                        |
+|---------------------|----------------------------------------------------|
+| **Output Directory** | Directory to save generated audio files (default: `~/tts-output`) |
+
+---
+
+### How to Configure Settings
+
+You can access the SpeechMarkdown extension settings in several ways:
+
+![How to Configure SpeechMarkdown Settings (GIF)](settings.gif)
+
+
+**Method 1: Using the Settings Icon**
+1. Click the **gear icon** (⚙️) in the bottom left corner of VS Code.
+2. Select **Settings** from the menu.
+3. In the search bar at the top, type `SpeechMarkdown`.
+4. Adjust the settings for your chosen TTS provider (e.g., API keys, region, voice) and set the **Output Directory** if desired.
+
+![Step-by-step: Configure SpeechMarkdown Settings in VS Code](ttsouput.png)
+
+
+**Method 2: Using the Command Palette**
+1. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) to open the Command Palette.
+2. Type and select `Preferences: Open Settings (UI)`.
+3. Search for `SpeechMarkdown` in the settings search bar.
+4. Configure the necessary fields as above.
+
+## Development & Running
+
+### Build and Run the Extension Locally
+
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+
+2. **Build the extension:**
+   - Use the VS Code Run/Debug panel and click the green **Launch Ext** button (or press `F5`).
+   - Or, run the following in your terminal:
+     ```sh
+     npm run webpack
+     ```
+### Demo: Running the Extension
+
+![Running the Extension Demo](runningextension.gif)
+
+---
 
 ## Accessibility
 
