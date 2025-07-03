@@ -26,6 +26,7 @@ This extension supports snippets, hover-over, and syntax highlighting of Speech 
   - Easily switch between TTS providers via a quick pick menu or status bar button.
 - **Status Bar Integration:**
   - Quick access buttons for speaking text and selecting TTS provider.
+  - Quick access button for listing and selecting available voices.
 - **Output Directory:**
   - Configure where generated audio files are saved.
 - **Keyboard Accessibility:**
@@ -64,7 +65,7 @@ Play SSML generated from Speech Markdown. Highlight and select Speech Markdown i
 
 **New:**
 - Use the status bar button or `Ctrl+Alt+P` to select a TTS provider.
-- Use `Ctrl+Shift+L` to list and select voices for the current provider.
+- Use the status bar button or `Ctrl+Shift+L` to list and select voices for the current provider.
 - Use `Ctrl+Shift+S` to speak selected text or the entire document with the chosen provider and voice.
 - Output audio files are saved to a configurable directory (see Configuration section).
 
