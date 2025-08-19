@@ -419,12 +419,13 @@
   "dependencies": {
     "@aws-sdk/client-polly": "latest",
     "@google-cloud/text-to-speech": "latest",
+    "bufferutil": "^4.0.9",
     "decompress": "latest",
     "decompress-bzip2": "latest",
     "decompress-tarbz2": "latest",
     "decompress-targz": "latest",
     "fs": "^0.0.1-security",
-    "js-tts-wrapper": "^0.1.36",
+    "js-tts-wrapper": "^0.1.38",
     "latest": "^0.2.0",
     "mespeak": "^2.0.2",
     "microsoft-cognitiveservices-speech-sdk": "latest",
@@ -437,6 +438,7 @@
     "speechmarkdown-js": "^2.1.0",
     "tar-stream": "latest",
     "text2wav": "^0.0.14",
-    "tmp": "^0.2.3"
+    "tmp": "^0.2.3",
+    "utf-8-validate": "^5.0.10"
   }
 }
