@@ -46,20 +46,20 @@ export function activate(context: vscode.ExtensionContext) {
   const speakBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   speakBtn.text = '$(unmute) Speak Text';
   speakBtn.command = "speechmarkdown.speakText";
-  speakBtn.tooltip = "Speak selected text or entire document (Ctrl+Shift+S)";
+  speakBtn.tooltip = "Speak selected text or entire document (Ctrl+Alt+S or F13)";
   speakBtn.show();
   context.subscriptions.push(speakBtn);
 
   const listVoicesBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98);
   listVoicesBtn.text = '$(megaphone) List Voices';
   listVoicesBtn.command = "speechmarkdown.listVoices";
-  listVoicesBtn.tooltip = "List and select available voices (Ctrl+Shift+L)";
+  listVoicesBtn.tooltip = "List and select available voices (Ctrl+Alt+L or F15)";
   listVoicesBtn.show();
   context.subscriptions.push(listVoicesBtn);
 
   const providerBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   providerBtn.command = "speechmarkdown.selectTTSProvider";
-  providerBtn.tooltip = "Select TTS Provider";
+  providerBtn.tooltip = "Select TTS Provider (Ctrl+Alt+P  or F14)";
   function updateProviderButton() {
     const provider = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider") || "Amazon Polly";
     providerBtn.text = `$(gear) ${provider}`;

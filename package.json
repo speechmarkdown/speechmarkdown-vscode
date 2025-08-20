@@ -271,19 +271,30 @@
     "keybindings": [
       {
         "command": "speechmarkdown.speakText",
-        "key": "ctrl+shift+s",
-        "when": "editorTextFocus"
+        "key": "ctrl+alt+s"
+      },
+      {
+        "command": "speechmarkdown.speakText",
+        "key": "f13"
+      },      
+      {
+        "command": "speechmarkdown.selectTTSProvider",
+        "key": "ctrl+alt+p"
       },
       {
         "command": "speechmarkdown.selectTTSProvider",
-        "key": "ctrl+alt+p",
-        "when": "editorTextFocus"
+        "key": "f14"
       },
       {
+
         "command": "speechmarkdown.listVoices",
-        "key": "ctrl+shift+l",
-        "when": "editorTextFocus"
-      }
+        "key": "ctrl+alt+l"
+      },
+      {
+
+        "command": "speechmarkdown.listVoices",
+        "key": "f15"
+      }      
     ],
     "commands": [
       {
