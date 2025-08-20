@@ -132,11 +132,6 @@
           "default": "us-east-1",
           "markdownDescription": "[AWS Regions](https://docs.aws.amazon.com/general/latest/gr/pol.html) that support Polly. Not all AWS regions support Polly. If the setting is blank, then the AWS_DEFAULT_REGION environment variable is used."
         },
-        "speechmarkdown.aws.pollyDefaultVoice": {
-          "type": "string",
-          "default": "Kendra",
-          "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
-        },
         "speechmarkdown.elevenLabs.apiKey": {
           "type": "string",
           "description": "ElevenLabs API Key"
@@ -232,7 +227,8 @@
         },
         "speechmarkdown.aws.voice": {
           "type": "string",
-          "description": "Default voice to use for Amazon Polly."
+          "default": "Kendra",
+          "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
         },
         "speechmarkdown.azure.voice": {
           "type": "string",
@@ -292,26 +288,17 @@
     "commands": [
       {
         "command": "speechmarkdown.speakText",
-        "title": "Speak Text (TTS)"
+        "title": "Speak Text of Document (TTS)",
+        "category": "Speech Markdown"
       },
       {
         "command": "extension.speechmarkdownpreview",
-        "title": "Speech Markdown to SSML",
-        "category": "Speech Markdown"
-      },
-      {
-        "command": "extension.speechmarkdownspeakpolly",
-        "title": "Speak Selected SSML (Amazon Polly)",
-        "category": "Speech Markdown"
-      },
-      {
-        "command": "extension.speechmarkdownspeakpollyneural",
-        "title": "Speak Selected SSML (Amazon Neural)",
+        "title": "Convert Speech Markdown to SSML",
         "category": "Speech Markdown"
       },
       {
         "command": "speechmarkdown.listVoices",
-        "title": "SpeechMarkdown: List Voices",
+        "title": "List Voices of TTS Provider",
         "category": "Speech Markdown"
       }
     ],
@@ -319,16 +306,6 @@
       "editor/context": [
         {
           "command": "extension.speechmarkdownpreview",
-          "group": "speechmarkdown@1",
-          "when": "editorHasSelection"
-        },
-        {
-          "command": "extension.speechmarkdownspeakpolly",
-          "group": "speechmarkdown@1",
-          "when": "editorHasSelection"
-        },
-        {
-          "command": "extension.speechmarkdownspeakpollyneural",
           "group": "speechmarkdown@1",
           "when": "editorHasSelection"
         }

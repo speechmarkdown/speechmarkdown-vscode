@@ -1,8 +1,6 @@
-import { Engine } from "@aws-sdk/client-polly";
 import * as vscode from "vscode";
 import { JSHoverProvider } from "./hoverProvider";
 import { SMLTextWriter } from "./smdOutputProvider";
-import { SSMLAudioPlayer } from "./ssmlAudioPlayer";
 import {
   createTTSClient
 } from "js-tts-wrapper";
@@ -39,25 +37,6 @@ export function activate(context: vscode.ExtensionContext) {
       }
     })
   );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("extension.speechmarkdownspeakpolly", () => {
-      const editor = vscode.window.activeTextEditor;
-      if (!editor) { return; }
-      const text = editor.document.getText(editor.selection) || editor.document.getText();
-      SSMLAudioPlayer.getSSMLSpeechAsync(text, Engine.STANDARD);
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("extension.speechmarkdownspeakpollyneural", () => {
-      const editor = vscode.window.activeTextEditor;
-      if (!editor) { return; }
-      const text = editor.document.getText(editor.selection) || editor.document.getText();
-      SSMLAudioPlayer.getSSMLSpeechAsync(text, Engine.NEURAL);
-    })
-  );
-
 
   ["typescript", "javascript", "json", "yaml"].forEach(lang => {
     context.subscriptions.push(vscode.languages.registerHoverProvider(lang, jsCentralProvider));
