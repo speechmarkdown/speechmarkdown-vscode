@@ -66,19 +66,35 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(listVoicesBtn);
 
   const providers = [
-    { label: "Amazon Polly (online, SSML)", value: "Amazon Polly" },
-    { label: "ElevenLabs (online, AI Voices)", value: "ElevenLabs" },
-    { label: "OpenAI (online, AI Voices)", value: "OpenAI" },
-    { label: "Microsoft Azure (online, SSML)", value: "Azure" },
-    { label: "SherpaOnnx (Offline)", value: "SherpaOnnx" },
-    { label: "Google Cloud TTS (online)", value: "Google" },
-    { label: "PlayHT (online, AI Voices)", value: "PlayHT" },
-    { label: "IBM Watson (online)", value: "IBM Watson" },
-    { label: "WitAI (online, SSML)", value: "WitAI" },
-    { label: "SAPI Windows (offline, SSML)", value: "SAPI" },
-    { label: "eSpeak NG (offline, SSML, Node.js)", value: "eSpeak NG" },
-    { label: "eSpeak NG WASM (offline, SSML, Browser/Node.js)", value: "eSpeak NG WASM" }
+    { label: "Amazon Polly (online, SSML)", value: "polly" },
+    { label: "ElevenLabs (online, AI Voices)", value: "elevenlabs" },
+    { label: "OpenAI (online, AI Voices)", value: "openai" },
+    { label: "Microsoft Azure (online, SSML)", value: "azure" },
+    { label: "SherpaOnnx (Offline)", value: "sherpaonnx" },
+    { label: "Google Cloud TTS (online)", value: "google" },
+    { label: "PlayHT (online, AI Voices)", value: "playht" },
+    { label: "IBM Watson (online)", value: "watson" },
+    { label: "WitAI (online, SSML)", value: "witai" },
+    { label: "SAPI Windows (offline, SSML)", value: "sapi" },
+    { label: "eSpeak NG (offline, SSML)", value: "espeak" },
+    { label: "eSpeak NG WASM (offline, SSML)", value: "espeak-wasm" }
   ];
+  const defaultProvider = providers[0];
+  if (!vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider")) {
+    vscode.workspace.getConfiguration("speechmarkdown").update("ttsProvider", defaultProvider.value, vscode.ConfigurationTarget.Global);
+  }
+  function getProviderId() {
+    const provider = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider");
+    return providers.find(p => p.value === provider)?.value;
+  }
+  function getProviderLabel() {
+    const provider = getProviderId();
+    return providers.find(p => p.value === provider)?.label;
+  }
+  function getVoiceId() {
+    const providerId = getProviderId();
+    return vscode.workspace.getConfiguration("speechmarkdown").get<string>(`${providerId}.voice`);
+  }
 
   const providerBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   providerBtn.command = "speechmarkdown.selectTTSProvider";
@@ -96,7 +112,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("speechmarkdown.selectTTSProvider", async () => {
       const config = vscode.workspace.getConfiguration("speechmarkdown");
-      const current = config.get<string>("ttsProvider") || "Amazon Polly";
+      const current = config.get<string>("ttsProvider");
       const quickPickItems = providers.map(p => ({ label: p.label, description: p.value }));
       const selection = await vscode.window.showQuickPick(quickPickItems, { placeHolder: "Select TTS Provider" });
       if (selection) {
@@ -113,7 +129,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("speechmarkdown.listVoices", async () => {
       const config = vscode.workspace.getConfiguration("speechmarkdown");
-      const provider = config.get<string>("ttsProvider") || "Amazon Polly";
+      const provider = config.get<string>("ttsProvider");
       const client = await getTTSClient(provider, config);
       if (!client) return;
       try {
