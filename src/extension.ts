@@ -123,56 +123,61 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
         const items: vscode.QuickPickItem[] = voices.map((v: any) => ({
-          label: v.id || v.name,
+          label: v.name,
+          value: v.id,
           description: v.lang || v.language || ''
         }));
         const selection = await vscode.window.showQuickPick(items, { placeHolder: "Available Voices" });
         if (selection) {
-          let key = '';
-          switch (provider) {
-            case 'Amazon Polly':
-              key = 'aws.voice';
-              break;
-            case 'ElevenLabs':
-              key = 'elevenLabs.voiceId';
-              break;
-            case 'OpenAI':
-              key = 'openai.voice';
-              break;
-            case 'Azure':
-              key = 'azure.voice';
-              break;
-            case 'Google':
-              key = 'google.voice';
-              break;
-            case 'PlayHT':
-              key = 'playht.voice';
-              break;
-            case 'IBM Watson':
-              key = 'watson.voice';
-              break;
-            case 'WitAI':
-              key = 'witai.voice';
-              break;
-            case 'SAPI':
-              key = 'sapi.voice';
-              break;
-            case 'eSpeak NG':
-              key = 'espeak.voice';
-              break;
-            case 'eSpeak NG WASM':
-              key = 'espeakWasm.voice';
-              break;
-            case 'SherpaOnnx':
-              key = 'sherpa.voice';
-              break;
-            default:
-              key = '';
-          }
-          if (key) {
-            await config.update(key, selection.label, vscode.ConfigurationTarget.Global);
-            updateVoiceButton(selection.label);
-            vscode.window.showInformationMessage(`Voice set to ${selection.label} for ${provider}`);
+          const selected = voices.find((v: { name: string; }) => v.name === selection.label);
+          if (selected) {
+            let key = '';
+            switch (provider) {
+              case 'Amazon Polly':
+                key = 'aws.voice';
+                break;
+              case 'ElevenLabs':
+                key = 'elevenLabs.voiceId';
+                break;
+              case 'OpenAI':
+                key = 'openai.voice';
+                break;
+              case 'Azure':
+                key = 'azure.voice';
+                break;
+              case 'Google':
+                key = 'google.voice';
+                break;
+              case 'PlayHT':
+                key = 'playht.voice';
+                break;
+              case 'IBM Watson':
+                key = 'watson.voice';
+                break;
+              case 'WitAI':
+                key = 'witai.voice';
+                break;
+              case 'SAPI':
+                key = 'sapi.voice';
+                break;
+              case 'eSpeak NG':
+                key = 'espeak.voice';
+                break;
+              case 'eSpeak NG WASM':
+                key = 'espeakWasm.voice';
+                break;
+              case 'SherpaOnnx':
+                key = 'sherpa.voice';
+                break;
+              default:
+                key = '';
+            }
+            if (key) {
+              await config.update(key, selected.id, vscode.ConfigurationTarget.Global);
+              updateVoiceButton(selected.name);
+              console.log(`Voice set to ${selected.name} with id ${selected.id} for ${provider}`);
+              vscode.window.showInformationMessage(`Voice set to ${selected.name} for ${provider}`);
+            }
           }
         }
       } catch (err: any) {
@@ -228,6 +233,8 @@ export function activate(context: vscode.ExtensionContext) {
   "eSpeak NG": "espeak",
   "eSpeak NG WASM": "espeak-wasm"
 }[provider];
+    
+    console.log(`Initializing TTS client for provider: ${provider}, engine: ${engine}`);
 
     if (!engine) {
       vscode.window.showErrorMessage("Invalid TTS provider.");
@@ -358,6 +365,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     try {
+      console.log(`Creating TTS client for ${provider} with options:`, opts);
       const client = createTTSClient(engine as any, opts);
       if (client.checkCredentialsDetailed) {
         const res = await client.checkCredentialsDetailed();
