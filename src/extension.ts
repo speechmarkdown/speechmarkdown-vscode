@@ -54,15 +54,40 @@ export function activate(context: vscode.ExtensionContext) {
   listVoicesBtn.text = '$(megaphone) List Voices';
   listVoicesBtn.command = "speechmarkdown.listVoices";
   listVoicesBtn.tooltip = "List and select available voices (Ctrl+Alt+L or F15)";
+
+  function updateVoiceButton(voice: string) {
+    //const provider = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider") || "Amazon Polly";
+    //const voice = vscode.workspace.getConfiguration("speechmarkdown").get<string>(provider + ".voice") || "no voice selected";
+    //console.log(`Current TTS Provider: ${provider}, Voice: ${voice}`);
+    listVoicesBtn.text = `$(megaphone) ${voice}`;
+  }
+
   listVoicesBtn.show();
   context.subscriptions.push(listVoicesBtn);
+
+  const providers = [
+    { label: "Amazon Polly (online, SSML)", value: "Amazon Polly" },
+    { label: "ElevenLabs (online, AI Voices)", value: "ElevenLabs" },
+    { label: "OpenAI (online, AI Voices)", value: "OpenAI" },
+    { label: "Microsoft Azure (online, SSML)", value: "Azure" },
+    { label: "SherpaOnnx (Offline)", value: "SherpaOnnx" },
+    { label: "Google Cloud TTS (online)", value: "Google" },
+    { label: "PlayHT (online, AI Voices)", value: "PlayHT" },
+    { label: "IBM Watson (online)", value: "IBM Watson" },
+    { label: "WitAI (online, SSML)", value: "WitAI" },
+    { label: "SAPI Windows (offline, SSML)", value: "SAPI" },
+    { label: "eSpeak NG (offline, SSML, Node.js)", value: "eSpeak NG" },
+    { label: "eSpeak NG WASM (offline, SSML, Browser/Node.js)", value: "eSpeak NG WASM" }
+  ];
 
   const providerBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   providerBtn.command = "speechmarkdown.selectTTSProvider";
   providerBtn.tooltip = "Select TTS Provider (Ctrl+Alt+P  or F14)";
+  
   function updateProviderButton() {
     const provider = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider") || "Amazon Polly";
-    providerBtn.text = `$(gear) ${provider}`;
+    const providerSelectionItem = providers.find(p => p.value === provider);
+    providerBtn.text = `$(gear) ${providerSelectionItem?.label || provider}`;
   }
   updateProviderButton();
   providerBtn.show();
@@ -72,25 +97,15 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("speechmarkdown.selectTTSProvider", async () => {
       const config = vscode.workspace.getConfiguration("speechmarkdown");
       const current = config.get<string>("ttsProvider") || "Amazon Polly";
-      const providers = [
-        "Amazon Polly",
-        "ElevenLabs",
-        "OpenAI",
-        "Azure",
-        "SherpaOnnx",
-        "Google",
-        "PlayHT",
-        "IBM Watson",
-        "WitAI",
-        "SAPI",
-        "eSpeak NG",
-        "eSpeak NG WASM"
-      ];
-      const selection = await vscode.window.showQuickPick(providers, { placeHolder: "Select TTS Provider" });
-      if (selection && selection !== current) {
-        await config.update("ttsProvider", selection, vscode.ConfigurationTarget.Global);
-        updateProviderButton();
-        vscode.window.showInformationMessage(`TTS provider set to ${selection}`);
+      const quickPickItems = providers.map(p => ({ label: p.label, description: p.value }));
+      const selection = await vscode.window.showQuickPick(quickPickItems, { placeHolder: "Select TTS Provider" });
+      if (selection) {
+        const selected = providers.find(p => p.label === selection.label);
+        if (selected && selected.value !== current) {
+          await config.update("ttsProvider", selected.value, vscode.ConfigurationTarget.Global);
+          updateProviderButton();
+          vscode.window.showInformationMessage(`TTS provider set to ${selected.label}`);
+        }
       }
     })
   );
@@ -156,6 +171,7 @@ export function activate(context: vscode.ExtensionContext) {
           }
           if (key) {
             await config.update(key, selection.label, vscode.ConfigurationTarget.Global);
+            updateVoiceButton(selection.label);
             vscode.window.showInformationMessage(`Voice set to ${selection.label} for ${provider}`);
           }
         }
