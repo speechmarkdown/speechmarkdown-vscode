@@ -147,6 +147,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (selectedProvider && selectedProvider.value !== currentId) {
           await setProviderId(selectedProvider.value);
           await updateProviderButton();
+          await updateVoiceButton();
           vscode.window.showInformationMessage(`TTS provider set to ${selectedProvider.label}`);
         }
       }

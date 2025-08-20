@@ -169,21 +169,6 @@
           "type": "string",
           "description": "WitAI Token"
         },
-        "speechmarkdown.sapi.enable": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable Windows SAPI TTS (Windows only)"
-        },
-        "speechmarkdown.espeak.enable": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable eSpeak NG TTS (Node.js only)"
-        },
-        "speechmarkdown.espeak-wasm.enable": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable eSpeak NG WASM TTS (browser/Node.js)"
-        },
         "speechmarkdown.ttsProvider": {
           "type": "string",
           "enum": [
