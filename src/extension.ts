@@ -9,6 +9,64 @@ import * as os from "os";
 import * as path from "path";
 
 
+const providers = [
+  { label: "Amazon Polly (online, SSML)", value: "polly" },
+  { label: "ElevenLabs (online, AI Voices)", value: "elevenlabs" },
+  { label: "OpenAI (online, AI Voices)", value: "openai" },
+  { label: "Microsoft Azure (online, SSML)", value: "azure" },
+  { label: "SherpaOnnx (Offline)", value: "sherpaonnx" },
+  { label: "Google Cloud TTS (online)", value: "google" },
+  { label: "PlayHT (online, AI Voices)", value: "playht" },
+  { label: "IBM Watson (online)", value: "watson" },
+  { label: "WitAI (online, SSML)", value: "witai" },
+  { label: "SAPI Windows (offline, SSML)", value: "sapi" },
+  { label: "eSpeak NG (offline, SSML)", value: "espeak" },
+  { label: "eSpeak NG WASM (offline, SSML)", value: "espeak-wasm" }
+];
+const defaultProvider = providers[0];
+
+if (!vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider")) {
+  vscode.workspace.getConfiguration("speechmarkdown").update("ttsProvider", defaultProvider.value, vscode.ConfigurationTarget.Global);
+}
+
+var selectedVoices: { [x: string]: string; }={};
+
+function getProviderId() {
+  const providerId = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider");
+  return providers.find(p => p.value === providerId)?.value || defaultProvider.value;
+}
+
+async function setProviderId(providerId: string) {
+  await vscode.workspace.getConfiguration("speechmarkdown").update("ttsProvider", providerId, vscode.ConfigurationTarget.Global);
+}
+
+function getProviderLabel() {
+  const providerId = getProviderId();
+  return providers.find(p => p.value === providerId)?.label;
+}
+
+async function setVoiceId(voiceId: string, voiceLabel: string) {
+  console.log(`setVoiceId: voiceId: ${voiceId}, voiceLabel: ${voiceLabel}`);
+  const providerId=getProviderId();
+  selectedVoices[`${providerId}.voice.id`]=voiceId;
+  selectedVoices[`${providerId}.voice.label`]=voiceLabel;
+}
+
+function getVoiceId() {    
+  const providerId = getProviderId();
+  const voiceId = selectedVoices[`${providerId}.voice.id`] || undefined;
+  console.log(`getVoiceId: providerId: ${providerId}, voiceId: ${voiceId}`);
+
+  return voiceId; 
+}
+
+function getVoiceLabel() {
+  const providerId = getProviderId();
+  var voiceLabel=selectedVoices[`${providerId}.voice.label`] || "voice not set";   
+  console.log(`getVoiceId: providerId: ${providerId}, voiceLabel ${voiceLabel}`);
+  return voiceLabel;
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const jsCentralProvider = new JSHoverProvider();
 
@@ -50,61 +108,44 @@ export function activate(context: vscode.ExtensionContext) {
   speakBtn.show();
   context.subscriptions.push(speakBtn);
 
-  const listVoicesBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98);
-  listVoicesBtn.text = '$(megaphone) List Voices';
-  listVoicesBtn.command = "speechmarkdown.listVoices";
-  listVoicesBtn.tooltip = "List and select available voices (Ctrl+Alt+L or F15)";
-
-  function updateVoiceButton(voice: string) {
-    //const provider = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider") || "Amazon Polly";
-    //const voice = vscode.workspace.getConfiguration("speechmarkdown").get<string>(provider + ".voice") || "no voice selected";
-    //console.log(`Current TTS Provider: ${provider}, Voice: ${voice}`);
-    listVoicesBtn.text = `$(megaphone) ${voice}`;
-  }
-
-  listVoicesBtn.show();
-  context.subscriptions.push(listVoicesBtn);
-
-  const providers = [
-    { label: "Amazon Polly (online, SSML)", value: "Amazon Polly" },
-    { label: "ElevenLabs (online, AI Voices)", value: "ElevenLabs" },
-    { label: "OpenAI (online, AI Voices)", value: "OpenAI" },
-    { label: "Microsoft Azure (online, SSML)", value: "Azure" },
-    { label: "SherpaOnnx (Offline)", value: "SherpaOnnx" },
-    { label: "Google Cloud TTS (online)", value: "Google" },
-    { label: "PlayHT (online, AI Voices)", value: "PlayHT" },
-    { label: "IBM Watson (online)", value: "IBM Watson" },
-    { label: "WitAI (online, SSML)", value: "WitAI" },
-    { label: "SAPI Windows (offline, SSML)", value: "SAPI" },
-    { label: "eSpeak NG (offline, SSML, Node.js)", value: "eSpeak NG" },
-    { label: "eSpeak NG WASM (offline, SSML, Browser/Node.js)", value: "eSpeak NG WASM" }
-  ];
-
   const providerBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   providerBtn.command = "speechmarkdown.selectTTSProvider";
   providerBtn.tooltip = "Select TTS Provider (Ctrl+Alt+P  or F14)";
   
   function updateProviderButton() {
-    const provider = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider") || "Amazon Polly";
-    const providerSelectionItem = providers.find(p => p.value === provider);
-    providerBtn.text = `$(gear) ${providerSelectionItem?.label || provider}`;
+    providerBtn.text = `$(gear) ${getProviderLabel()}`;
   }
-  updateProviderButton();
   providerBtn.show();
   context.subscriptions.push(providerBtn);
 
+  const listVoicesBtn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98);
+  listVoicesBtn.text = '$(megaphone) List Voices';
+  listVoicesBtn.command = "speechmarkdown.listVoices";
+  listVoicesBtn.tooltip = "List and select available voices (Ctrl+Alt+L or F15)";
+
+  function updateVoiceButton() {
+    //console.log(`Current TTS Provider: ${provider}, Voice: ${voice}`);
+    listVoicesBtn.text = `$(person) ${getVoiceLabel()}`;
+  }
+
+  listVoicesBtn.show();
+  context.subscriptions.push(listVoicesBtn);
+
+  updateProviderButton();
+  updateVoiceButton();
+
   context.subscriptions.push(
     vscode.commands.registerCommand("speechmarkdown.selectTTSProvider", async () => {
-      const config = vscode.workspace.getConfiguration("speechmarkdown");
-      const current = config.get<string>("ttsProvider") || "Amazon Polly";
+      const currentId = getProviderId();
       const quickPickItems = providers.map(p => ({ label: p.label, description: p.value }));
       const selection = await vscode.window.showQuickPick(quickPickItems, { placeHolder: "Select TTS Provider" });
       if (selection) {
-        const selected = providers.find(p => p.label === selection.label);
-        if (selected && selected.value !== current) {
-          await config.update("ttsProvider", selected.value, vscode.ConfigurationTarget.Global);
-          updateProviderButton();
-          vscode.window.showInformationMessage(`TTS provider set to ${selected.label}`);
+        const selectedProvider = providers.find(p => p.label === selection.label);
+        if (selectedProvider && selectedProvider.value !== currentId) {
+          await setProviderId(selectedProvider.value);
+          await updateProviderButton();
+          await updateVoiceButton();
+          vscode.window.showInformationMessage(`TTS provider set to ${selectedProvider.label}`);
         }
       }
     })
@@ -113,9 +154,13 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("speechmarkdown.listVoices", async () => {
       const config = vscode.workspace.getConfiguration("speechmarkdown");
-      const provider = config.get<string>("ttsProvider") || "Amazon Polly";
-      const client = await getTTSClient(provider, config);
-      if (!client) return;
+      const providerId = getProviderId();
+      const client = await getTTSClient(providerId, config);
+      if (!client) {
+        await updateProviderButton();
+        await updateVoiceButton();
+        return;
+      }
       try {
         const voices = await client.getVoices();
         if (!voices || voices.length === 0) {
@@ -131,53 +176,10 @@ export function activate(context: vscode.ExtensionContext) {
         if (selection) {
           const selected = voices.find((v: { name: string; }) => v.name === selection.label);
           if (selected) {
-            let key = '';
-            switch (provider) {
-              case 'Amazon Polly':
-                key = 'aws.voice';
-                break;
-              case 'ElevenLabs':
-                key = 'elevenLabs.voiceId';
-                break;
-              case 'OpenAI':
-                key = 'openai.voice';
-                break;
-              case 'Azure':
-                key = 'azure.voice';
-                break;
-              case 'Google':
-                key = 'google.voice';
-                break;
-              case 'PlayHT':
-                key = 'playht.voice';
-                break;
-              case 'IBM Watson':
-                key = 'watson.voice';
-                break;
-              case 'WitAI':
-                key = 'witai.voice';
-                break;
-              case 'SAPI':
-                key = 'sapi.voice';
-                break;
-              case 'eSpeak NG':
-                key = 'espeak.voice';
-                break;
-              case 'eSpeak NG WASM':
-                key = 'espeakWasm.voice';
-                break;
-              case 'SherpaOnnx':
-                key = 'sherpa.voice';
-                break;
-              default:
-                key = '';
-            }
-            if (key) {
-              await config.update(key, selected.id, vscode.ConfigurationTarget.Global);
-              updateVoiceButton(selected.name);
-              console.log(`Voice set to ${selected.name} with id ${selected.id} for ${provider}`);
-              vscode.window.showInformationMessage(`Voice set to ${selected.name} for ${provider}`);
-            }
+            await setVoiceId(selected.id,selected.name);
+            await updateVoiceButton();
+            console.log(`Voice set to ${selected.name} with id ${selected.id} for ${providerId}`);
+            vscode.window.showInformationMessage(`Voice set to ${selected.name} for ${providerId}`);
           }
         }
       } catch (err: any) {
@@ -194,8 +196,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   async function speakWithTTS(text: string) {
     const config = vscode.workspace.getConfiguration("speechmarkdown");
-    const provider = config.get<string>("ttsProvider") || "Amazon Polly";
-    const client = await getTTSClient(provider, config);
+    const providerId = getProviderId();
+    const client = await getTTSClient(providerId, config);
     if (!client) return;
 
     try {
@@ -203,7 +205,7 @@ export function activate(context: vscode.ExtensionContext) {
       const baseName = editor && editor.document.uri.fsPath
         ? path.basename(editor.document.uri.fsPath, path.extname(editor.document.uri.fsPath))
         : "untitled";
-      const fileName = `${provider.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.mp3`;
+      const fileName = `${providerId.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.mp3`;
       const outDir = config.get<string>("outputDir")?.trim()
         || path.join(os.homedir(), "tts-output");
       fs.mkdirSync(outDir, { recursive: true });
@@ -217,59 +219,41 @@ export function activate(context: vscode.ExtensionContext) {
     }
   }
 
-  async function getTTSClient(provider: string, config: vscode.WorkspaceConfiguration): Promise<any> {
+  async function getTTSClient(providerId: string, config: vscode.WorkspaceConfiguration): Promise<any> {  
+    console.log(`Initializing TTS client for provider: ${providerId}`);
 
-  const engine = {
-  "Amazon Polly": "polly",
-  "ElevenLabs": "elevenlabs",
-  "OpenAI": "openai",
-  "Azure": "azure",
-  "SherpaOnnx": "sherpaonnx",
-  "Google": "google",
-  "PlayHT": "playht",
-  "IBM Watson": "watson",
-  "WitAI": "witai",
-  "SAPI": "sapi",
-  "eSpeak NG": "espeak",
-  "eSpeak NG WASM": "espeak-wasm"
-}[provider];
-    
-    console.log(`Initializing TTS client for provider: ${provider}, engine: ${engine}`);
-
-    if (!engine) {
+    if (!providerId) {
       vscode.window.showErrorMessage("Invalid TTS provider.");
       return null;
     }
 
     let opts: any = {};
-    switch (engine) {
+    switch (providerId) {
       case "polly":
         opts = {
-          accessKeyId: config.get<string>("aws.accessKeyId"),
-          secretAccessKey: config.get<string>("aws.secretAccessKey"),
-          region: config.get<string>("aws.region") || "us-east-1",
-          voice: config.get<string>("aws.voice")
+          accessKeyId: config.get<string>(`${providerId}.accessKeyId`),
+          secretAccessKey: config.get<string>(`${providerId}.secretAccessKey`),
+          region: config.get<string>(`${providerId}.region`) || "us-east-1",
         };
         if (!opts.accessKeyId || !opts.secretAccessKey) {
-          vscode.window.showErrorMessage("Missing AWS credentials.");
+          vscode.window.showErrorMessage("Missing Amazon Polly credentials.");
           return null;
         }
         break;
 
       case "elevenlabs":
-        const elevenKey = config.get<string>("elevenLabs.apiKey");
+        const elevenKey = config.get<string>(`${providerId}.apiKey`);
         if (!elevenKey) {
           vscode.window.showErrorMessage("Missing ElevenLabs API key.");
           return null;
         }
-        opts = { apiKey: elevenKey, voice: config.get<string>("elevenLabs.voiceId") };
+        opts = { apiKey: elevenKey, voice: config.get<string>(`${providerId}.voice`) };
         break;
 
       case "openai":
         opts = {
-          apiKey: config.get<string>("openai.apiKey"),
-          voice: config.get<string>("openai.voice"),
-          model: config.get<string>("openai.model")
+          apiKey: config.get<string>(`${providerId}.apiKey`),
+          model: config.get<string>(`${providerId}.model`)
         };
         if (!opts.apiKey) {
           vscode.window.showErrorMessage("Missing OpenAI API key.");
@@ -279,9 +263,8 @@ export function activate(context: vscode.ExtensionContext) {
 
       case "azure":
         opts = {
-          subscriptionKey: config.get<string>("azure.subscriptionKey"),
-          region: config.get<string>("azure.region") || "eastus",
-          voice: config.get<string>("azure.voice")
+          subscriptionKey: config.get<string>(`${providerId}.subscriptionKey`),
+          region: config.get<string>(`${providerId}.region`) || "eastus",
         };
         if (!opts.subscriptionKey) {
           vscode.window.showErrorMessage("Missing Azure subscription key.");
@@ -291,8 +274,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       case "google":
         opts = {
-          keyFile: config.get<string>("google.keyFilePath"),
-          voice: config.get<string>("google.voice")
+          keyFile: config.get<string>(`${providerId}.keyFilePath`),
         };
         if (!opts.keyFile) {
           vscode.window.showErrorMessage("Missing Google key file path.");
@@ -302,9 +284,8 @@ export function activate(context: vscode.ExtensionContext) {
 
       case "playht":
         opts = {
-          apiKey: config.get<string>("playht.apiKey"),
-          userId: config.get<string>("playht.userId"),
-          voice: config.get<string>("playht.voice")
+          apiKey: config.get<string>(`${providerId}.apiKey`),
+          userId: config.get<string>(`${providerId}.userId`),
         };
         if (!opts.apiKey || !opts.userId) {
           vscode.window.showErrorMessage("Missing PlayHT API key or User ID.");
@@ -314,10 +295,9 @@ export function activate(context: vscode.ExtensionContext) {
 
       case "watson":
         opts = {
-          apiKey: config.get<string>("watson.apiKey"),
-          region: config.get<string>("watson.region"),
-          instanceId: config.get<string>("watson.instanceId"),
-          voice: config.get<string>("watson.voice")
+          apiKey: config.get<string>(`${providerId}.apiKey`),
+          region: config.get<string>(`${providerId}.region`),
+          instanceId: config.get<string>(`${providerId}.instanceId`),
         };
         if (!opts.apiKey || !opts.region || !opts.instanceId) {
           vscode.window.showErrorMessage("Missing IBM Watson config.");
@@ -326,7 +306,9 @@ export function activate(context: vscode.ExtensionContext) {
         break;
 
       case "witai":
-        opts = { token: config.get<string>("witai.token"), voice: config.get<string>("witai.voice") };
+        opts = { 
+          token: config.get<string>(`${providerId}.token`), 
+        };
         if (!opts.token) {
           vscode.window.showErrorMessage("Missing WitAI token.");
           return null;
@@ -334,25 +316,23 @@ export function activate(context: vscode.ExtensionContext) {
         break;
 
       case "sapi":
+        /*
         if (process.platform !== "win32") {
           vscode.window.showErrorMessage("SAPI is only supported on Windows.");
           return null;
-        }
-        opts = { voice: config.get<string>("sapi.voice") };
+        }*/
         break;
 
       case "espeak":
-        opts = { voice: config.get<string>("espeak.voice") };
         break;
 
       case "espeak-wasm":
-        opts = { voice: config.get<string>("espeakWasm.voice") };
         break;
 
       case "sherpaonnx":
         opts = {
-          modelPath: config.get<string>("sherpa.modelPath"),
-          token: config.get<string>("sherpa.token")
+          modelPath: config.get<string>(`${providerId}.modelPath`),
+          token: config.get<string>(`${providerId}.token`)
         };
         if (!opts.modelPath || !opts.token) {
           vscode.window.showErrorMessage("Missing SherpaONNX config.");
@@ -365,12 +345,13 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     try {
-      console.log(`Creating TTS client for ${provider} with options:`, opts);
-      const client = createTTSClient(engine as any, opts);
+      opts["voice"]=getVoiceId();
+      console.log(`Creating TTS client for ${providerId} with options:`, opts);
+      const client = createTTSClient(providerId as any, opts);
       if (client.checkCredentialsDetailed) {
         const res = await client.checkCredentialsDetailed();
         if (!res.success) {
-          vscode.window.showErrorMessage(`${provider} Error: ${res.error}`);
+          vscode.window.showErrorMessage(`${providerId} Error: ${res.error}`);
           return null;
         }
       }

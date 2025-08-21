@@ -68,6 +68,25 @@
     "configuration": {
       "title": "SpeechMarkdown",
       "properties": {
+        "speechmarkdown.ttsProvider": {
+          "type": "string",
+          "enum": [
+            "polly",
+            "elevenlabs",
+            "openai",
+            "azure",
+            "sherpaonnx",
+            "google",
+            "playht",
+            "watson",
+            "witai",
+            "sapi",
+            "espeak",
+            "espeak-wasm"
+          ],
+          "default": "polly",
+          "description": "Default TTS Provider"
+        },     
         "speechmarkdown.outputDir": {
           "type": "string",
           "default": "",
@@ -93,17 +112,17 @@
           "default": false,
           "description": "Keep empty lines in generated SSML."
         },
-        "speechmarkdown.aws.accessKeyId": {
+        "speechmarkdown.polly.accessKeyId": {
           "type": "string",
           "default": "",
           "description": "AWS account access key id. If blank, then the AWS_ACCESS_KEY_ID environment variable is used."
         },
-        "speechmarkdown.aws.secretAccessKey": {
+        "speechmarkdown.polly.secretAccessKey": {
           "type": "string",
           "default": "",
           "description": "AWS account secret access key. If blank, then the AWS_SECRET_ACCESS_KEY environment variable is used."
         },
-        "speechmarkdown.aws.region": {
+        "speechmarkdown.polly.region": {
           "type": "string",
           "enum": [
             "",
@@ -132,14 +151,18 @@
           "default": "us-east-1",
           "markdownDescription": "[AWS Regions](https://docs.aws.amazon.com/general/latest/gr/pol.html) that support Polly. Not all AWS regions support Polly. If the setting is blank, then the AWS_DEFAULT_REGION environment variable is used."
         },
-        "speechmarkdown.elevenLabs.apiKey": {
+        "speechmarkdown.elevenlabs.apiKey": {
           "type": "string",
           "description": "ElevenLabs API Key"
         },
-        "speechmarkdown.elevenLabs.voiceId": {
+        "speechmarkdown.azure.subscriptionKey": {
           "type": "string",
-          "default": "",
-          "description": "Voice ID from your ElevenLabs account"
+          "description": "Azure subscription key for TTS"
+        },
+        "speechmarkdown.azure.region": {
+          "type": "string",
+          "default": "eastus",
+          "description": "Azure region for TTS (e.g., eastus, westus, westeurope)"
         },
         "speechmarkdown.google.keyFilePath": {
           "type": "string",
@@ -169,102 +192,14 @@
           "type": "string",
           "description": "WitAI Token"
         },
-        "speechmarkdown.sapi": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable Windows SAPI TTS (Windows only)"
-        },
-        "speechmarkdown.espeak": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable eSpeak NG TTS (Node.js only)"
-        },
-        "speechmarkdown.espeakWasm": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable eSpeak NG WASM TTS (browser/Node.js)"
-        },
-        "speechmarkdown.ttsProvider": {
-          "type": "string",
-          "enum": [
-            "Amazon Polly",
-            "ElevenLabs",
-            "OpenAI",
-            "Azure",
-            "SherpaOnnx",
-            "Google",
-            "PlayHT",
-            "IBM Watson",
-            "WitAI",
-            "SAPI",
-            "eSpeak NG",
-            "eSpeak NG WASM"
-          ],
-          "default": "Amazon Polly",
-          "description": "TTS Provider for speech playback"
-        },
         "speechmarkdown.openai.apiKey": {
           "type": "string",
           "description": "Your OpenAI API key for TTS"
-        },
-        "speechmarkdown.openai.voice": {
-          "type": "string",
-          "description": "Voice to use for OpenAI TTS (e.g., alloy, echo, fable, onyx, nova, shimmer)."
         },
         "speechmarkdown.openai.model": {
           "type": "string",
           "default": "gpt-4o-mini-tts",
           "description": "TTS model to use (e.g., gpt-4o-mini-tts)"
-        },
-        "speechmarkdown.azure.subscriptionKey": {
-          "type": "string",
-          "description": "Azure subscription key for TTS"
-        },
-        "speechmarkdown.azure.region": {
-          "type": "string",
-          "default": "eastus",
-          "description": "Azure region for TTS (e.g., eastus, westus, westeurope)"
-        },
-        "speechmarkdown.aws.voice": {
-          "type": "string",
-          "default": "Kendra",
-          "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
-        },
-        "speechmarkdown.azure.voice": {
-          "type": "string",
-          "description": "Voice to use for Azure TTS (e.g., en-US-AriaNeural)."
-        },
-        "speechmarkdown.google.voice": {
-          "type": "string",
-          "description": "Voice to use for Google TTS."
-        },
-        "speechmarkdown.playht.voice": {
-          "type": "string",
-          "description": "Voice to use for PlayHT TTS."
-        },
-        "speechmarkdown.watson.voice": {
-          "type": "string",
-          "description": "Voice to use for IBM Watson TTS."
-        },
-        "speechmarkdown.witai.voice": {
-          "type": "string",
-          "description": "Voice to use for WitAI TTS."
-        },
-        "speechmarkdown.sapi.voice": {
-          "type": "string",
-          "description": "Voice to use for Windows SAPI TTS."
-        },
-        "speechmarkdown.espeak.voice": {
-          "type": "string",
-          "description": "Voice to use for eSpeak NG TTS."
-        },
-        "speechmarkdown.espeakWasm.voice": {
-          "type": "string",
-          "description": "Voice to use for eSpeak NG WASM TTS."
-        },
-        "speechmarkdown.sherpa.voice": {
-          "type": "string",
-          "description": "Voice to use for SherpaOnnx TTS."
         }
       }
     },

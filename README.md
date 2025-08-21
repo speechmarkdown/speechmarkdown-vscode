@@ -48,8 +48,6 @@ Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SS
 
 The resulting SSML is displayed in the Speech Markdown output channel.
 
-For those that prefer keyboard shortcuts, use Ctrl+Shift+L.
-
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/markdownpref.gif" width="75%" alt="Speech Markdown Preview"/>
 
 By default, the starting and ending speak tags are included in the output. This can be disabled in Settings -> Extensions -> SpeechMarkdown -> Include Speak Tags. Here are the current configuration options:
@@ -65,8 +63,8 @@ Play SSML generated from Speech Markdown. Highlight and select Speech Markdown i
 
 **New:**
 - Use the status bar button or `Ctrl+Alt+P` to select a TTS provider.
-- Use the status bar button or `Ctrl+Shift+L` to list and select voices for the current provider.
-- Use `Ctrl+Shift+S` to speak selected text or the entire document with the chosen provider and voice.
+- Use the status bar button or `Ctrl+Alt+L` to list and select voices for the current provider.
+- Use `Ctrl+Alt+S` to speak selected text or the entire document with the chosen provider and voice.
 - Output audio files are saved to a configurable directory (see Configuration section).
 
 [Watch TTS Provider & Voice Selection + Speak Demo](TTS_speakprovidergif.gif)
