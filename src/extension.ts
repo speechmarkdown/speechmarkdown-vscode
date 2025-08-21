@@ -29,7 +29,7 @@ if (!vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvide
   vscode.workspace.getConfiguration("speechmarkdown").update("ttsProvider", defaultProvider.value, vscode.ConfigurationTarget.Global);
 }
 
-var voiceLabels: { [x: string]: string; }={};
+var selectedVoices: { [x: string]: string; }={};
 
 function getProviderId() {
   const providerId = vscode.workspace.getConfiguration("speechmarkdown").get<string>("ttsProvider");
@@ -48,14 +48,13 @@ function getProviderLabel() {
 async function setVoiceId(voiceId: string, voiceLabel: string) {
   console.log(`setVoiceId: voiceId: ${voiceId}, voiceLabel: ${voiceLabel}`);
   const providerId=getProviderId();
-  await vscode.workspace.getConfiguration("speechmarkdown").update(`${providerId}.voice`,voiceId,vscode.ConfigurationTarget.Global);
-  //await vscode.workspace.getConfiguration("speechmarkdown").update(`${providerId}.voice.label`,voiceLabel,vscode.ConfigurationTarget.Global);  
-  voiceLabels[`${providerId}.voice.label`]=voiceLabel;
+  selectedVoices[`${providerId}.voice.id`]=voiceId;
+  selectedVoices[`${providerId}.voice.label`]=voiceLabel;
 }
 
 function getVoiceId() {    
   const providerId = getProviderId();
-  const voiceId=vscode.workspace.getConfiguration("speechmarkdown").get<string>(`${providerId}.voice`) || undefined;
+  const voiceId = selectedVoices[`${providerId}.voice.id`] || undefined;
   console.log(`getVoiceId: providerId: ${providerId}, voiceId: ${voiceId}`);
 
   return voiceId; 
@@ -63,9 +62,7 @@ function getVoiceId() {
 
 function getVoiceLabel() {
   const providerId = getProviderId();
-  var voiceLabel=voiceLabels[`${providerId}.voice.label`] || "voice not set";   
-  //voiceLabel=vscode.workspace.getConfiguration("speechmarkdown").get<string>(`${providerId}.voice.label`) || "voice not set";
-  //console.log(`getVoiceId: providerId: ${providerId}, voiceId ${voiceId}, voiceLabel ${voiceLabel}`);
+  var voiceLabel=selectedVoices[`${providerId}.voice.label`] || "voice not set";   
   console.log(`getVoiceId: providerId: ${providerId}, voiceLabel ${voiceLabel}`);
   return voiceLabel;
 }
@@ -128,7 +125,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   function updateVoiceButton() {
     //console.log(`Current TTS Provider: ${provider}, Voice: ${voice}`);
-    listVoicesBtn.text = `$(megaphone) ${getVoiceLabel()}`;
+    listVoicesBtn.text = `$(person) ${getVoiceLabel()}`;
   }
 
   listVoicesBtn.show();
@@ -237,7 +234,6 @@ export function activate(context: vscode.ExtensionContext) {
           accessKeyId: config.get<string>(`${providerId}.accessKeyId`),
           secretAccessKey: config.get<string>(`${providerId}.secretAccessKey`),
           region: config.get<string>(`${providerId}.region`) || "us-east-1",
-          //voice: config.get<string>(`${providerId}.voice`)
         };
         if (!opts.accessKeyId || !opts.secretAccessKey) {
           vscode.window.showErrorMessage("Missing Amazon Polly credentials.");
@@ -257,7 +253,6 @@ export function activate(context: vscode.ExtensionContext) {
       case "openai":
         opts = {
           apiKey: config.get<string>(`${providerId}.apiKey`),
-          //voice: config.get<string>(`${providerId}.voice`),
           model: config.get<string>(`${providerId}.model`)
         };
         if (!opts.apiKey) {
@@ -270,7 +265,6 @@ export function activate(context: vscode.ExtensionContext) {
         opts = {
           subscriptionKey: config.get<string>(`${providerId}.subscriptionKey`),
           region: config.get<string>(`${providerId}.region`) || "eastus",
-          //voice: config.get<string>(`${providerId}.voice`)
         };
         if (!opts.subscriptionKey) {
           vscode.window.showErrorMessage("Missing Azure subscription key.");
@@ -281,7 +275,6 @@ export function activate(context: vscode.ExtensionContext) {
       case "google":
         opts = {
           keyFile: config.get<string>(`${providerId}.keyFilePath`),
-          //voice: config.get<string>(`${providerId}.voice`)
         };
         if (!opts.keyFile) {
           vscode.window.showErrorMessage("Missing Google key file path.");
@@ -293,7 +286,6 @@ export function activate(context: vscode.ExtensionContext) {
         opts = {
           apiKey: config.get<string>(`${providerId}.apiKey`),
           userId: config.get<string>(`${providerId}.userId`),
-          //voice: config.get<string>(`${providerId}.voice`)
         };
         if (!opts.apiKey || !opts.userId) {
           vscode.window.showErrorMessage("Missing PlayHT API key or User ID.");
@@ -306,7 +298,6 @@ export function activate(context: vscode.ExtensionContext) {
           apiKey: config.get<string>(`${providerId}.apiKey`),
           region: config.get<string>(`${providerId}.region`),
           instanceId: config.get<string>(`${providerId}.instanceId`),
-          //voice: config.get<string>(`${providerId}.voice`)
         };
         if (!opts.apiKey || !opts.region || !opts.instanceId) {
           vscode.window.showErrorMessage("Missing IBM Watson config.");
@@ -317,7 +308,6 @@ export function activate(context: vscode.ExtensionContext) {
       case "witai":
         opts = { 
           token: config.get<string>(`${providerId}.token`), 
-          //voice: config.get<string>(`${providerId}.voice`) 
         };
         if (!opts.token) {
           vscode.window.showErrorMessage("Missing WitAI token.");
@@ -331,15 +321,12 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.window.showErrorMessage("SAPI is only supported on Windows.");
           return null;
         }*/
-        //opts = { voice: config.get<string>(`${providerId}.voice`) };
         break;
 
       case "espeak":
-        //opts = { voice: config.get<string>(`${providerId}.voice`) };
         break;
 
       case "espeak-wasm":
-        //opts = { voice: config.get<string>(`${providerId}.voice`) };
         break;
 
       case "sherpaonnx":
