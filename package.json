@@ -226,7 +226,7 @@
     "@typescript-eslint/parser": "^8.37.0",
     "eslint": "^9.34.0",
     "typescript": "^5.8.3",
-    "ts-loader": "^9.5.2",
+    "ts-loader": "^9.5.4",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1",
     "@vscode/test-cli": "^0.0.11",
