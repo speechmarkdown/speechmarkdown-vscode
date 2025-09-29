@@ -67,6 +67,7 @@ function getVoiceLabel() {
   return voiceLabel;
 }
 
+const tts_out_dir = "tts-output";
 export function activate(context: vscode.ExtensionContext) {
   const jsCentralProvider = new JSHoverProvider();
 
@@ -202,12 +203,21 @@ export function activate(context: vscode.ExtensionContext) {
 
     try {
       const editor = vscode.window.activeTextEditor;
+
+      //basename and directory of the current file or defaults
       const baseName = editor && editor.document.uri.fsPath
         ? path.basename(editor.document.uri.fsPath, path.extname(editor.document.uri.fsPath))
         : "untitled";
+      const baseDirectory = editor && editor.document.uri.fsPath
+        ? path.dirname(editor.document.uri.fsPath).trim()
+        : os.homedir();
+      
+      const configOutDir = config.get<string>("outputDir") || ""?.trim();
+      console.log(`Document directory: ${baseDirectory}`, `document base name: ${baseName}`, `config output dir: ${configOutDir}`);
+
       const fileName = `${providerId.replace(/\s+/g, "")}_${baseName}_${getTimestamp()}.mp3`;
-      const outDir = config.get<string>("outputDir")?.trim()
-        || path.join(os.homedir(), "tts-output");
+      const outDir = path.resolve(configOutDir || baseDirectory, tts_out_dir);
+
       fs.mkdirSync(outDir, { recursive: true });
       const fullPath = path.join(outDir, fileName);
       await client.synthToFile(text, fullPath, "mp3", { useSpeechMarkdown: true });

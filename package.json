@@ -86,11 +86,11 @@
           ],
           "default": "polly",
           "description": "Default TTS Provider"
-        },     
+        },
         "speechmarkdown.outputDir": {
           "type": "string",
           "default": "",
-          "description": "Directory to save TTS audio files (uses '~/tts-output' if blank)."
+          "description": "Directory to save TTS audio files (uses './tts-output' if blank)."
         },
         "speechmarkdown.includeSpeakTags": {
           "type": "boolean",
@@ -211,7 +211,7 @@
       {
         "command": "speechmarkdown.speakText",
         "key": "f13"
-      },      
+      },
       {
         "command": "speechmarkdown.selectTTSProvider",
         "key": "ctrl+alt+p"
@@ -221,15 +221,13 @@
         "key": "f14"
       },
       {
-
         "command": "speechmarkdown.listVoices",
         "key": "ctrl+alt+l"
       },
       {
-
         "command": "speechmarkdown.listVoices",
         "key": "f15"
-      }      
+      }
     ],
     "commands": [
       {
