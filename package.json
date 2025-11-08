@@ -224,7 +224,7 @@
     "@types/tmp": "^0.2.6",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.37.0",
-    "eslint": "^9.37.0",
+    "eslint": "^9.39.1",
     "typescript": "^5.9.2",
     "ts-loader": "^9.5.4",
     "webpack": "^5.102.1",
