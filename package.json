@@ -257,7 +257,7 @@
     "@aws-sdk/client-polly": "^3.918.0",
     "fs": "^0.0.1-security",
     "minimist": "^1.2.8",
-    "speechmarkdown-js": "^2.2.0",
+    "speechmarkdown-js": "^2.3.0",
     "tmp": "^0.2.5"
   }
 }
