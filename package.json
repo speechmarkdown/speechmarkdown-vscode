@@ -220,7 +220,7 @@
   "devDependencies": {
     "@types/vscode": "^1.105.0",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.2",
     "@types/tmp": "^0.2.6",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.46.4",
