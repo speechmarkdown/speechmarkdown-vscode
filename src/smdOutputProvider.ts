@@ -23,17 +23,27 @@ export class SMLTextWriter {
 		output += smdText;
 		output += '\n------------------------\n';
 
-		output += SMLTextWriter.GetSSML(smdText, 'amazon-alexa', 'Amazon Alexa');
+		output += SMLTextWriter.GetSSML(smdText, 'amazon-alexa', 'Amazon Alexa SSML');
 
-		output += SMLTextWriter.GetSSML(smdText, 'amazon-polly', 'Amazon Polly', );
+		output += SMLTextWriter.GetSSML(smdText, 'amazon-polly', 'Amazon Polly SSML', );
 
-		output += SMLTextWriter.GetSSML(smdText, 'amazon-polly-neural', 'Amazon Polly Neural');
+		output += SMLTextWriter.GetSSML(smdText, 'amazon-polly-neural', 'Amazon Polly Neural SSML');
 
-		output += SMLTextWriter.GetSSML(smdText, 'microsoft-azure', 'Microsoft Azure');
+		output += SMLTextWriter.GetSSML(smdText, 'apple-avspeechsynthesizer', 'Apple AVSpeechSynthesizer voices');
+
+		output += SMLTextWriter.GetSSML(smdText, 'google-assistant', 'Google Cloud Text-to-Speech SSML');
+
+		output += SMLTextWriter.GetSSML(smdText, 'ibm-watson', 'IBM Watson Text to Speech SSML');
+
+		output += SMLTextWriter.GetSSML(smdText, 'microsoft-azure', 'Microsoft Azure Speech Service SSML');
+
+		output += SMLTextWriter.GetSSML(smdText, 'microsoft-sapi', 'Microsoft Speech API (SAPI) voices');
+
+		output += SMLTextWriter.GetSSML(smdText, 'w3c', 'W3C SSML');
 
 		output += SMLTextWriter.GetSSML(smdText, 'samsung-bixby', 'Samsung Bixby');
 
-		output += SMLTextWriter.GetSSML(smdText, 'google-assistant', 'Google Assistant');
+		output += SMLTextWriter.GetSSML(smdText, 'elevenlabs', 'ElevenLabs prompt controls');		
 
 		output += SMLTextWriter.GetSSML(smdText, null, 'Plain Text');
 

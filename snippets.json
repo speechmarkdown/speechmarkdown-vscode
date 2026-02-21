@@ -40,9 +40,9 @@
   "lang": {
     "prefix": "smd lang",
     "body": [
-      "(${TM_SELECTED_TEXT})[lang:'${1|en-US,en-AU,en-GB,en-IN,de-DE,es-ES,it-IT,ja-JP,fr-FR|}']"
+      "(${TM_SELECTED_TEXT})[lang:'${1|ar-AE,arb,ca-ES,cmn-CN,cs-CZ,cy-GB,da-DK,de-AT,de-CH,de-DE,en-AU,en-GB,en-GB-WLS,en-IE,en-IN,en-NZ,en-SG,en-US,en-ZA,es-ES,es-MX,es-US,fi-FI,fr-BE,fr-CA,fr-FR,hi-IN,is-IS,it-IT,ja-JP,ko-KR,nb-NO,nl-BE,nl-NL,pl-PL,pt-BR,pt-PT,ro-RO,ru-RU,sv-SE,tr-TR,yue-CN|}']"
     ],
-    "description": "Sets the language. Words and phrases in other languages usually sound better with the lang tag. Valid values are en-US, en-AU, en-GB, en-IN, de-DE, es-ES, it-IT,j a-JP, fr-FR."
+    "description": "Sets the language. Words and phrases in other languages usually sound better with the lang tag. Valid values include all supported Amazon Polly language codes."
   },
   "ordinal": {
     "prefix": "smd ordinal",
@@ -151,8 +151,8 @@
   },
   "voice": {
     "prefix": "smd voice",
-     "body": "#[voice:'${1|Aditi,Adriano,Amy,Andres,Aria,Arlet,Arthur,Astrid,Ayanda,Bianca,Brian,Burcu,Camila,Carla,Carmen,Celine,Chantal,Conchita,Cristiano,Daniel,Danielle,Dora,Elin,Emma,Enrique,Ewa,Filiz,Gabrielle,Geraint,Giorgio,Gregory,Gwyneth,Hala,Hannah,Hans,Hiujin,Ida,Ines,Isabelle,Ivy,Jacek,Jan,Joanna,Joey,Justin,Kajal,Karl,Kazuha,Kendra,Kevin,Kimberly,Laura,Lea,Liam,Lisa,Liv,Lotte,Lucia,Lupe,Mads,Maja,Marlene,Mathieu,Matthew,Maxim,Mia,Miguel,Mizuki,Naja,Niamh,Nicole,Ola,Olivia,Pedro,Penelope,Raveena,Remi,Ricardo,Ruben,Russell,Ruth,Salli,Seoyeon,Sergio,Sofie,Stephen,Suvi,Takumi,Tatyana,Thiago,Tomoko,Vicki,Vitoria,Zayd,Zeina,Zhiyu|}']",
-     "description": "Apply voice modifier and use any Alexa voice. Valid values are Aditi, Adriano, Amy, Andres, Aria, Arlet, Arthur, Astrid, Ayanda, Bianca, Brian, Burcu, Camila, Carla, Carmen, Celine, Chantal, Conchita, Cristiano, Daniel, Danielle, Dora, Elin, Emma, Enrique, Ewa, Filiz, Gabrielle, Geraint, Giorgio, Gregory, Gwyneth, Hala, Hannah, Hans, Hiujin, Ida, Ines, Isabelle, Ivy, Jacek, Jan, Joanna, Joey, Justin, Kajal, Karl, Kazuha, Kendra, Kevin, Kimberly, Laura, Lea, Liam, Lisa, Liv, Lotte, Lucia, Lupe, Mads, Maja, Marlene, Mathieu, Matthew, Maxim, Mia, Miguel, Mizuki, Naja, Niamh, Nicole, Ola, Olivia, Pedro, Penelope, Raveena, Remi, Ricardo, Ruben, Russell, Ruth, Salli, Seoyeon, Sergio, Sofie, Stephen, Suvi, Takumi, Tatyana, Thiago, Tomoko, Vicki, Vitoria, Zayd, Zeina, and Zhiyu."
+     "body": "#[voice:'${1|Aditi,Adriano,Alba,Amy,Andrés,Arlet,Arthur,Ayanda,Bianca,Brian,Burcu,Camila,Carla,Celine,Conchita,Daniel,Danielle,Elin,Emma,Enrique,Ewa,Gabrielle,Giorgio,Gregory,Hala,Hannah,Hans,Hiujin,Ida,Inês,Isabelle,Ivy,Jasmine,Jihye,Jitka,Joanna,Joey,Justin,Kajal,Kazuha,Kendra,Kevin,Kimberly,Laura,Lea,Liam,Lisa,Lucia,Lupe,Marlene,Mathieu,Matthew,Mia,Mizuki,Nicole,Niamh,Ola,Olivia,Patrick,Pedro,Raúl,Raveena,Rémi,Russell,Ruth,Sabrina,Salli,Seoyeon,Sergio,Sofie,Stephen,Suvi,Takumi,Thiago,Tomoko,Vicki,Vitória,Zayd,Zhiyu|}']",
+     "description": "Apply voice modifier and use any Amazon Polly voice. Updated with all latest voices from Amazon Polly documentation."
   },
   "voice device": {
     "prefix": "smd voice device",
@@ -161,13 +161,13 @@
   },
   "voice en-US": {
     "prefix": "smd voice en-US",
-    "body": "#[voice:'${1|Ivy,Joanna,Joey,Justin,Kendra,Kimberly,Matthew,Salli|}';lang:'en-US']",
-    "description": "Apply voice modifier and limit to en-US Alexa voices. Valid values are Ivy, Joanna, Joey, Justin, Kendra, Kimberly, Matthew, and Salli."
+    "body": "#[voice:'${1|Danielle,Gregory,Ivy,Joanna,Joey,Justin,Kendra,Kevin,Kimberly,Matthew,Patrick,Ruth,Salli,Stephen|}';lang:'en-US']",
+    "description": "Apply voice modifier and limit to en-US voices. Valid values include all US English voices from Amazon Polly."
   },
   "voice en-UK": {
     "prefix": "smd voice en-GB",
-    "body": "#[voice:'${1|Amy,Brian,Emma|}';lang:'en-GB']",
-    "description": "Apply voice modifier and limit to en-GB Alexa voices. Valid values are Amy, Brian, and Emma."
+    "body": "#[voice:'${1|Amy,Arthur,Brian,Emma|}';lang:'en-GB']",
+    "description": "Apply voice modifier and limit to en-GB voices. Valid values are Amy, Arthur, Brian, and Emma."
   },
   "voice en-GB-WLS": {
     "prefix": "smd voice en-GB-WLS",
@@ -176,62 +176,97 @@
   },
   "voice en-AU": {
     "prefix": "smd voice en-AU",
-    "body": "#[voice:'${1|Nicole,Russell|}';lang:'en-AU']",
-    "description": "Apply voice modifier and limit to en-AU Alexa voices. Valid values are Nicole and Russell."
+    "body": "#[voice:'${1|Nicole,Olivia,Russell|}';lang:'en-AU']",
+    "description": "Apply voice modifier and limit to en-AU voices. Valid values are Nicole, Olivia, and Russell."
   },
   "voice en-IN": {
     "prefix": "smd voice en-IN",
-    "body": "#[voice:'${1|Aditi,Raveena|}';lang:'en-IN']",
-    "description": "Apply voice modifier and limit to en-IN Alexa voices. Valid values are Aditi and Raveena."
+    "body": "#[voice:'${1|Aditi,Kajal,Raveena|}';lang:'en-IN']",
+    "description": "Apply voice modifier and limit to en-IN voices. Valid values are Aditi, Kajal, and Raveena."
   },
   "voice hi-IN": {
     "prefix": "smd voice hi-IN",
-    "body": "#[voice:'${1|Aditi|}';lang:'hi-IN']",
-    "description": "Apply voice modifier and limit to hi-IN Alexa voices. Valid value is Aditi."
+    "body": "#[voice:'${1|Aditi,Kajal|}';lang:'hi-IN']",
+    "description": "Apply voice modifier and limit to hi-IN voices. Valid values are Aditi and Kajal."
   },
   "voice de-DE": {
     "prefix": "smd voice de-DE",
-    "body": "#[voice:'${1|Hans,Marlene,Vicki|}';lang:'de-DE']",
-    "description": "Apply voice modifier and limit to de-DE Alexa voices. Valid values are Hans, Marlene, and Vicki."
+    "body": "#[voice:'${1|Daniel,Hans,Marlene,Vicki|}';lang:'de-DE']",
+    "description": "Apply voice modifier and limit to de-DE voices. Valid values are Daniel, Hans, Marlene, and Vicki."
   },
   "voice es-ES": {
     "prefix": "smd voice es-ES",
-    "body": "#[voice:'${1|Conchita,Enrique,Lucia|}';lang:'es-ES']",
-    "description": "Apply voice modifier and limit to es-ES Alexa voices. Valid values are Conchita, Enrique, and Lucia."
+    "body": "#[voice:'${1|Alba,Conchita,Enrique,Lucia,Raúl,Sergio|}';lang:'es-ES']",
+    "description": "Apply voice modifier and limit to es-ES voices. Valid values are Alba, Conchita, Enrique, Lucia, Raúl, and Sergio."
   },
   "voice fr-CA": {
     "prefix": "smd voice fr-CA",
-    "body": "#[voice:'${1|Chantal|}';lang:'fr-CA']",
-    "description": "Apply voice modifier and limit to fr-CA Alexa voices. Valid values are Chantal and Enrique."
+    "body": "#[voice:'${1|Chantal,Gabrielle,Liam|}';lang:'fr-CA']",
+    "description": "Apply voice modifier and limit to fr-CA voices. Valid values are Chantal, Gabrielle, and Liam."
   },
   "voice it-IT": {
     "prefix": "smd voice it-IT",
-    "body": "#[voice:'${1|Carla,Giorgio|}';lang:'it-IT']",
-    "description": "Apply voice modifier and limit to it-IT Alexa voice. Valid values are Carla and Giorgio."
+    "body": "#[voice:'${1|Adriano,Bianca,Carla,Giorgio|}';lang:'it-IT']",
+    "description": "Apply voice modifier and limit to it-IT voices. Valid values are Adriano, Bianca, Carla, and Giorgio."
   },
   "voice ja-JP": {
     "prefix": "smd voice ja-JP",
-    "body": "#[voice:'${1|Mizuki,Takumi|}';lang:'ja-JP']",
-    "description": "Apply voice modifier and limit to ja-JP Alexa voices. Valid values are Mizuki and Takumi."
+    "body": "#[voice:'${1|Kazuha,Mizuki,Takumi,Tomoko|}';lang:'ja-JP']",
+    "description": "Apply voice modifier and limit to ja-JP voices. Valid values are Kazuha, Mizuki, Takumi, and Tomoko."
   },
   "voice fr-FR": {
     "prefix": "smd voice fr-FR",
-    "body": "#[voice:'${1|Celine,Lea,Mathieu|}';lang:'fr-FR']",
-    "description": "Apply voice modifier and limit to fr-FR Alexa voices. Valid values are Celine, Lea, and Mathieu."
+    "body": "#[voice:'${1|Celine,Lea,Mathieu,Rémi|}';lang:'fr-FR']",
+    "description": "Apply voice modifier and limit to fr-FR voices. Valid values are Celine, Lea, Mathieu, and Rémi."
   },
   "voice pt-BR": {
-    "prefix": "smd voice fr-FR",
-    "body": "#[voice:'${1|Vitoria,Camila,Ricardo|}';lang:'pt-BR']",
-    "description": "Apply voice modifier and limit to pt-BR Alexa voices. Valid values are Vitoria, Camila, and Ricardo."
+    "prefix": "smd voice pt-BR",
+    "body": "#[voice:'${1|Camila,Thiago,Vitória|}';lang:'pt-BR']",
+    "description": "Apply voice modifier and limit to pt-BR voices. Valid values are Camila, Thiago, and Vitória."
   },
   "voice es-US": {
     "prefix": "smd voice es-US",
-    "body": "#[voice:'${1|Penelope,Lupe,Miguel|}';lang:'es-US']",
-    "description": "Apply voice modifier and limit to es-US Alexa voices. Valid values are Penelope, Lupe, and Miguel."
+    "body": "#[voice:'${1|Lupe,Miguel,Pedro,Penelope|}';lang:'es-US']",
+    "description": "Apply voice modifier and limit to es-US voices. Valid values are Lupe, Miguel, Pedro, and Penelope."
   },
   "voice es-MX": {
     "prefix": "smd voice es-MX",
-    "body": "#[voice:'${1|Mia|}';lang:'es-MX']",
-    "description": "Apply voice modifier and limit to es-MX Alexa voices. Valid value is Mia."
+    "body": "#[voice:'${1|Andrés,Mia|}';lang:'es-MX']",
+    "description": "Apply voice modifier and limit to es-MX voices. Valid values are Andrés and Mia."
+  },
+  "voice ar-AE": {
+    "prefix": "smd voice ar-AE",
+    "body": "#[voice:'${1|Hala,Zayd|}';lang:'ar-AE']",
+    "description": "Apply voice modifier and limit to ar-AE (Arabic Gulf) voices. Valid values are Hala and Zayd."
+  },
+  "voice en-IE": {
+    "prefix": "smd voice en-IE",
+    "body": "#[voice:'${1|Niamh|}';lang:'en-IE']",
+    "description": "Apply voice modifier and limit to en-IE (English Ireland) voices. Valid value is Niamh."
+  },
+  "voice en-NZ": {
+    "prefix": "smd voice en-NZ",
+    "body": "#[voice:'${1|Aria|}';lang:'en-NZ']",
+    "description": "Apply voice modifier and limit to en-NZ (English New Zealand) voices. Valid value is Aria."
+  },
+  "voice en-SG": {
+    "prefix": "smd voice en-SG",
+    "body": "#[voice:'${1|Jasmine|}';lang:'en-SG']",
+    "description": "Apply voice modifier and limit to en-SG (English Singapore) voices. Valid value is Jasmine."
+  },
+  "voice en-ZA": {
+    "prefix": "smd voice en-ZA",
+    "body": "#[voice:'${1|Ayanda|}';lang:'en-ZA']",
+    "description": "Apply voice modifier and limit to en-ZA (English South African) voices. Valid value is Ayanda."
+  },
+  "voice ko-KR": {
+    "prefix": "smd voice ko-KR",
+    "body": "#[voice:'${1|Jihye,Seoyeon|}';lang:'ko-KR']",
+    "description": "Apply voice modifier and limit to ko-KR (Korean) voices. Valid values are Jihye and Seoyeon."
+  },
+  "voice pl-PL": {
+    "prefix": "smd voice pl-PL",
+    "body": "#[voice:'${1|Ewa,Jacek,Jan,Maja,Ola|}';lang:'pl-PL']",
+    "description": "Apply voice modifier and limit to pl-PL (Polish) voices. Valid values are Ewa, Jacek, Jan, Maja, and Ola."
   }
 }

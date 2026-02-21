@@ -142,7 +142,7 @@
     },
     "section-voice-expression": {
       "name": "meta.section.voice.speechmarkdown",
-      "match": "(#\\[)(voice)(:)(\"|')(device|Ivy|Joanna|Joey|Justin|Kendra|Kimberly|Matthew|Salli|Nicole|Russell|Amy|Brian|Emma|Aditi|Raveena|Hans|Marlene|Vicki|Conchita|Enrique|Carla|Giorgio|Mizuki|Takumi|Celine|Lea|Mathieu)(\"|')(;)?(lang)?(:)?(\"|')?(en-US|en-AU|en-GB|en-IN|de-DE|es-ES|it-IT|ja-JP|fr-FR)?(\"|')?(\\])",
+      "match": "(#\\[)(voice)(:)(\"|')(device|Aditi|Adriano|Alba|Amy|Andrés|Aria|Arlet|Arthur|Astrid|Ayanda|Bianca|Brian|Burcu|Camila|Carmen|Carla|Celine|Chantal|Conchita|Cristiano|Daniel|Danielle|Dora|Elin|Emma|Enrique|Ewa|Filiz|Gabrielle|Geraint|Giorgio|Gregory|Gwyneth|Hala|Hannah|Hans|Hiujin|Ida|Inês|Isabelle|Ivy|Jacek|Jan|Jasmine|Jihye|Jitka|Joanna|Joey|Justin|Kajal|Karl|Kazuha|Kendra|Kevin|Kimberly|Laura|Lea|Liam|Lisa|Liv|Lotte|Lucia|Lupe|Mads|Maja|Marlene|Mathieu|Matthew|Maxim|Mia|Miguel|Mizuki|Naja|Nicole|Niamh|Ola|Olivia|Patrick|Pedro|Penelope|Raúl|Raveena|Rémi|Ricardo|Ruben|Russell|Ruth|Sabrina|Salli|Seoyeon|Sergio|Sofie|Stephen|Suvi|Takumi|Tatyana|Thiago|Tomoko|Vicki|Vitória|Zayd|Zeina|Zhiyu)(\"|')(;)?(lang)?(:)?(\"|')?(ar-AE|arb|ca-ES|cmn-CN|cs-CZ|cy-GB|da-DK|de-AT|de-CH|de-DE|en-AU|en-GB|en-GB-WLS|en-IE|en-IN|en-NZ|en-SG|en-US|en-ZA|es-ES|es-MX|es-US|fi-FI|fr-BE|fr-CA|fr-FR|hi-IN|is-IS|it-IT|ja-JP|ko-KR|nb-NO|nl-BE|nl-NL|pl-PL|pt-BR|pt-PT|ro-RO|ru-RU|sv-SE|tr-TR|yue-CN)?(\"|')?(\\])",
       "captures": {
         "1": { "name": "meta.embedded.meta.brace.speechmarkdown.open" },
         "2": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -214,7 +214,7 @@
       "patterns": [
         {
           "name": "meta.modifier.voice.speechmarkdown",
-          "match": "(voice)(:)(\"|')(device|Ivy|Joanna|Joey|Justin|Kendra|Kimberly|Matthew|Salli|Nicole|Russell|Amy|Brian|Emma|Aditi|Raveena|Hans|Marlene|Vicki|Conchita|Enrique|Carla|Giorgio|Mizuki|Takumi|Celine|Lea|Mathieu)(\"|')",
+          "match": "(voice)(:)(\"|')(device|Aditi|Adriano|Alba|Amy|Andrés|Arlet|Arthur|Ayanda|Bianca|Brian|Burcu|Camila|Carla|Celine|Conchita|Daniel|Danielle|Elin|Emma|Enrique|Ewa|Gabrielle|Giorgio|Gregory|Hala|Hannah|Hans|Hiujin|Ida|Inês|Isabelle|Ivy|Jasmine|Jihye|Jitka|Joanna|Joey|Justin|Kajal|Kazuha|Kendra|Kevin|Kimberly|Laura|Lea|Liam|Lisa|Lucia|Lupe|Marlene|Mathieu|Matthew|Mia|Mizuki|Nicole|Niamh|Ola|Olivia|Patrick|Pedro|Raúl|Raveena|Rémi|Russell|Ruth|Sabrina|Salli|Seoyeon|Sergio|Sofie|Stephen|Suvi|Takumi|Thiago|Tomoko|Vicki|Vitória|Zayd|Zhiyu)(\"|')",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
             "2": { "name": "meta.embedded.meta.assignment.speechmarkdown" },
@@ -340,7 +340,7 @@
           }
         },
         {
-          "match": "(lang)(:)(\"|')(en-US|en-AU|en-GB|en-IN|de-DE|es-ES|it-IT|ja-JP|fr-FR)(\"|')",
+          "match": "(lang)(:)(\"|')(ar-AE|ca-ES|cs-CZ|da-DK|de-AT|de-CH|de-DE|en-AU|en-GB|en-IN|en-NZ|en-US|en-ZA|es-ES|es-MX|fi-FI|fr-BE|fr-CA|fr-FR|ga-IE|hi-IN|it-IT|ja-JP|ko-KR|nb-NO|nl-BE|nl-NL|pl-PL|pt-BR|pt-PT|sv-SE|tr-TR|yue-CN|zh-CN)(\"|')",
           "name": "meta.modifier.lang.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -388,7 +388,7 @@
       "patterns": [
         {
           "name": "meta.modifier.voice.speechmarkdown",
-          "match": "(voice)(:)(\"|')(device|Ivy|Joanna|Joey|Justin|Kendra|Kimberly|Matthew|Salli|Nicole|Russell|Amy|Brian|Emma|Aditi|Raveena|Hans|Marlene|Vicki|Conchita|Enrique|Carla|Giorgio|Mizuki|Takumi|Celine|Lea|Mathieu)(\"|')",
+          "match": "(voice)(:)(\"|')(device|Aditi|Adriano|Alba|Amy|Andrés|Arlet|Arthur|Ayanda|Bianca|Brian|Burcu|Camila|Carla|Celine|Conchita|Daniel|Danielle|Elin|Emma|Enrique|Ewa|Gabrielle|Giorgio|Gregory|Hala|Hannah|Hans|Hiujin|Ida|Inês|Isabelle|Ivy|Jasmine|Jihye|Jitka|Joanna|Joey|Justin|Kajal|Kazuha|Kendra|Kevin|Kimberly|Laura|Lea|Liam|Lisa|Lucia|Lupe|Marlene|Mathieu|Matthew|Mia|Mizuki|Nicole|Niamh|Ola|Olivia|Patrick|Pedro|Raúl|Raveena|Rémi|Russell|Ruth|Sabrina|Salli|Seoyeon|Sergio|Sofie|Stephen|Suvi|Takumi|Thiago|Tomoko|Vicki|Vitória|Zayd|Zhiyu)(\"|')",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
             "2": { "name": "meta.embedded.meta.assignment.speechmarkdown" },
@@ -435,7 +435,7 @@
           }
         },
         {
-          "match": "(lang)(:)(\"|')(en-US|en-AU|en-GB|en-IN|de-DE|es-ES|it-IT|ja-JP|fr-FR)(\"|')",
+          "match": "(lang)(:)(\"|')(ar-AE|ca-ES|cs-CZ|da-DK|de-AT|de-CH|de-DE|en-AU|en-GB|en-IN|en-NZ|en-US|en-ZA|es-ES|es-MX|fi-FI|fr-BE|fr-CA|fr-FR|ga-IE|hi-IN|it-IT|ja-JP|ko-KR|nb-NO|nl-BE|nl-NL|pl-PL|pt-BR|pt-PT|sv-SE|tr-TR|yue-CN|zh-CN)(\"|')",
           "name": "meta.modifier.lang.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" },
@@ -468,7 +468,19 @@
           }
         },
         {
-          "match": "(defaults|disappointed|dj|excited|newscaster)",
+          "match": "(excited|newscaster|diappointed|friendly|cheeful|sad|angry|fearful|empathetic|calm|hopeful|terrified|unfriendly|gentle|serious|depressed|embarrassed|digruntled|envious|affectionate|shouting|whispering|lyrical|assistant|chat|customer-service|poetry-reading|narration-professional|newscast-casual)(:)(\"|')([0-2](\\.[0-9]{1,2})?|0\\.[0-9][1-9])(\"|')",
+          "name": "meta.modifier.emotional-decimal.speechmarkdown",
+          "captures": {
+            "1": { "name": "entity.name.function.speechmarkdown.modifier" },
+            "2": { "name": "meta.embedded.meta.assignment.speechmarkdown" },
+            "3": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "4": { "name": "variable.speechmarkdown" },
+            "5": { "name": "meta.embedded.meta.quote.speechmarkdown" },
+            "6": { "name": "meta.embedded.meta.quote.speechmarkdown" }
+          }
+        },
+        {
+          "match": "(defaults|dj|excited|newscaster|diappointed|friendly|cheeful|sad|angry|fearful|empathetic|calm|hopeful|terrified|unfriendly|gentle|serious|depressed|embarrassed|digruntled|envious|affectionate|shouting|whispering|lyrical|assistant|chat|customer-service|poetry-reading|narration-professional|newscast-casual)",
           "name": "meta.modifier.simple.speechmarkdown",
           "captures": {
             "1": { "name": "entity.name.function.speechmarkdown.modifier" }
