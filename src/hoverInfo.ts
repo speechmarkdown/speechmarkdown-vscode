@@ -508,7 +508,7 @@ export var hoverInfoArr: SPHoverInfo[] = [
       new SPSnippet("voice es-US", "voice:'${1|Lupe,Penelope,Miguel|}';lang:'es-US'", true, false, true, false),
       new SPSnippet("voice fr-FR", "voice:'${1|Celine,Lea,Mathieu,Rémi|}';lang:'fr-FR'", true, false, true, false),
       new SPSnippet("voice fr-CA", "voice:'${1|Chantal,Gabrielle,Liam|}';lang:'fr-CA'", true, false, true, false),
-      new SPSnippet("voice de-DE", "voice:'${1|Hans,Marlene,Vicki,Daniel;}';lang:'de-DE'", true, false, true, false),
+      new SPSnippet("voice de-DE", "voice:'${1|Hans,Marlene,Vicki,Daniel|}';lang:'de-DE'", true, false, true, false),
       new SPSnippet("voice de-AT", "voice:'${1|Hannah|}';lang:'de-AT'", true, false, true, false),
       new SPSnippet("voice it-IT", "voice:'${1|Carla,Giorgio,Bianca,Adriano|}';lang:'it-IT'", true, false, true, false),
       new SPSnippet("voice pt-BR", "voice:'${1|Camila,Ricardo,Vitória,Thiago|}';lang:'pt-BR'", true, false, true, false),
