@@ -23,9 +23,14 @@ Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SS
 - Amazon Alexa
 - Amazon Polly
 - Amazon Polly Neural
-- Microsoft Azure
+- Apple AVSpeechSynthesizer
+- Google Cloud Text-to-Speech
+- IBM Watson Text to Speech
+- Microsoft Azure Speech Service
+- Microsoft Speech API (SAPI)
+- W3C SSML
 - Samsung Bixby
-- Google Assistant
+- ElevenLabs
 - Plain Text
 
 The resulting SSML is displayed in the Speech Markdown output channel.

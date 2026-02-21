@@ -13,13 +13,13 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "preview": false,
   "author": {
     "name": "johniwasz"
   },
   "engines": {
-    "vscode": "^1.88.0"
+    "vscode": "^1.109.0"
   },
   "categories": [
     "Snippets",
@@ -224,13 +224,13 @@
     "@types/tmp": "^0.2.6",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.56.0",
-    "eslint": "^10.0.1",
+    "eslint": "^9.39.3",
     "typescript": "^5.9.3",
     "ts-loader": "^9.5.4",
     "webpack": "^5.105.2",
     "webpack-cli": "^6.0.1",
     "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2"    
   },
   "languages": [
     {
