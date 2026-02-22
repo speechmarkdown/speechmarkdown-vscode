@@ -50,24 +50,33 @@ Play SSML generated from Speech Markdown. Highlight and select Speech Markdown i
 - Speak Selected SSML (Amazon Polly)
 - Speak Selected SSML (Amazon Neural)
 
-This will invoke the Amazon Polly API and play the generated MP3 file from your system's default MP3 player. In order to authenticate, you need an AWS account and your credentials:
+This will invoke the Amazon Polly API and play the generated MP3 file in VS Code's audio player. In order to authenticate, you need an AWS account and your credentials:
+
+#### AWS Credentials Update
+
+The extension now supports AWS profiles, which is the recommended and more secure way to configure AWS credentials:
+
+- **AWS Profile**  — Set this in VS Code settings to specify which AWS profile to use
+- **AWS Region**  — Set your AWS region in VS Code settings  
+- **AWS Polly Voice**  — Choose your preferred voice
+
+If no profile is specified, the extension will use the `AWS_PROFILE` environment variable. AWS profiles handle credentials automatically through:
+- AWS credentials file (`~/.aws/credentials`)  
+- AWS config file (`~/.aws/config`)
+- IAM roles (for EC2 instances)
+- AWS SSO
+
+For more information, please see see the [AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/awsconfig.png" width="75%" alt="AWS Configuration"/>
 
-#### AWS Credentials Configuration
+**Deprecated: Manual Key Configuration**
 
-The **AWS Access Key ID** and **AWS Region** are stored in VS Code settings (`Settings → Extensions → SpeechMarkdown`).
-
-The **AWS Secret Access Key** is stored securely using the VS Code SecretStorage API, which uses your operating system's credential store (Windows Credential Manager, macOS Keychain, or Linux libsecret). It is **not** stored in `settings.json`.
-
-To set or update your secret key, open the Command Palette (`Ctrl+Shift+P`) and run:
-
-- **Speech Markdown: Set AWS Secret Access Key** — prompts for your secret key with a masked input field and saves it to the OS credential store
-- **Speech Markdown: Clear AWS Secret Access Key** — removes the stored secret key
-
-Alternatively, you can set the `AWS_SECRET_ACCESS_KEY` environment variable and leave the stored secret empty.
-
-> **⚠ Breaking Change (v0.0.18):** The `speechmarkdown.aws.secretAccessKey` setting has been removed. If you previously stored your secret key in VS Code settings, it will be automatically migrated to secure storage the first time the extension activates after upgrading. You should verify the migration succeeded and remove any residual value from your `settings.json` manually.
+> **⚠️ Deprecated (v0.0.18):** Manual AWS Access Key ID and Secret Access Key configuration has been deprecated in favor of AWS profiles. The following settings and commands have been removed:
+> - AWS Access Key ID
+> - AWS Secret Access Key
+>
+> **Migration:** Switch to using AWS profiles by configuring the AWS Profile setting or setting the `AWS_PROFILE` environment variable. This provides better security and follows AWS best practices. 
 
 ### IntelliSense
 
