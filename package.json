@@ -13,7 +13,7 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "preview": false,
   "author": {
     "name": "johniwasz"
@@ -154,6 +154,12 @@
         }
       } 
     } ],
+    "submenus": [
+      {
+        "id": "speechmarkdown.awsSubmenu",
+        "label": "AWS SSML to Speech"
+      }
+    ],
     "keybindings": [
       {
         "command": "extension.speechmarkdownpreview",
@@ -168,13 +174,23 @@
         "category": "Speech Markdown"
       },
       {
-        "command": "extension.speechmarkdownspeakpolly",
+        "command": "extension.speechmarkdownspeakpolly.standard",
         "title": "Speak Selected SSML (Amazon Polly)",
         "category": "Speech Markdown"
       },
       {
-        "command": "extension.speechmarkdownspeakpollyneural",
+        "command": "extension.speechmarkdownspeakpolly.neural",
         "title": "Speak Selected SSML (Amazon Neural)",
+        "category": "Speech Markdown"
+      },
+      {
+        "command": "extension.speechmarkdownspeakpolly.longform",
+        "title": "Speak Selected SSML (Amazon Long Form)",
+        "category": "Speech Markdown"
+      },
+      {
+        "command": "extension.speechmarkdownspeakpolly.generative",
+        "title": "Speak Selected SSML (Amazon Generative)",
         "category": "Speech Markdown"
       }
     ],
@@ -182,17 +198,34 @@
       "editor/context": [
         {
           "command": "extension.speechmarkdownpreview",
-          "group": "speechmarkdown@1",
+          "group": "speechmarkdown@01",
           "when": "editorHasSelection"
         },
         {
-          "command": "extension.speechmarkdownspeakpolly",
-          "group": "speechmarkdown@1",
+          "submenu": "speechmarkdown.awsSubmenu",
+          "group": "speechmarkdown@02",
+          "when": "editorHasSelection"
+        }
+      ],
+      "speechmarkdown.awsSubmenu": [
+        {
+          "command": "extension.speechmarkdownspeakpolly.standard",
+          "group": "speechmarkdownaws@1",
           "when": "editorHasSelection"
         },
         {
-          "command": "extension.speechmarkdownspeakpollyneural",
-          "group": "speechmarkdown@1",
+          "command": "extension.speechmarkdownspeakpolly.neural",
+          "group": "speechmarkdownaws@2",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "extension.speechmarkdownspeakpolly.longform",
+          "group": "speechmarkdownaws@3",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "extension.speechmarkdownspeakpolly.generative",
+          "group": "speechmarkdownaws@4",
           "when": "editorHasSelection"
         }
       ]

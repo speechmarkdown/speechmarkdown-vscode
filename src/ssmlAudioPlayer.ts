@@ -37,15 +37,23 @@ export class SSMLAudioPlayer {
 		switch(engineType)
 		{
 			case Engine.NEURAL:
-				ssmlEngine = 'amazon-polly-neural';
+				ssmlEngine = 'amazon-polly-neural';			
 				output += 'Using Amazon Polly Neural\n';
 				break;
-			case Engine.STANDARD:
+			case Engine.LONG_FORM:
 				ssmlEngine = 'amazon-polly';
+				output += 'Using Amazon Polly Long Form\n';
+				break;
+			case Engine.GENERATIVE:
+				ssmlEngine = 'amazon-polly';
+				output += 'Using Amazon Polly Generative\n';
+				break;
+			case Engine.STANDARD:
+				ssmlEngine = 'amazon-polly';				
 				output += 'Using Amazon Polly Standard\n';
 				break;
 			default:
-				ssmlEngine = 'amazon-polly';
+				ssmlEngine = 'amazon-polly';				
 				output += 'Using Amazon Polly Standard by default\n';
 				break;
 		}
@@ -113,7 +121,7 @@ export class SSMLAudioPlayer {
 
 				let client : PollyClient = new PollyClient(clientConfig);
 
-				let synthCommandInp : SynthesizeSpeechCommandInput = { OutputFormat: 'mp3', Text: ssmlText, VoiceId: pollyVoice, TextType: TextType.SSML, Engine: Engine.STANDARD};
+				let synthCommandInp : SynthesizeSpeechCommandInput = { OutputFormat: 'mp3', Text: ssmlText, VoiceId: pollyVoice, TextType: TextType.SSML, Engine: engineType};
 
 				let synthCommand : SynthesizeSpeechCommand = new SynthesizeSpeechCommand(synthCommandInp);
 
@@ -127,7 +135,7 @@ export class SSMLAudioPlayer {
 				   output += `Invalid SSML: ${ssmlText}`;
 				}
 				if (err) {
-					output += String(err);
+					output += '\n' + String(err);
 					console.error(err);
 				}
 			}

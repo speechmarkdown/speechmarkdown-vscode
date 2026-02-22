@@ -30,7 +30,7 @@ export async function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(
-      vscode.commands.registerCommand('extension.speechmarkdownspeakpolly', () => {
+      vscode.commands.registerCommand('extension.speechmarkdownspeakpolly.standard', () => {
         const editor = vscode.window.activeTextEditor;
 
         if (editor) {
@@ -43,7 +43,7 @@ export async function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(
-      vscode.commands.registerCommand('extension.speechmarkdownspeakpollyneural', () => {
+      vscode.commands.registerCommand('extension.speechmarkdownspeakpolly.neural', () => {
         const editor = vscode.window.activeTextEditor;
 
         if (editor) {
@@ -51,6 +51,32 @@ export async function activate(context: vscode.ExtensionContext) {
             let selection : string = editor.document.getText(editor.selection);
             
             SSMLAudioPlayer.getSSMLSpeechAsync(selection, Engine.NEURAL);
+        }
+      })
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand('extension.speechmarkdownspeakpolly.longform', () => {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+          
+            let selection : string = editor.document.getText(editor.selection);
+            
+            SSMLAudioPlayer.getSSMLSpeechAsync(selection, Engine.LONG_FORM);
+        }
+      })
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand('extension.speechmarkdownspeakpolly.generative', () => {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+          
+            let selection : string = editor.document.getText(editor.selection);
+            
+            SSMLAudioPlayer.getSSMLSpeechAsync(selection, Engine.GENERATIVE);
         }
       })
     );
