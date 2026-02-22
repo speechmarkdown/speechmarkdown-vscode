@@ -18,7 +18,7 @@ This extension supports snippets, hover-over, and syntax highlighting of Speech 
 
 ### Speech Markdown Preview
 
-Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SSML). Selecting Speech Markdown in an editor, right-clicking and selecting the "Speech Markdown to SSML" menu option provides SSML output for all supported platforms. At the time of this release (v0.0.8) this includes:
+Speech Markdown outputs platform-compatible Speech Synthesis Markup Language (SSML). Selecting Speech Markdown in an editor, right-clicking and selecting the "Speech Markdown to SSML" menu option provides SSML output for all supported platforms. The following platforms are supported:
 
 - Amazon Alexa
 - Amazon Polly
