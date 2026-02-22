@@ -105,11 +105,11 @@ export class SSMLAudioPlayer {
 	
 			try {			
 				let clientConfig: any = { region: awsRegion };
-				if (awsProfile) {
-					clientConfig.profile = awsProfile;
-				}
+				clientConfig.profile = awsProfile;
 				
 				outChannel.appendLine('\nInitializing AWS Polly client...');
+				
+				
 
 				let client : PollyClient = new PollyClient(clientConfig);
 
