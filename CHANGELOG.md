@@ -5,14 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.18] - 2026-02-21
+## [0.0.18] - 2026-02-22
 
-- Updated AWS Polly service endpoint regions list to include all current AWS regions
-- AWS Secret Access Key is now stored securely using VS Code SecretStorage (OS credential store) instead of plaintext settings
-- Added "Speech Markdown: Set AWS Secret Access Key" command to securely enter and save the AWS secret key
-- Added "Speech Markdown: Clear AWS Secret Access Key" command to remove the stored secret
-- Automatic migration of existing plaintext secret from settings to SecretStorage on first activation
-- Removed `speechmarkdown.aws.secretAccessKey` configuration setting
+### Changed
+
+- **Audio playback now happens inside VS Code** — Generated speech audio is played in a built-in WebView panel instead of launching an external application such as QuickTime Player or Windows Media Player
+- **AWS authentication now uses AWS profiles** — Instead of entering an AWS Access Key ID and Secret Access Key directly in the extension settings, the extension now uses AWS named profiles (configured via `~/.aws/credentials` or `~/.aws/config`). This is more secure and follows AWS best practices
+
+### Added
+
+- New setting `speechmarkdown.aws.profile` — Specifies which AWS named profile to use for authentication. If not set, falls back to the `AWS_PROFILE` environment variable, then the `default` profile
+- New setting `speechmarkdown.deleteAudioAfterPlayback` — When enabled (default: on), the temporary audio file is automatically deleted when the audio player panel is closed
+
+### Removed
+
+- `speechmarkdown.aws.accessKeyId` setting — Replaced by AWS profile-based authentication
+- **"Set AWS Secret Access Key"** command — No longer needed with profile-based authentication
+- **"Clear AWS Secret Access Key"** command — No longer needed with profile-based authentication
+
+### Migration
+
+If you previously configured `speechmarkdown.aws.accessKeyId` and the AWS Secret Access Key, switch to using an AWS profile:
+
+1. Ensure your credentials are configured in `~/.aws/credentials` or via `aws configure`
+2. Set `speechmarkdown.aws.profile` in VS Code settings to your profile name (or set it to `default` to use the default profile)
+
 
 ## [0.0.17] - 2026-02-21
 
