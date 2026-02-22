@@ -5,26 +5,57 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.18] - 2026-02-22
+
+### Changed
+
+- **Audio playback now happens inside VS Code** — Generated speech audio is played in a built-in WebView panel instead of launching an external application such as QuickTime Player or Windows Media Player
+- **AWS authentication now uses AWS profiles** — Instead of entering an AWS Access Key ID and Secret Access Key directly in the extension settings, the extension now uses AWS named profiles (configured via `~/.aws/credentials` or `~/.aws/config`). This is more secure and follows AWS best practices
+
+### Added
+
+- New setting `speechmarkdown.aws.profile` — Specifies which AWS named profile to use for authentication. If not set, falls back to the `AWS_PROFILE` environment variable, then the `default` profile
+- New setting `speechmarkdown.deleteAudioAfterPlayback` — When enabled (default: on), the temporary audio file is automatically deleted when the audio player panel is closed
+
+### Removed
+
+- `speechmarkdown.aws.accessKeyId` setting — Replaced by AWS profile-based authentication
+- **"Set AWS Secret Access Key"** command — No longer needed with profile-based authentication
+- **"Clear AWS Secret Access Key"** command — No longer needed with profile-based authentication
+
+### Migration
+
+If you previously configured `speechmarkdown.aws.accessKeyId` and the AWS Secret Access Key, switch to using an AWS profile:
+
+1. Ensure your credentials are configured in `~/.aws/credentials` or via `aws configure`
+2. Set `speechmarkdown.aws.profile` in VS Code settings to your profile name (or set it to `default` to use the default profile)
+
+
 ## [0.0.17] - 2026-02-21
+
 - fixed typos in snippets
 
 ## [0.0.16] - 2026-02-21
+
 - Added new Polly voices and language codes to snippets
 - Upgraded to speechmarkdown-js 2.3.0
 - Added support for new voice platforms in speechmarkdown-js 2.3.0
 
 ## [0.0.15] - 2024-04-27
+
 - Added new Polly voices to snippets
 - Supported VoiceId mappings for AWS Polly client
 - Minor bug fixes
 
 ## [0.0.14] - 2023-03-25
+
 - Minor readme updates
 - Upgraded dependency versions
 - Added ap-south-1 to list of AWS regions in extension configuration
 - Required minimum 1.76.0 engines.vscode
 
 ## [0.0.13] - 2022-12-23
+
 - Fixed typos
 - Upgraded to speechmarkdown-js 2.1.0
 

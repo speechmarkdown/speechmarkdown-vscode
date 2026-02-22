@@ -6,7 +6,7 @@ import { SSMLAudioPlayer } from "./ssmlAudioPlayer";
 
 let jsCentralProvider = new JSHoverProvider();
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
 
   try
   {

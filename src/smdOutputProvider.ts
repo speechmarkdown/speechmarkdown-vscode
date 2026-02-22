@@ -53,25 +53,50 @@ export class SMLTextWriter {
 	  outChannel.show(true);
 	}
 
-	public static GetSSML(smdText: string, platform: string | null, assistantLabel?: string) : string {
+	public static GetSSMLDirect(markdownText: string, platform: string | null) : string {
+		let output : string = '';
+		let speechOut : string = SMLTextWriter.getSpeechText(markdownText, platform, false, true, false, false);
+
+		output += speechOut;		
+		return output;
+
+	}
+
+	public static GetSSML(markdownText: string, platform: string | null, assistantLabel?: string) : string {
 		
 		let output : string = '';
-		var speechOut : string;
-		
-		let speechOpts : SpeechOptions = {};
+		let speechOut : string = SMLTextWriter.getSpeechText(markdownText, platform);
 
-		if(platform)
+		if(assistantLabel)
 		{
+			output += '\n' + assistantLabel +': \n';
+		}
+		
+		output += speechOut;
+		output += '\n';
+		return output;
+	}
+
+	private static getSpeechText(markdownText: string, 
+		platform: string | null, 
+		includeParagraphTag?: boolean,
+		includeSpeakTag?: boolean,
+		includeFormatterComment?: boolean,
+		preserveEmptyLines?: boolean) : string
+	{
+		var speechOut : string;
+		let speechOpts : SpeechOptions = {};
+		if (platform) {
 			speechOpts.platform = platform;
 		}
 
-		speechOpts.includeParagraphTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeParagraphTags');
-		speechOpts.includeSpeakTag = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeSpeakTags');
-		speechOpts.includeFormatterComment = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeFormatterComment');
-		speechOpts.preserveEmptyLines = <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.preserveEmptyLines');
-		
+		speechOpts.includeParagraphTag = includeParagraphTag ?? <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeParagraphTags') ?? true;
+		speechOpts.includeSpeakTag = includeSpeakTag ?? <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeSpeakTags') ?? true;
+		speechOpts.includeFormatterComment = includeFormatterComment ?? <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.includeFormatterComment') ?? false;
+		speechOpts.preserveEmptyLines = preserveEmptyLines ?? <boolean>vscode.workspace.getConfiguration().get('speechmarkdown.preserveEmptyLines') ?? false;
+
 		try {
-			speechOut = speech.toSSML(smdText, speechOpts);
+			speechOut = speech.toSSML(markdownText, speechOpts);
 		}
 		catch (ex) {
 			if (ex instanceof Error) 
@@ -86,13 +111,7 @@ export class SMLTextWriter {
 			}
 		}
 
-		if(assistantLabel)
-		{
-			output += '\n' + assistantLabel +': \n';
-		}
-		
-		output += speechOut;
-		output += '\n';
-		return output;
+		return speechOut;
 	}
+
 };

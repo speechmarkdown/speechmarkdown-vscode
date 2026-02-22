@@ -13,7 +13,7 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "preview": false,
   "author": {
     "name": "johniwasz"
@@ -64,41 +64,51 @@
         "path": "./snippets.json"
       }
     ],
-    "configuration": {
-      "title": "SpeechMarkdown",
+    "configuration": 
+     [       
+      {
+      "title": "SpeechMarkdown", 
+      "order": 0,
       "properties": {
         "speechmarkdown.includeSpeakTags": {
           "type": "boolean",
+          "order": 0,
           "default": true,
-          "description": "Include open and close speech tags around generated SSML."
+          "description": "Include open and close speak tags around generated SSML."
         },
         "speechmarkdown.includeParagraphTags": {
           "type": "boolean",
+          "order": 1,
           "default": false,
           "description": "Include paragraph tags in generated SSML."
         },
         "speechmarkdown.includeFormatterComment": {
           "type": "boolean",
+          "order": 2,
           "default": false,
           "description": "Include formatter comments in generated SSML."
         },
         "speechmarkdown.preserveEmptyLines": {
           "type": "boolean",
+          "order": 3,
           "default": false,
           "description": "Keep empty lines in generated SSML."
         },
-        "speechmarkdown.aws.accessKeyId": {
-          "type": "string",
-          "default": "",
-          "description": "AWS account access key id. If blank, then the AWS_ACCESS_KEY_ID environment variable is used."
+        "speechmarkdown.deleteAudioAfterPlayback": {
+          "type": "boolean",
+          "order": 4,
+          "default": true,
+          "description": "Automatically delete temporary audio files when the audio player is closed."
         },
-        "speechmarkdown.aws.secretAccessKey": {
+        "speechmarkdown.aws.profile": {
           "type": "string",
+          "order": 5,
           "default": "",
-          "description": "AWS account secret access key. If blank, then the AWS_SECRET_ACCESS_KEY environment variable is used."
+          "markdownDescription": "AWS profile name. If blank, then the `AWS_PROFILE` environment variable is used. If the `AWS_PROFILE` environment variable is also blank, then the _default_ profile is used. For more information, see the [AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)."
         },
         "speechmarkdown.aws.region": {
           "type": "string",
+          "order": 6,
           "enum": [
             "",
             "us-east-1",
@@ -108,31 +118,42 @@
             "af-south-1",
             "ap-east-1",
             "ap-south-1",
+            "ap-south-2",
             "ap-northeast-1",
             "ap-northeast-2",
             "ap-northeast-3",
             "ap-southeast-1",
             "ap-southeast-2",
+            "ap-southeast-3",
+            "ap-southeast-4",
             "ca-central-1",
+            "ca-west-1",
             "eu-central-1",
+            "eu-central-2",
             "eu-west-1",
             "eu-west-2",
             "eu-west-3",
             "eu-north-1",
+            "eu-south-1",
+            "eu-south-2",
+            "il-central-1",
             "me-south-1",
+            "me-central-1",
             "sa-east-1",
+            "us-gov-east-1",
             "us-gov-west-1"
           ],
           "default": "us-east-1",
-          "markdownDescription": "[AWS Regions](https://docs.aws.amazon.com/general/latest/gr/pol.html) that support Polly. Not all AWS regions support Polly. If the setting is blank, then the AWS_DEFAULT_REGION environment variable is used."
+          "markdownDescription": "[AWS Regions](https://docs.aws.amazon.com/general/latest/gr/pol.html) that support Polly. Not all AWS regions support Polly. If the setting is blank, then the `AWS_DEFAULT_REGION` environment variable is used."
         },
         "speechmarkdown.aws.pollyDefaultVoice": {
           "type": "string",
           "default": "Kendra",
-          "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)."
+          "order": 7,
+          "markdownDescription": "Default voice to use for Polly. A full list of voices is available [here](https://docs.aws.amazon.com/polly/latest/dg/available-voices.html)."
         }
-      }
-    },
+      } 
+    } ],
     "keybindings": [
       {
         "command": "extension.speechmarkdownpreview",
@@ -214,23 +235,25 @@
     "webpack": "webpack --mode development",
     "webpack-dev": "webpack --mode development --watch",
     "test-compile": "tsc -p ./",
+    "test": "npm run test-compile && node ./out/test/index.js",
     "build-watch": "tsc --watch",
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/vscode": "^1.109.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.2",
     "@types/tmp": "^0.2.6",
+    "@types/vscode": "^1.109.0",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.56.0",
-    "eslint": "^9.39.3",
-    "typescript": "^5.9.3",
-    "ts-loader": "^9.5.4",
-    "webpack": "^5.105.2",
-    "webpack-cli": "^6.0.1",
     "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"    
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.3",
+    "mocha": "^11.7.5",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.105.2",
+    "webpack-cli": "^6.0.1"
   },
   "languages": [
     {
