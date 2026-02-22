@@ -13,7 +13,7 @@
     "theme": "dark"
   },
   "license": "MIT",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "preview": false,
   "author": {
     "name": "johniwasz"
@@ -92,11 +92,6 @@
           "default": "",
           "description": "AWS account access key id. If blank, then the AWS_ACCESS_KEY_ID environment variable is used."
         },
-        "speechmarkdown.aws.secretAccessKey": {
-          "type": "string",
-          "default": "",
-          "description": "AWS account secret access key. If blank, then the AWS_SECRET_ACCESS_KEY environment variable is used."
-        },
         "speechmarkdown.aws.region": {
           "type": "string",
           "enum": [
@@ -164,6 +159,16 @@
       {
         "command": "extension.speechmarkdownspeakpollyneural",
         "title": "Speak Selected SSML (Amazon Neural)",
+        "category": "Speech Markdown"
+      },
+      {
+        "command": "extension.speechmarkdown.setAwsSecretKey",
+        "title": "Set AWS Secret Access Key",
+        "category": "Speech Markdown"
+      },
+      {
+        "command": "extension.speechmarkdown.clearAwsSecretKey",
+        "title": "Clear AWS Secret Access Key",
         "category": "Speech Markdown"
       }
     ],

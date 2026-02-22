@@ -18,7 +18,7 @@ const outChannel = vscode.window.createOutputChannel('Speech Markdown');
 
 export class SSMLAudioPlayer {
 
-	public static async getSSMLSpeechAsync(smdText : string, engineType: Engine) {
+	public static async getSSMLSpeechAsync(smdText : string, engineType: Engine, secretStorage: vscode.SecretStorage) {
 		  
 	  var output : string = 'Speech Markdown text: \n';
 	  
@@ -65,7 +65,7 @@ export class SSMLAudioPlayer {
 			awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
 		}
 
-		let awsSecretKey = <string>vscode.workspace.getConfiguration().get('speechmarkdown.aws.secretAccessKey');
+		let awsSecretKey = await secretStorage.get('speechmarkdown.aws.secretAccessKey');
 		if(!awsSecretKey && process.env.AWS_SECRET_ACCESS_KEY)
 		{
 			awsSecretKey = process.env.AWS_SECRET_ACCESS_KEY;
@@ -80,22 +80,22 @@ export class SSMLAudioPlayer {
 
 			if(!awsRegion)
 			{
-				output += '\n speechmarkdown configuration setting AWS Region not specified';
+				output += '\n speechmarkdown configuration setting AWS Region not specified. Configure in extension settings or set AWS_DEFAULT_REGION environment variable.';
 			}
 
 			if(!awsAccessKeyId)
 			{
-				output += '\n speechmarkdown configuration setting AWS Access Key ID not specified';			
+				output += '\n speechmarkdown configuration setting AWS Access Key ID not specified. Configure in extension settings or set AWS_ACCESS_KEY_ID environment variable.';			
 			}
 			
 			if(!awsSecretKey)
 			{
-				output += '\n speechmarkdown configuration setting AWS Secret Key not specified';			
+				output += '\n speechmarkdown configuration setting AWS Secret Key not specified. Configure using command "Speech Markdown: Set AWS Secret Access Key" or set AWS_SECRET_ACCESS_KEY environment variable.';			
 			}
 
 			if(!pollyVoice)
 			{
-				output += '\n speechmarkdown configuration setting AWS Polly Voice not specified';			
+				output += '\n speechmarkdown configuration setting AWS Polly Voice not specified. Configure in extension settings.';			
 			}
 		}
 		else
