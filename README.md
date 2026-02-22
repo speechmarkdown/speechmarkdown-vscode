@@ -54,6 +54,21 @@ This will invoke the Amazon Polly API and play the generated MP3 file from your 
 
 <img src="https://raw.githubusercontent.com/speechmarkdown/speechmarkdown-vscode/master/images/awsconfig.png" width="75%" alt="AWS Configuration"/>
 
+#### AWS Credentials Configuration
+
+The **AWS Access Key ID** and **AWS Region** are stored in VS Code settings (`Settings → Extensions → SpeechMarkdown`).
+
+The **AWS Secret Access Key** is stored securely using the VS Code SecretStorage API, which uses your operating system's credential store (Windows Credential Manager, macOS Keychain, or Linux libsecret). It is **not** stored in `settings.json`.
+
+To set or update your secret key, open the Command Palette (`Ctrl+Shift+P`) and run:
+
+- **Speech Markdown: Set AWS Secret Access Key** — prompts for your secret key with a masked input field and saves it to the OS credential store
+- **Speech Markdown: Clear AWS Secret Access Key** — removes the stored secret key
+
+Alternatively, you can set the `AWS_SECRET_ACCESS_KEY` environment variable and leave the stored secret empty.
+
+> **⚠ Breaking Change (v0.0.18):** The `speechmarkdown.aws.secretAccessKey` setting has been removed. If you previously stored your secret key in VS Code settings, it will be automatically migrated to secure storage the first time the extension activates after upgrading. You should verify the migration succeeded and remove any residual value from your `settings.json` manually.
+
 ### IntelliSense
 
 As of version 0.0.6, IntelliSense is supported in strings. By default, Visual Studio Code does not support IntelliSense in strings. In order to enable it, please see section [Enable Intellisense in TypeScript and JavaScript](#enable-intellisense-in-typescript-and-javascript). 
@@ -158,7 +173,7 @@ Add (1+1/2)[fraction] cups of flour.
 ```
 You say, (pecan)[ipa:"pɪˈkɑːn"].
 ```
-- smd lang - Add a lang modifier. Valid values are en-US, en-AU, en-GB, en-IN, de-DE, es-ES, it-IT,j a-JP, fr-FR.
+- smd lang - Add a lang modifier. Valid values are ar-AE, arb, ca-ES, cmn-CN, cs-CZ, cy-GB, da-DK, de-AT, de-CH, de-DE, en-AU, en-GB, en-GB-WLS, en-IE, en-IN, en-NZ, en-SG, en-US, en-ZA, es-ES, es-MX, es-US, fi-FI, fr-BE, fr-CA, fr-FR, hi-IN, is-IS, it-IT, ja-JP, ko-KR, nb-NO, nl-BE, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sv-SE, tr-TR, and yue-CN.
 ```
 In Paris, they pronounce it (Paris)[lang:"fr-FR"].
 ```
@@ -193,14 +208,18 @@ The time is (2:30pm)[time:"hms12"].
 The time is (2:30pm)[time:"hms24"].
 ```
 - smd unit - Speaks the value as a unit. Can be a number and unit or just a unit. (e.g. 10 foot, 10 ft, 10 mi, foot, ft, 6'3")
+
 ```
 I would walk (500 mi)[unit]
 ```
+
 - smd volume - Modify the volume of the speech. Valid volume modifiers are silent, x-soft, soft, medium, loud, x-loud. Default to medium if not specified.
+
 ```
 Normal volume for the first sentence. (Louder volume for the second sentence)[volume:"x-loud"].
 ```
-- smd voice - Apply voice modifier and use any Alexa voice. Valid values are Ivy,Joanna, Joey, Justin,Kendra, Kimberly, Matthew, Salli, Nicole, Russell, Amy, Brian, Emma, Aditi, Raveena, Hans, Marlene, Vicki, Conchita, Enrique, Carla, Giorgio, Mizuki, Takumi, Celine, Lea, and Mathieu.
+
+- smd voice - Apply voice modifier and use any Amazon Polly voice. Valid values are Aditi, Adriano, Alba, Amy, Andrés, Aria, Arlet, Arthur, Astrid, Ayanda, Bianca, Brian, Burcu, Camila, Carmen, Carla, Celine, Chantal, Conchita, Cristiano, Daniel, Danielle, Dora, Elin, Emma, Enrique, Ewa, Filiz, Gabrielle, Geraint, Giorgio, Gregory, Gwyneth, Hala, Hannah, Hans, Hiujin, Ida, Inês, Isabelle, Ivy, Jacek, Jan, Jasmine, Jihye, Jitka, Joanna, Joey, Justin, Kajal, Karl, Kazuha, Kendra, Kevin, Kimberly, Laura, Lea, Liam, Lisa, Liv, Lotte, Lucia, Lupe, Mads, Maja, Marlene, Mathieu, Matthew, Maxim, Mia, Miguel, Mizuki, Naja, Niamh, Nicole, Ola, Olivia, Patrick, Pedro, Penelope, Raúl, Raveena, Rémi, Ricardo, Ruben, Russell, Ruth, Sabrina, Salli, Seoyeon, Sergio, Sofie, Stephen, Suvi, Takumi, Tatyana, Thiago, Tomoko, Vicki, Vitória, Zayd, Zeina, and Zhiyu.
 ```
 Why do you keep switching voices (from one)[voice:"Brian"] (to the other)[voice:"Kendra"]?
 ```
@@ -216,39 +235,39 @@ Why do you keep switching voices (from one)[voice:"Brian"] (to the other)[voice:
 ```
 #[dj] Welcome back to the Morning Zoo!
 ```
-- smd voice de-DE - Apply voice modifier and limit to de-DE Alexa voices. Valid values are Hans, Marlene, and Vicki.
+- smd voice de-DE - Apply voice modifier and limit to de-DE voices. Valid values are Daniel, Hans, Marlene, and Vicki.
 ```
 (Wie geht's?)[voice:'Vicki';lang:'de-DE']
 ```
-- smd voice en-AU - Apply voice modifier and limit to en-AU Alexa voices. Valid values are Nicole and Russell.
+- smd voice en-AU - Apply voice modifier and limit to en-AU voices. Valid values are Nicole, Olivia, and Russell.
 ```
 (Bob's gone walkabout)[voice:'Nicole';lang:'en-AU']
 ```
-- smd voice en-ES - Apply voice modifier and limit to es-ES Alexa voices. Valid values are Conchita and Enrique.
+- smd voice es-ES - Apply voice modifier and limit to es-ES voices. Valid values are Alba, Conchita, Enrique, Lucia, Raúl, and Sergio.
 ```
-(Ser pan comido)[voice:'Conchita';lang:'en-ES']
+(Ser pan comido)[voice:'Conchita';lang:'es-ES']
 ```
-- smd voice en-GB - Apply voice modifier and limit to en-GB Alexa voices. Valid values are Amy, Brian, and Emma.
+- smd voice en-GB - Apply voice modifier and limit to en-GB voices. Valid values are Amy, Arthur, Brian, and Emma.
 ```
 (Look on the bright side of life)[voice:'Brian';lang:'en-GB']
 ```
-- smd voice en-IN - Apply voice modifier and limit to en-IN Alexa voices. Valid values are Aditi and Raveena.
+- smd voice en-IN - Apply voice modifier and limit to en-IN voices. Valid values are Aditi, Kajal, and Raveena.
 ```
 (How are you?)[voice:'Aditi';lang:'en-IN']
 ```
-- smd voice en-US - Apply voice modifier and limit to en-US Alexa voices. Valid values are Ivy, Joanna, Joey, Justin, Kendra, Kimberly, Matthew, and Salli.
+- smd voice en-US - Apply voice modifier and limit to en-US voices. Valid values are Danielle, Gregory, Ivy, Joanna, Joey, Justin, Kendra, Kevin, Kimberly, Matthew, Patrick, Ruth, Salli, and Stephen.
 ```
 (I don't sound like Alexa.)[voice:'Salli';lang:'en-US']
 ```
-- smd voice fr-FR - Apply voice modifier and limit to fr-FR Alexa voices. Valid values are Celine, Lea, and Mathieu.
+- smd voice fr-FR - Apply voice modifier and limit to fr-FR voices. Valid values are Celine, Lea, Mathieu, and Rémi.
 ```
 (Ça marche!)[voice:'Mathieu';lang:'fr-FR']
 ```
-- smd voice it-IT - Apply voice modifier and limit to it-IT Alexa voices. Valid values are Carla and Giorgio.
+- smd voice it-IT - Apply voice modifier and limit to it-IT voices. Valid values are Adriano, Bianca, Carla, and Giorgio.
 ```
 (In bocca al lupo)[voice:'Carla';lang:'it-IT']
 ```
-- smd voice ja-JP - Apply voice modifier and limit to ja-JP Alexa voices. Valid values are Mizuki and Takumi.
+- smd voice ja-JP - Apply voice modifier and limit to ja-JP voices. Valid values are Kazuha, Mizuki, Takumi, and Tomoko.
 ```
 (海千山千)[voice:'Mizuki';lang:'ja-JP']
 ```
@@ -260,6 +279,7 @@ Why do you keep switching voices (from one)[voice:"Brian"] (to the other)[voice:
 ```
 I want to tell you a secret. (I am not a real human.)[whisper]
 ```
+
 There are two approaches to applying snippets.
 
 #### Text Selection
