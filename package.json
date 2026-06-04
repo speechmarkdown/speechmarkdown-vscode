@@ -314,6 +314,6 @@
     "fs": "^0.0.1-security",
     "minimist": "^1.2.8",
     "speechmarkdown-js": "^2.3.1",
-    "tmp": "^0.2.5"
+    "tmp": "^0.2.6"
   }
 }
